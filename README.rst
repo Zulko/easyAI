@@ -90,7 +90,7 @@ EasyAI is an open source software originally written by Zulko_ and released unde
 
 For troubleshooting and bug reports, the best for now is to ask on Github_.
 
-    
+.. _here: http://zulko.github.io/easyAI
 .. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
 .. _Zulko : https://github.com/Zulko
 .. _Github :  https://github.com/Zulko/easyAI
