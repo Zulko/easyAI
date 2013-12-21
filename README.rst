@@ -7,7 +7,7 @@ Under the hood, the AI is a Negamax algorithm with alpha-beta pruning and transp
 
 
 Installation
-=============
+------------
 
 if you have ``pip`` installed, type this in a terminal ::
     
@@ -21,7 +21,7 @@ Additionnally you will need to install Numpy to be able to run some of the examp
 
 
 A quick example
-================
+----------------
 
 Let us define the rules of a game and start a match against the AI: ::
     
@@ -63,7 +63,7 @@ Result: ::
     Player 1 what do you play ?
 
 Solving the game
------------------
+*****************
 
 Let us now solve the game: ::
 
