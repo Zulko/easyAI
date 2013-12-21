@@ -108,10 +108,11 @@ Player 1 what do you play ?</pre>
 </div>
 <p>We obtain <tt class="docutils literal"><span class="pre">r=1</span></tt>, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), <tt class="docutils literal"><span class="pre">d=10</span></tt>, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and <tt class="docutils literal"><span class="pre">m='3'</span></tt>, which indicates that the first player&#8217;s first move should be <tt class="docutils literal"><span class="pre">'3'</span></tt>.</p>
 <p>These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:</p>
-<blockquote>
-<div>tt = DictTT()
-GameOfBones.ttentry = lambda game : game.pile # key for the table
-r,d,m = solve_game(GameOfBones, range(2,20), win_score=100, tt=tt)</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tt</span> <span class="o">=</span> <span class="n">DictTT</span><span class="p">()</span>
+<span class="n">GameOfBones</span><span class="o">.</span><span class="n">ttentry</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span> <span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">pile</span> <span class="c"># key for the table</span>
+<span class="n">r</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span> <span class="o">=</span> <span class="n">solve_game</span><span class="p">(</span><span class="n">GameOfBones</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">win_score</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>After these lines are run the variable <tt class="docutils literal"><span class="pre">tt</span></tt> contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With <tt class="docutils literal"><span class="pre">tt</span></tt> you can play perfectly without <em>thinking</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">game</span> <span class="o">=</span> <span class="n">GameOfBones</span><span class="p">(</span> <span class="p">[</span>  <span class="n">AI_Player</span><span class="p">(</span> <span class="n">tt</span> <span class="p">),</span> <span class="n">Human_Player</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
 <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span> <span class="c"># you will always lose this game :)</span>

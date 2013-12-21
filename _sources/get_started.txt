@@ -46,13 +46,17 @@ When the game ends it stores the history into the variables ``history``. The his
     game9, move9 = history[9]
     game8.make_move( move8 ) # Now  game8 and game9 are alike.
 
+
 Human and AI players
 ---------------------
+
 
 The players can be either a ``Human_Player()`` (which will be asked interactively which moves it wants to play) or a ``AI_Player(algo)``, so you will have for instance ::
     
     game = MyGame( [ Human_Player(), AI_player(algo) ])
     
+If you are a human player you will be asked to enter a move when it is your turn. You can also enter ``show moves`` to have a list of all moves allowed, or ``quit`` to quit.
+
 The variable `algo` is any function ``f(game)->move``. It can be an algorithm that determines the best move by thinking N turns in advance: ::
     
     from easyAI import AI_Player, Negamax

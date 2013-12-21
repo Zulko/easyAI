@@ -379,6 +379,8 @@
     
     <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
     
+    <span class="c"># this shows that the scoring can be defined in the AI algo, </span>
+    <span class="c"># which enables 2 AIs with different scorings to play a match.</span>
     <span class="n">scoring</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span> <span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">-</span> <span class="n">game</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">score</span>
     <span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">scoring</span><span class="p">)</span>
     <span class="n">game</span> <span class="o">=</span> <span class="n">Awele</span><span class="p">([</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai</span><span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai</span><span class="p">)])</span>

@@ -115,6 +115,7 @@ self.players</li>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">game</span> <span class="o">=</span> <span class="n">MyGame</span><span class="p">(</span> <span class="p">[</span> <span class="n">Human_Player</span><span class="p">(),</span> <span class="n">AI_player</span><span class="p">(</span><span class="n">algo</span><span class="p">)</span> <span class="p">])</span>
 </pre></div>
 </div>
+<p>If you are a human player you will be asked to enter a move when it is your turn. You can also enter <tt class="docutils literal"><span class="pre">show</span> <span class="pre">moves</span></tt> to have a list of all moves allowed, or <tt class="docutils literal"><span class="pre">quit</span></tt> to quit.</p>
 <p>The variable <cite>algo</cite> is any function <tt class="docutils literal"><span class="pre">f(game)-&gt;move</span></tt>. It can be an algorithm that determines the best move by thinking N turns in advance:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
 <span class="n">ai_player</span> <span class="o">=</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">)</span>

@@ -20,7 +20,7 @@ User's Guide
 
 EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. It is very small and could really do with some improvements, so if your are a Python/AI guru maybe you can contribute through Github_ . Some ideas of improvement are: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
 
-For troubleshooting and bug reports, the best for now is to ask on Github.
+For troubleshooting and bug reports, the best for now is to ask on Github_.
 
 Indices and tables
 -------------------
