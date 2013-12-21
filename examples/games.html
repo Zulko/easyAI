@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Games implemented with easyAI &mdash; easyAI 0.0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="easyAI 0.0.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Examples of use" href="examples.html" />
+    <link rel="next" title="How to make the AI faster" href="speedup.html" />
+    <link rel="prev" title="A quick example" href="quick_example.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="speedup.html" title="How to make the AI faster"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quick_example.html" title="A quick example"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li>
+          <li><a href="examples.html" accesskey="U">Examples of use</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="games-implemented-with-easyai">
+<span id="examplesofgames"></span><h1>Games implemented with easyAI<a class="headerlink" href="#games-implemented-with-easyai" title="Permalink to this headline">¶</a></h1>
+<p>Here are reported some games implementations provided in the
+<tt class="docutils literal"><span class="pre">examples</span></tt> folder of easyAI.</p>
+<div class="section" id="tic-tac-toe">
+<h2>Tic-Tac-Toe<a class="headerlink" href="#tic-tac-toe" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+
+<span class="k">class</span> <span class="nc">TicTacToe</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The board positions are numbered as follows:</span>
+<span class="sd">            7 8 9</span>
+<span class="sd">            4 5 6</span>
+<span class="sd">            1 2 3</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts.</span>
+    
+    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">move</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span>
+
+    <span class="k">def</span> <span class="nf">unmake_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span> <span class="c"># optional method (speeds up the AI)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">move</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">lose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Has the opponent &quot;three in line ?&quot; &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span> <span class="p">[</span><span class="nb">all</span><span class="p">([(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nopponent</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">line</span><span class="p">])</span>
+                      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="c"># horiz.</span>
+                                   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="c"># vertical</span>
+                                   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]]])</span> <span class="c"># diagonal</span>
+        
+    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">possible_moves</span><span class="p">()</span> <span class="o">==</span> <span class="p">[])</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                        <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([[</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;O&#39;</span><span class="p">,</span><span class="s">&#39;X&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="p">]]</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+                 
+    <span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+    
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    
+    <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+    <span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">TicTacToe</span><span class="p">(</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span><span class="n">ai_algo</span><span class="p">),</span><span class="n">AI_Player</span><span class="p">(</span><span class="n">ai_algo</span><span class="p">)])</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="section" id="game-of-nim">
+<h2>Game of Nim<a class="headerlink" href="#game-of-nim" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+
+<span class="k">class</span> <span class="nc">Nim</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The game starts with 4 piles of 5 pieces. In turn the players</span>
+<span class="sd">    remove as much pieces as they want, but from one pile only. The</span>
+<span class="sd">    player that removes the last piece loses.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    </span>
+<span class="sd">    - players: the players...</span>
+<span class="sd">    - piles: the piles the game starts with. With piles=[2,3,4,4] the</span>
+<span class="sd">      game will start with 1 pile of 2 pieces, 1 pile of 3 pieces, and 2</span>
+<span class="sd">      piles of 4 pieces. If set to None, the default will be [5,5,5,5]</span>
+<span class="sd">      </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">,</span> <span class="n">piles</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Default for `piles` is 5 piles of 5 pieces. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">piles</span> <span class="o">=</span> <span class="n">piles</span> <span class="k">if</span> <span class="p">(</span><span class="n">piles</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts.</span>
+    
+    
+    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">&quot;</span><span class="si">%d</span><span class="s">,</span><span class="si">%d</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">))</span>
+                       <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+        <span class="n">move</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">move</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">[</span> <span class="n">move</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="p">]</span> <span class="o">-=</span> <span class="n">move</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+        
+    <span class="k">def</span> <span class="nf">unmake_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">move</span><span class="p">):</span> <span class="c"># optional, speeds up the AI</span>
+        <span class="n">move</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">move</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">[</span> <span class="n">move</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="p">]</span> <span class="o">+=</span> <span class="n">move</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+        
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">print</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">win</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="mi">100</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">ttentry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">piles</span><span class="p">)</span> <span class="c">#optional, speeds up AI</span>
+
+
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    
+    <span class="c"># IN WHAT FOLLOWS WE SOLVE THE GAME AND START A MATCH AGAINST THE AI</span>
+    
+    <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AI_Player</span><span class="p">,</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">DictTT</span><span class="p">,</span> 
+                         <span class="n">solve_game</span> <span class="p">)</span>
+    
+    
+    <span class="c"># we first solve the game</span>
+    <span class="n">w</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tt</span> <span class="o">=</span> <span class="n">solve_game</span><span class="p">(</span><span class="n">Nim</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">win_score</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">w</span><span class="p">,</span><span class="n">d</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+    <span class="c"># the previous line prints -1, 16 which shows that if the</span>
+    <span class="c"># computer plays second with an AI depth of 16 (or 15) it will </span>
+    <span class="c"># always win in 16 (total) moves or less.</span>
+    
+    <span class="c"># Now let&#39;s play (and lose !) against the AI</span>
+    <span class="n">ai</span> <span class="o">=</span>  <span class="n">Negamax</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span> <span class="n">DictTT</span><span class="p">())</span> 
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Nim</span><span class="p">(</span> <span class="p">[</span> <span class="n">Human_Player</span><span class="p">(),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">tt</span><span class="p">)])</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span> <span class="c"># You will always lose this game !</span>
+    <span class="k">print</span> <span class="s">&quot;player </span><span class="si">%d</span><span class="s"> wins&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">nplayer</span><span class="p">)</span>
+    
+    <span class="c"># Note that with the transposition table tt generated by solve_game</span>
+    <span class="c"># we can setup a perfect AI which doesn&#39;t have to think:</span>
+    <span class="c"># &gt;&gt;&gt; game = Nim( [ Human_Player(), AI_Player( tt )])</span>
+    <span class="c"># &gt;&gt;&gt; game.play() # You will always lose this game too!</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="game-of-knights">
+<h2>Game of Knights<a class="headerlink" href="#game-of-knights" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+
+
+<span class="c"># directions in which a knight can move</span>
+<span class="n">DIRECTIONS</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+
+<span class="c"># functions to convert &quot;D8&quot; into (3,7) and back...</span>
+<span class="n">pos2string</span> <span class="o">=</span> <span class="k">lambda</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">:</span> <span class="s">&quot;ABCDEFGH&quot;</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">string2pos</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s">&quot;ABCDEFGH&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">Knights</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Each player has a chess knight (that moves in &quot;L&quot;) on a chessboard.</span>
+<span class="sd">    Each turn the player moves the knight to any tile that hasn&#39;t been</span>
+<span class="sd">    occupied by a knight before. The first player that cannot move loses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+     
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">,</span> <span class="n">board_size</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board_size</span> <span class="o">=</span> <span class="n">board_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">board_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">board_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">board_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">players</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">board_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">board_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts.</span>
+    
+    
+    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">endings</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">DIRECTIONS</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">pos2string</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">endings</span> <span class="c"># all positions</span>
+                   <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span>
+                   <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">board_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span>
+                   <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">board_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span>  <span class="c"># inside the chessboard</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="c"># and not blocked</span>
+    
+    
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="n">pi</span><span class="p">,</span><span class="n">pj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span><span class="n">pj</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># 3 means blocked</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">string2pos</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">pi</span><span class="p">,</span><span class="n">pj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span><span class="n">pj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="c"># place player on board</span>
+    
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;  1 2 3 4 5 6 7 8&#39;</span><span class="p">]</span><span class="o">+</span> <span class="p">[</span><span class="s">&#39;ABCDEFGH&#39;</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span>
+                <span class="s">&#39; &#39;</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([[</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;1&#39;</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">,</span><span class="s">&#39;X&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">]]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span><span class="o">+</span><span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">])</span>
+    
+    
+    <span class="k">def</span> <span class="nf">lose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">possible_moves</span><span class="p">()</span> <span class="o">==</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">possible_moves</span><span class="p">()</span> <span class="o">==</span> <span class="p">[])</span> <span class="k">else</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span>
+        
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    
+    <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+    <span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Knights</span><span class="p">(</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span><span class="n">ai_algo</span><span class="p">),</span><span class="n">AI_Player</span><span class="p">(</span><span class="n">ai_algo</span><span class="p">)],</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;player </span><span class="si">%d</span><span class="s"> loses&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">nplayer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="awele">
+<h2>Awele<a class="headerlink" href="#awele" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sorry, this example requires Numpy installed !&quot;</span>
+    <span class="k">raise</span>
+    
+<span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+
+<span class="k">class</span> <span class="nc">Awele</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rules are as defined as in http://en.wikipedia.org/wiki/Oware</span>
+<span class="sd">    with the additional rule that the game ends when then are 6 seeds</span>
+<span class="sd">    left</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">player</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">players</span><span class="p">):</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">isstarved</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">camp</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
+        <span class="bp">self</span><span class="o">.</span> <span class="n">board</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="c"># Initial configuration of the board</span>
+                       <span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="c"># holes are indexed by a,b,c,d...</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts.</span>
+
+
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">move</span> <span class="o">==</span> <span class="s">&quot;None&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">isstarved</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">camp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">s</span><span class="o">+</span><span class="mi">6</span><span class="p">])</span>
+            <span class="k">return</span>
+
+        <span class="n">move</span> <span class="o">=</span> <span class="s">&#39;abcdefghijkl&#39;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">move</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">move</span><span class="p">]):</span> <span class="c">#DEAL</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span>
+            <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="n">move</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">move</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="p">((</span><span class="n">pos</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">camp</span>
+               <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])):</span>  <span class="c"># TAKE</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span>
+
+
+    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A player must play any hole that contains enough seeds to</span>
+<span class="sd">        &#39;feed&#39; the opponent. This no hole has this many seeds, any</span>
+<span class="sd">        non-empty hole can be played.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="s">&#39;None&#39;</span><span class="p">]</span>
+            <span class="n">moves</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;=</span> <span class="mi">6</span><span class="o">-</span><span class="n">i</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">moves</span> <span class="o">==</span><span class="p">[]:</span>
+                <span class="n">moves</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">6</span><span class="p">:])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="p">[</span><span class="s">&#39;None&#39;</span><span class="p">]</span>
+            <span class="n">moves</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;=</span> <span class="mi">12</span><span class="o">-</span><span class="n">i</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">moves</span> <span class="o">==</span><span class="p">[]:</span>
+                <span class="n">moves</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="s">&#39;abcdefghijkl&#39;</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">moves</span><span class="p">]</span>
+
+
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Prints the board, with the hole&#39;s respective letters &quot;&quot;&quot;</span>
+        
+        <span class="k">print</span> <span class="s">&quot;Score: </span><span class="si">%d</span><span class="s"> / </span><span class="si">%d</span><span class="s">&quot;</span><span class="o">%</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">score</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;lkjihg&#39;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;</span><span class="si">%02d</span><span class="s">&quot;</span><span class="o">%</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">print</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;</span><span class="si">%02d</span><span class="s">&quot;</span><span class="o">%</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[:</span><span class="mi">6</span><span class="p">]])</span>
+        <span class="k">print</span> <span class="s">&#39;  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;abcdef&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">lose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="mi">24</span>
+
+
+    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span> <span class="ow">or</span>
+                <span class="p">(</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="ow">or</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">isstarved</span> <span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    
+    <span class="c"># In what follows we setup the AI and launch a AI-vs-AI match.</span>
+    
+    <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+    
+    <span class="n">scoring</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span> <span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">-</span> <span class="n">game</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">score</span>
+    <span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">scoring</span><span class="p">)</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Awele</span><span class="p">([</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai</span><span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai</span><span class="p">)])</span>
+    
+    <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">game</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">score</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Player </span><span class="si">%d</span><span class="s"> wins.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">nplayer</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">game</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">game</span><span class="o">.</span><span class="n">opponent</span><span class="o">.</span><span class="n">score</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Player </span><span class="si">%d</span><span class="s"> wins.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">nopponent</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Looks like we have a draw.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="connect-4">
+<span id="connect4"></span><h2>Connect 4<a class="headerlink" href="#connect-4" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sorry, this example requires Numpy installed !&quot;</span>
+    <span class="k">raise</span>
+
+<span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+
+
+<span class="k">class</span> <span class="nc">ConnectFour</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The game of Connect Four, as described here:</span>
+<span class="sd">    http://en.wikipedia.org/wiki/Connect_Four</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">,</span> <span class="n">board</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span> <span class="o">=</span> <span class="n">board</span> <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="o">!=</span><span class="bp">None</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts.</span>
+    
+    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">line</span> <span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span>
+        
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;0 1 2 3 4 5 6&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="o">*</span><span class="s">&#39;-&#39;</span><span class="p">]</span><span class="o">+</span>
+                        <span class="p">[</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([[</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;O&#39;</span><span class="p">,</span><span class="s">&#39;X&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">5</span><span class="o">-</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span>
+    
+    <span class="k">def</span> <span class="nf">lose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">find_four</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nopponent</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lose</span> <span class="k">else</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">find_four</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="n">nplayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns True iff the player has connected  4 (or more)</span>
+<span class="sd">    This is much faster if written in C or Cython</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">pos</span><span class="p">,</span><span class="n">direction</span> <span class="ow">in</span> <span class="n">POS_DIR</span><span class="p">:</span>
+        <span class="n">streak</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">5</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">6</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">board</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">nplayer</span><span class="p">:</span>
+                <span class="n">streak</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">streak</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">streak</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span><span class="o">+</span> <span class="n">direction</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+<span class="n">POS_DIR</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span><span class="o">+</span>
+                   <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span><span class="o">+</span>
+                   <span class="p">[</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)]</span><span class="o">+</span>
+                   <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span><span class="o">+</span>
+                   <span class="p">[</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)]</span><span class="o">+</span>
+                   <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">)])</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    
+    <span class="c"># LET&#39;S PLAY !</span>
+    
+    <span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+    <span class="n">AI</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">win_score</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">ConnectFour</span><span class="p">([</span><span class="n">Human_Player</span><span class="p">(),</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">AI</span> <span class="p">)])</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">lose</span><span class="p">():</span>
+        <span class="k">print</span> <span class="s">&quot;Player </span><span class="si">%d</span><span class="s"> wins.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">nopponent</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Looks like we hhave a draw.&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Games implemented with easyAI</a><ul>
+<li><a class="reference internal" href="#tic-tac-toe">Tic-Tac-Toe</a></li>
+<li><a class="reference internal" href="#game-of-nim">Game of Nim</a></li>
+<li><a class="reference internal" href="#game-of-knights">Game of Knights</a></li>
+<li><a class="reference internal" href="#awele">Awele</a></li>
+<li><a class="reference internal" href="#connect-4">Connect 4</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="examples.html">Examples of use</a><ul>
+      <li>Previous: <a href="quick_example.html" title="previous chapter">A quick example</a></li>
+      <li>Next: <a href="speedup.html" title="next chapter">How to make the AI faster</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/examples/games.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2013, Zulko.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

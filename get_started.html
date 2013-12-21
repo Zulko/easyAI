@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Get started with easyAI &mdash; easyAI 0.0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="easyAI 0.0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Examples of use" href="examples/examples.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples/examples.html" title="Examples of use"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="get-started-with-easyai">
+<h1>Get started with easyAI<a class="headerlink" href="#get-started-with-easyai" title="Permalink to this headline">¶</a></h1>
+<p>The best way to get started is to have a look at <a class="reference internal" href="examples/quick_example.html#a-quick-example"><em>A quick example</em></a>. What follows is a summary of all there is to know about easyAI (you can also find these informations in the documentation of the code).</p>
+<div class="section" id="defining-a-game">
+<h2>Defining a game<a class="headerlink" href="#defining-a-game" title="Permalink to this headline">¶</a></h2>
+<p>To define a new game, make a subclass of the class <tt class="docutils literal"><span class="pre">easyAI.TwoPlayersGame</span></tt>, and define these methods:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">__init__(self,</span> <span class="pre">players,</span> <span class="pre">...)</span></tt> : initialization of the game</li>
+<li><tt class="docutils literal"><span class="pre">possible_moves(self)</span></tt> : returns of all moves allowed</li>
+<li><tt class="docutils literal"><span class="pre">make_move(self,</span> <span class="pre">move)</span></tt>: transforms the game according to the move</li>
+<li><tt class="docutils literal"><span class="pre">is_over(self)</span></tt>: check whether the game has ended</li>
+</ul>
+</div></blockquote>
+<p>The following methods are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">show(self)</span></tt> : prints/displays the game</li>
+<li><tt class="docutils literal"><span class="pre">scoring</span></tt>: gives a score to the current game (for the AI)</li>
+<li><tt class="docutils literal"><span class="pre">unmake_move(self,</span> <span class="pre">move)</span></tt>: how to unmake a move (speeds up the AI)</li>
+<li><tt class="docutils literal"><span class="pre">ttentry(self)</span></tt>: makes a string describing the game.</li>
+</ul>
+</div></blockquote>
+<p>The <tt class="docutils literal"><span class="pre">__init__</span></tt> method <em>must</em> do the following actions:</p>
+<ul class="simple">
+<li>Store <tt class="docutils literal"><span class="pre">players</span></tt> (which must be a list of two Players) into
+self.players</li>
+<li>Tell which player plays first with <tt class="docutils literal"><span class="pre">self.nplayer</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">#</span> <span class="pre">or</span> <span class="pre">2</span></tt></li>
+</ul>
+<p>When defining <tt class="docutils literal"><span class="pre">possible_moves</span></tt>, <tt class="docutils literal"><span class="pre">scoring</span></tt>, etc. you must keep in mind that you are in the scope of the <em>current player</em>. More precisely, a subclass of TwoPlayersGame has the following attributes that indicate whose turn it is. These methods can be used but should not be overwritten:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">self.player</span></tt> : the current Player (e.g. a <tt class="docutils literal"><span class="pre">Human_Player()</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">self.opponent</span></tt> :  the current Player&#8217;s opponent (Player).</li>
+<li><tt class="docutils literal"><span class="pre">self.nplayer</span></tt>: the number (1 or 2) of the current player.</li>
+<li><tt class="docutils literal"><span class="pre">self.nopponent</span></tt>: the number (1 or 2) of the opponent.</li>
+<li><tt class="docutils literal"><span class="pre">self.nmove</span></tt>: How many moves have been played so far ?</li>
+</ul>
+</div></blockquote>
+<p>To start a game you will write something like this</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">game</span> <span class="o">=</span> <span class="n">MyGame</span><span class="p">(</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="n">player_1</span><span class="p">,</span> <span class="n">player_2</span><span class="p">],</span> <span class="o">*</span><span class="n">other_arguments</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span> <span class="c"># start the match !</span>
+</pre></div>
+</div>
+<p>When the game ends it stores the history into the variables <tt class="docutils literal"><span class="pre">history</span></tt>. The history is a list <em>[(g1,m1),(g2,m2)...]</em> where <em>gi</em> is a copy of the game after i moves and <em>mi</em> is the move made by the player whose turn it whose. So for instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">history</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="n">game8</span><span class="p">,</span> <span class="n">move8</span> <span class="o">=</span> <span class="n">history</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">game9</span><span class="p">,</span> <span class="n">move9</span> <span class="o">=</span> <span class="n">history</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+<span class="n">game8</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span> <span class="n">move8</span> <span class="p">)</span> <span class="c"># Now  game8 and game9 are alike.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="human-and-ai-players">
+<h2>Human and AI players<a class="headerlink" href="#human-and-ai-players" title="Permalink to this headline">¶</a></h2>
+<p>The players can be either a <tt class="docutils literal"><span class="pre">Human_Player()</span></tt> (which will be asked interactively which moves it wants to play) or a <tt class="docutils literal"><span class="pre">AI_Player(algo)</span></tt>, so you will have for instance</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">game</span> <span class="o">=</span> <span class="n">MyGame</span><span class="p">(</span> <span class="p">[</span> <span class="n">Human_Player</span><span class="p">(),</span> <span class="n">AI_player</span><span class="p">(</span><span class="n">algo</span><span class="p">)</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>The variable <cite>algo</cite> is any function <tt class="docutils literal"><span class="pre">f(game)-&gt;move</span></tt>. It can be an algorithm that determines the best move by thinking N turns in advance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+<span class="n">ai_player</span> <span class="o">=</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Or a transposition table (see below) filled in a previous game:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ai_player</span> <span class="o">=</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">transpo_table</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>The Negamax algorithm will always look for the shortest path to victory, or the longest path to defeat. It is possible to go faster by not optimizing this (the disadvantage being that the AI can then make <em>suicidal</em> moves if it has found that it will eventually lose against a perfect opponent). To do so, you must provide the argument <tt class="docutils literal"><span class="pre">win_score</span></tt> to Negamax which indicates above which score a score is considered a win. Keep in mind that the AI adds maluses to the score, so if your scoring function looks like this</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">scoring</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span><span class="p">:</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">win</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>you should write <tt class="docutils literal"><span class="pre">Negamax(9,</span> <span class="pre">win_score=90)</span></tt>.</p>
+<p>Additionally, you can use transposition tables, which are tables storing the situations already encountered by the AI, and the move that seemed best last time their were evaluated. You can define your own transpostion table (they should have two methods to be valid, <tt class="docutils literal"><span class="pre">lookup</span></tt> and <tt class="docutils literal"><span class="pre">store</span></tt>, plus a method <tt class="docutils literal"><span class="pre">__call__</span></tt> if you intend to use them as an AI). The class DictTT provides simple tables based on Python dictionnaries:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">DictTT</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">DictTT</span><span class="p">()</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span> <span class="n">table</span><span class="p">)</span> <span class="c"># negamax boosted by a TT</span>
+<span class="c"># start a match AI vs. AI</span>
+<span class="n">game</span> <span class="o">=</span> <span class="n">TicTacToe</span><span class="p">(</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span> <span class="n">algo</span> <span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">algo</span> <span class="p">)])</span>
+<span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>An important thing is that, to use transposition tables, your <cite>game</cite> should have a method <cite>ttentry(self)</cite> which returns a description of the game, either as a string or as a tuple, to serve as key in the transposition table. For example in TicTacToe or Connect 4 the game can be entirely described by the state of the board, so you may write</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">ttentry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">str</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>At the end of the party <tt class="docutils literal"><span class="pre">table</span></tt> may have stored enough situations to be used as a proper AI algorithm, at which case you can define a player with <tt class="docutils literal"><span class="pre">AI_Player(tt)</span></tt>. But beware that an error will be raised if this player meets a situation that is not referenced in the table.</p>
+</div>
+<div class="section" id="solving-a-game">
+<h2>Solving a game<a class="headerlink" href="#solving-a-game" title="Permalink to this headline">¶</a></h2>
+<p>You can try to solve a game (i.e. determine who will win if both players play perfectly and extract a winning strategy). There are two available algorithms to do so:</p>
+<p><strong>id_solve</strong> solves a game using iterative deepening: it explores the game by using several times the Negamax algorithm, always starting at the initial state of the game, but taking increasing depth (in the list ai_depths) until the score of the initial condition indicates that the first player will certainly win or loose, at which case it stops:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">id_solve</span>
+<span class="n">r</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span> <span class="o">=</span> <span class="n">id_solve</span><span class="p">(</span> <span class="n">MyGame</span><span class="p">,</span> <span class="n">ai_depths</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">win_score</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the first argument can be either a game instance or a game class. We obtain <tt class="docutils literal"><span class="pre">r=1</span></tt>, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), <tt class="docutils literal"><span class="pre">d=10</span></tt>, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and <tt class="docutils literal"><span class="pre">m='3'</span></tt>, which indicates that the first player&#8217;s first move should be <tt class="docutils literal"><span class="pre">'3'</span></tt>.</p>
+<p><strong>df_solve</strong> solves a game using a depth-first search (therefore it cannot be used for games that can have an infinite number of moves). The game is explored until endgames are reached and these endgames are evaluated to see if their are victories or defeats (or draws). Then, a situation in which every move leads to a defeat is labelled as a (certain) defeat, and a situation in which one move leads to a (certain) defeat of the opponent is labelled as a (certain) victory. This way we come back up to the root (initial condition) which receives a label, which is returned.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">solve_game</span>
+<span class="n">game</span> <span class="o">=</span> <span class="n">MyGame</span><span class="p">(</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span> <span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="c"># the players are not important</span>
+<span class="n">tt</span> <span class="o">=</span> <span class="n">DictTT</span><span class="p">()</span> <span class="c"># optional, will speed up the algo</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">df_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">winscore</span><span class="o">=</span> <span class="mi">90</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">tt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After this <tt class="docutils literal"><span class="pre">r</span></tt> is either -1 (certain defeat of the first player against a perfect opponent), 0 (it is possible to force a draw, but not to win), or 1 (certain victory if the first player plays perfectly).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Get started with easyAI</a><ul>
+<li><a class="reference internal" href="#defining-a-game">Defining a game</a></li>
+<li><a class="reference internal" href="#human-and-ai-players">Human and AI players</a></li>
+<li><a class="reference internal" href="#solving-a-game">Solving a game</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="examples/examples.html" title="next chapter">Examples of use</a></li>
+  </ul></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/get_started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2013, Zulko.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>
