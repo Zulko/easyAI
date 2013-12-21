@@ -52,7 +52,7 @@ Let us now solve the game: ::
 
 We obtain ``r=1``, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), ``d=10``, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and ``m='3'``, which indicates that the first player's first move should be ``'3'``.
 
-These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:
+These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each: ::
     
     tt = DictTT()
     GameOfBones.ttentry = lambda game : game.pile # key for the table

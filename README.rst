@@ -13,7 +13,7 @@ if you have ``pip`` installed, type this in a terminal ::
     
     sudo pip install easyAI
     
-Otherwise, dowload the source code (for instance on Github), unzip everything into one folder and in this folder, in a terminal, type ::
+Otherwise, dowload the source code (for instance on Github_), unzip everything into one folder and in this folder, in a terminal, type ::
     
     sudo python setup.py install
 
@@ -72,7 +72,7 @@ Let us now solve the game: ::
 
 We obtain ``r=1``, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), ``d=10``, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and ``m='3'``, which indicates that the first player's first move should be ``'3'``.
 
-These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:
+These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each: ::
     
     tt = DictTT()
     GameOfBones.ttentry = lambda game : game.pile # key for the table
@@ -82,3 +82,15 @@ After these lines are run the variable ``tt`` contains a transposition table sto
     
     game = GameOfBones( [  AI_Player( tt ), Human_Player() ] )
     game.play() # you will always lose this game :)
+    
+Contribute !
+------------
+
+EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. It is very small and could really do with some improvements, so if your are a Python/AI guru maybe you can contribute through Github_ . Some ideas of improvement are: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
+
+For troubleshooting and bug reports, the best for now is to ask on Github_.
+
+    
+.. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
+.. _Zulko : https://github.com/Zulko
+.. _Github :  https://github.com/Zulko/easyAI
