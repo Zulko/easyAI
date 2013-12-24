@@ -1,5 +1,5 @@
 import numpy as np
-from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax, DictTT
+from easyAI import TwoPlayersGame 
 
 MOVES = np.zeros((30,4),dtype=int)
 
@@ -90,10 +90,17 @@ class ThreeMusketeers( TwoPlayersGame ):
 
     def ttentry(self):
         return "".join(map(str,(self.nplayer,)+ tuple(self.board.flatten())))
+
+
+if __name__ == "__main__":
     
-tt = DictTT()
-ai = Negamax(5, tt=tt)
-players = [AI_Player(ai) for i in [0,1]]
-game =ThreeMusketeers(players)
-game.play()
+    # In what follows we setup the AI and launch a AI-vs-AI match.
+    
+    from easyAI import Human_Player, AI_Player, Negamax
+    
+    tt = DictTT()
+    ai = Negamax(5, tt=tt)
+    players = [AI_Player(ai) for i in [0,1]]
+    game =ThreeMusketeers(players)
+    game.play()
 
