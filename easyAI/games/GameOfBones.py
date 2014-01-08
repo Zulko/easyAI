@@ -18,6 +18,8 @@ class GameOfBones( TwoPlayersGame ):
     def scoring(self): return 100 if self.win() else 0
     def show(self): print "%d bones left in the pile"%(self.pile)
 
+
+
 if __name__ == "__main__":
     """
     Start a match (and store the history of moves when it ends)
@@ -25,9 +27,7 @@ if __name__ == "__main__":
     game = GameOfBones( [ AI_Player(ai), Human_Player() ] )
     history = game.play()
     """
-     
-     
-     
+         
     # Let's solve the game
 
     from easyAI import id_solve, DictTT

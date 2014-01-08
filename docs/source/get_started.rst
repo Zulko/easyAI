@@ -104,7 +104,7 @@ Note that the first argument can be either a game instance or a game class. We o
 
 **df_solve** solves a game using a depth-first search (therefore it cannot be used for games that can have an infinite number of moves). The game is explored until endgames are reached and these endgames are evaluated to see if their are victories or defeats (or draws). Then, a situation in which every move leads to a defeat is labelled as a (certain) defeat, and a situation in which one move leads to a (certain) defeat of the opponent is labelled as a (certain) victory. This way we come back up to the root (initial condition) which receives a label, which is returned. ::
 
-    from easyAI import solve_game
+    from easyAI import df_solve
     game = MyGame(players = [... , ...]) # the players are not important
     tt = DictTT() # optional, will speed up the algo
     r = df_solve(game, winscore= 90, tt = tt)
