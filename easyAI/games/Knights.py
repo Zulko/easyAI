@@ -6,11 +6,9 @@ from easyAI import TwoPlayersGame
 DIRECTIONS = map(np.array,[ [1,2],[-1,2],[1,-2],[-1,-2],
                             [2,1],[2,-1],[-2,1],[-2,-1]])
 
-
 # functions to convert "D8" into (3,7) and back...
-pos2string = lambda (a,b) : "ABCDEFGH"[a] + str(b+1)
+pos2string = lambda ab : "ABCDEFGH"[ab[0]] + str(ab[1]+1)
 string2pos = lambda s : np.array(["ABCDEFGH".index(s[0]),int(s[1])-1])
-
 
 class Knights( TwoPlayersGame ):
     """
@@ -47,10 +45,10 @@ class Knights( TwoPlayersGame ):
         self.board[pi,pj] = self.nplayer # place player on board
     
     def show(self):
-        print '\n'+'\n'.join(['  1 2 3 4 5 6 7 8']+ ['ABCDEFGH'[k] +
+        print ('\n'+'\n'.join(['  1 2 3 4 5 6 7 8']+ ['ABCDEFGH'[k] +
                 ' '+' '.join([['.','1','2','X'][self.board[k,i]]
                 for i in range(self.board_size[0])])
-                for k in range(self.board_size[1])]+[''])
+                for k in range(self.board_size[1])]+['']))
     
     
     def lose(self):
@@ -68,4 +66,4 @@ if __name__ == "__main__":
     ai_algo = Negamax(11)
     game = Knights( [AI_Player(ai_algo),AI_Player(ai_algo)], (5,5))
     game.play()
-    print "player %d loses"%(game.nplayer)
+    print( "player %d loses"%(game.nplayer) )

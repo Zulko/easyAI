@@ -80,8 +80,8 @@ class TwoPlayersGame:
             self.make_move(move)
             
             if verbose:
-                print "\nMove #%d: player %d plays %s :"%(
-                             self.nmove, self.nplayer, str(move))
+                print( "\nMove #%d: player %d plays %s :"%(
+                             self.nmove, self.nplayer, str(move)) )
                 self.show()
                 
             self.switch_player()

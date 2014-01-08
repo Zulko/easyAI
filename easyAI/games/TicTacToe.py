@@ -33,10 +33,10 @@ class TicTacToe( TwoPlayersGame ):
         return (self.possible_moves() == []) or self.lose()
         
     def show(self):
-        print '\n'+'\n'.join([
+        print ('\n'+'\n'.join([
                         ' '.join([['.','O','X'][self.board[3*j+i]]
                         for i in range(3)])
-                 for j in range(3)])
+                 for j in range(3)]) )
                  
     def scoring(self):
         return -100 if self.lose() else 0
