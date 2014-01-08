@@ -52,7 +52,7 @@ class TwoPlayersGame:
                 self.players = players
                 self.pile = 20 # start with 20 sticks
                 self.nplayer = 1 # player 1 starts
-            def possible_moves(self,move): return ['1','2','3']
+            def possible_moves(self): return ['1','2','3']
             def make_move(self,move): self.pile -= int(move)
             def is_over(self): return self.pile <= 0
             
@@ -80,8 +80,8 @@ class TwoPlayersGame:
             self.make_move(move)
             
             if verbose:
-                print "\nMove #%d: player %d plays %s :"%(
-                             self.nmove, self.nplayer, str(move))
+                print( "\nMove #%d: player %d plays %s :"%(
+                             self.nmove, self.nplayer, str(move)) )
                 self.show()
                 
             self.switch_player()

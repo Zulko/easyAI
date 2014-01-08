@@ -49,7 +49,7 @@ def id_solve(game, ai_depths, win_score, scoring=None,
         ai(game)
         alpha = ai.alpha
         if verbose:
-             print "d:%d, a:%d, m:%s"%(depth, alpha, str(game.ai_move))
+             print( "d:%d, a:%d, m:%s"%(depth, alpha, str(game.ai_move)))
         if abs(alpha) >= win_score:
             break
     

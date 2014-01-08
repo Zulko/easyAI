@@ -1,4 +1,4 @@
-from miniAI import TwoPlayersGame
+from easyAI import TwoPlayersGame
 
 # Convert D7 to (3,6) and back...
 to_string = lambda move: " ".join(["ABCDEFGHIJ"[move[i][0]]+str(move[i][1]+1)
@@ -41,9 +41,7 @@ class Hexapawn( TwoPlayersGame ):
                 moves.append( ((i,j),(i+d,j-1)) )
                 
         return map(to_string,[(i,j) for i,j in moves])
-        
-        return moves
-        
+
     def make_move(self, move):
         move = map(to_tuple,move.split(' '))
         ind = self.player.pawns.index(move[0])
@@ -70,7 +68,7 @@ class Hexapawn( TwoPlayersGame ):
 
 if __name__ == "__main__":
     
-    from miniAI import AI_Player, Human_Player, Negamax
+    from easyAI import AI_Player, Human_Player, Negamax
     scoring = lambda game: -100 if game.lose() else 0
     ai = Negamax(10, scoring)
     game = Hexapawn( [AI_Player(ai),AI_Player(ai)] )

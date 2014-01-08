@@ -1,7 +1,7 @@
 try:
     import numpy as np
 except ImportError:
-    print "Sorry, this example requires Numpy installed !"
+    print( "Sorry, this example requires Numpy installed !" )
     raise
     
 from easyAI import TwoPlayersGame
@@ -74,11 +74,11 @@ class Awele( TwoPlayersGame ):
     def show(self):
         """ Prints the board, with the hole's respective letters """
         
-        print "Score: %d / %d"%tuple(p.score for p in self.players)
-        print '  '.join('lkjihg')
-        print ' '.join(["%02d"%i for i in self.board[-1:-7:-1]])
-        print ' '.join(["%02d"%i for i in self.board[:6]])
-        print '  '.join('abcdef')
+        print( "Score: %d / %d"%tuple(p.score for p in self.players))
+        print( '  '.join('lkjihg'))
+        print( ' '.join(["%02d"%i for i in self.board[-1:-7:-1]]))
+        print( ' '.join(["%02d"%i for i in self.board[:6]]))
+        print( '  '.join('abcdef'))
 
 
     def lose(self):
@@ -100,14 +100,14 @@ if __name__ == "__main__":
     # this shows that the scoring can be defined in the AI algo, 
     # which enables 2 AIs with different scorings to play a match.
     scoring = lambda game : game.player.score - game.opponent.score
-    ai = Negamax(11, scoring)
+    ai = Negamax(6, scoring)
     game = Awele([ AI_Player(ai), AI_Player(ai)])
     
     game.play()
     
     if game.player.score > game.opponent.score:
-        print "Player %d wins."%(game.nplayer)
+        print( "Player %d wins."%(game.nplayer) )
     elif game.player.score < game.opponent.score:
-        print "Player %d wins."%(game.nopponent)
+        print( "Player %d wins."%(game.nopponent) )
     else:
-        print "Looks like we have a draw."
+        print( "Looks like we have a draw." )
