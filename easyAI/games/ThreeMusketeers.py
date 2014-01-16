@@ -84,9 +84,9 @@ class ThreeMusketeers( TwoPlayersGame ):
         return 100 if self.win() else 0
     
     def show(self):
-        print '\n'+'\n'.join(['--1-2-3-4-5']+
+        print('\n'+'\n'.join(['--1-2-3-4-5']+
             ['ABCDE'[j]+ ' '+ ' '.join(['.12'[self.board[j,i]]
-              for i in range(5)]) for j in range(5)])
+              for i in range(5)]) for j in range(5)]))
 
     def ttentry(self):
         return "".join(map(str,(self.nplayer,)+ tuple(self.board.flatten())))
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     
     # In what follows we setup the AI and launch a AI-vs-AI match.
     
-    from easyAI import Human_Player, AI_Player, Negamax
+    from easyAI import Human_Player, AI_Player, Negamax, DictTT
     
     tt = DictTT()
     ai = Negamax(5, tt=tt)
