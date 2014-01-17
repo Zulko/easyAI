@@ -8,7 +8,7 @@ DIRECTIONS = list(map(np.array, [[1, 2], [-1, 2], [1, -2], [-1, -2],
 
 # functions to convert "D8" into (3,7) and back...
 pos2string = lambda ab: "ABCDEFGH"[ab[0]] + str(ab[1] + 1)
-string2pos = lambda s: np.array(["ABCDEFGH".index(s[0]), int(s[1]) - 1])
+string2pos = lambda s: np.array(["ABCDEFGH".index(s[0]), int(s[1])-1])
 
 
 class Knights(TwoPlayersGame):
@@ -25,7 +25,7 @@ class Knights(TwoPlayersGame):
         self.board[0, 0] = 1
         self.board[board_size[0] - 1, board_size[1] - 1] = 2
         players[0].pos = np.array([0, 0])
-        players[1].pos = np.array([board_size[0] - 1, board_size[1] - 1])
+        players[1].pos = np.array([board_size[0] - 1, board_size[1]-1])
         self.nplayer = 1 # player 1 starts.
 
     def possible_moves(self):
@@ -33,7 +33,7 @@ class Knights(TwoPlayersGame):
         return [pos2string(e) for e in endings # all positions
                 if (e[0] >= 0) and (e[1] >= 0) and
                    (e[0] < self.board_size[0]) and
-                   (e[1] < self.board_size[1]) and # inside the chessboard
+                   (e[1] < self.board_size[1]) and # inside the board
                    self.board[e[0], e[1]] == 0] # and not blocked
 
     def make_move(self, pos):
@@ -44,10 +44,11 @@ class Knights(TwoPlayersGame):
         self.board[pi, pj] = self.nplayer # place player on board
 
     def show(self):
-        print('\n' + '\n'.join(['  1 2 3 4 5 6 7 8'] + ['ABCDEFGH'[k] +
-                                                        ' ' + ' '.join([['.', '1', '2', 'X'][self.board[k, i]]
-                                                                        for i in range(self.board_size[0])])
-                                                        for k in range(self.board_size[1])] + ['']))
+        print('\n' + '\n'.join(['  1 2 3 4 5 6 7 8'] +
+              ['ABCDEFGH'[k] + 
+               ' ' + ' '.join([['.', '1', '2', 'X'][self.board[k, i]]
+               for i in range(self.board_size[0])])
+               for k in range(self.board_size[1])] + ['']))
 
     def lose(self):
         return self.possible_moves() == []

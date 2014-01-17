@@ -11,7 +11,7 @@ class Awele(TwoPlayersGame):
     """
     Rules are as defined as in http://en.wikipedia.org/wiki/Oware
     with the additional rule that the game ends when then are 6 seeds
-    left
+    left in the game.
     """
 
     def __init__(self, players):
@@ -20,8 +20,12 @@ class Awele(TwoPlayersGame):
             player.isstarved = False
             player.camp = i
         self.players = players
-        self.board = [4, 4, 4, 4, 4, 4,  # Initial configuration of the board
-                      4, 4, 4, 4, 4, 4]  # holes are indexed by a,b,c,d...
+        
+        # Initial configuration of the board.
+        # holes are indexed by a,b,c,d...
+        self.board = [4, 4, 4, 4, 4, 4,  
+                      4, 4, 4, 4, 4, 4]  
+                      
         self.nplayer = 1  # player 1 starts.
 
     def make_move(self, move):
@@ -62,7 +66,7 @@ class Awele(TwoPlayersGame):
                 moves = [i for i in range(6) if self.board[i] != 0]
         else:
             if max(self.board[6:]) == 0: return ['None']
-            moves = [i for i in range(6, 12) if (self.board[i] >= 12 - i)]
+            moves = [i for i in range(6,12) if (self.board[i] >= 12-i)]
             if moves == []:
                 moves = [i for i in range(6, 12) if self.board[i] != 0]
 
@@ -81,7 +85,9 @@ class Awele(TwoPlayersGame):
         return self.opponent.score > 24
 
     def is_over(self):
-        return self.lose() or sum(self.board) < 7 or self.opponent.isstarved
+        return ( self.lose() or
+                  sum(self.board) < 7 or
+                  self.opponent.isstarved )
 
 
 if __name__ == "__main__":

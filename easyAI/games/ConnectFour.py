@@ -27,9 +27,10 @@ class ConnectFour(TwoPlayersGame):
         self.board[line, column] = self.nplayer
 
     def show(self):
-        print('\n' + '\n'.join(['0 1 2 3 4 5 6', 13 * '-'] +
-                               [' '.join([['.', 'O', 'X'][self.board[5 - j][i]]
-                               for i in range(7)]) for j in range(6)]))
+        print('\n' + '\n'.join(
+                        ['0 1 2 3 4 5 6', 13 * '-'] +
+                        [' '.join([['.', 'O', 'X'][self.board[5 - j][i]]
+                        for i in range(7)]) for j in range(6)]))
 
     def lose(self):
         return find_four(self.board, self.nopponent)

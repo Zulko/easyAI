@@ -28,7 +28,7 @@ class GameOfBones(TwoPlayersGame):
 if __name__ == "__main__":
     """
     Start a match (and store the history of moves when it ends)
-    ai = Negamax(10) # The AI will think 20 moves in advance 
+    ai = Negamax(10) # The AI will think 10 moves in advance 
     game = GameOfBones( [ AI_Player(ai), Human_Player() ] )
     history = game.play()
     """
