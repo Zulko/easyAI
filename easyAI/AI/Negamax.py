@@ -42,19 +42,25 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
                     game.ai_move = lookup['move']
                 return value
         
-        # Put the supposedly best move first in the list
+        
         
     
     if (depth == 0) or game.is_over():
         score = scoring(game)
-        return  (score - 0.01*depth*abs(score)/score) if score else score
+        if score == 0:
+            return score
+        else:
+            return  (score - 0.01*depth*abs(score)/score)
+    
     
     if lookup != None:
-    
+        # Put the supposedly best move first in the list
         possible_moves = game.possible_moves()
         possible_moves.remove(lookup['move'])
         possible_moves = [lookup['move']] + possible_moves
+        
     else:
+        
         possible_moves = game.possible_moves()
     
     
@@ -115,21 +121,35 @@ class Negamax:
         >>> game = ConnectFour([Human_Player(), AI_Player(ai_algo)])
         >>> game.play()
     
-    Arguments:
+    Parameters
+    -----------
     
-    :param depth: How many turns in advance should the AI think ?
-    :param scoring: a function f(game)-> score. If no scoring is provided
+    depth:
+      How many moves in advance should the AI think ?
+      (2 moves = 1 complete turn)
+    
+    scoring:
+      A function f(game)-> score. If no scoring is provided
          and the game object has a ``scoring`` method it ill be used.
-    :param win_score: score above which the score means a win. This will be
+    
+    win_score:
+      Score above which the score means a win. This will be
         used to speed up computations if provided, but the AI will not
         differentiate quick defeats from long-fought ones (see next
         section).
-    :param tt: a transposition table (a table storing game states and moves)
-    scoring: can be none if the game that the AI will be given has a
-        ``scoring`` method.
+        
+    tt:
+      A transposition table (a table storing game states and moves)
+      scoring: can be none if the game that the AI will be given has a
+      ``scoring`` method.
+      
+    Notes
+    -----
    
     The score of a given game is given by
-         >>> scoring(current_game) - 0.01*sign*current_depth
+    
+    >>> scoring(current_game) - 0.01*sign*current_depth
+    
     for instance if a lose is -100 points, then losing after 4 moves
     will score -99.96 points but losing after 8 moves will be -99.92
     points. Thus, the AI will chose the move that leads to defeat in
@@ -137,16 +157,21 @@ class Negamax:
     This will not always work if a ``win_score`` argument is provided.
     
     """
+    
+    
     def __init__(self, depth, scoring=None, win_score=+inf, tt=None):
         self.scoring = scoring        
         self.depth = depth
         self.tt = tt
         self.win_score= win_score
     
+    
+    
     def __call__(self,game):
         """
         Returns the AI's best move given the current state of the game.
         """
+        
         scoring = self.scoring if self.scoring else (
                        lambda g: g.scoring() ) # horrible hack
                        

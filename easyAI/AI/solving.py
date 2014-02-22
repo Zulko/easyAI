@@ -13,32 +13,52 @@ def id_solve(game, ai_depths, win_score, scoring=None,
     algorithm, always starting at the initial state of the game, but
     taking increasing depth (in the list ai_depths) until the score of
     the initial condition indicates that the first player will certainly
-    win or loose, in which case it stops. The use of transposition table
-    leads to speed gain as the results of shallower searches are used to
-    help exploring the deeper ones.
+    win or loose, in which case it stops.
+    The use of transposition table leads to speed gain as the results
+    of shallower searches are used to help exploring the deeper ones.
         
-    Arguments:
-    ----------
+    Parameters
+    -----------
     
-    :param ai_depths: list of AI depths to try (e.g. [5,6,7,8,9,10])
-    :param win_score: Score above which a score means a win.
-    :param scoring: scoring function (see Negamax)
-    :param tt: (optional) a transpo. table to speed up computations.
-    :param verbose: If true, prints a summary of the best move after each
-        depth tried.
+    ai_depths:
+      List of AI depths to try (e.g. [5,6,7,8,9,10])
+      
+      
+    win_score:
+      Score above which a score means a win.
+    
+    scoring:
+      Scoring function (see doc of class Negamax)
+    
+    tt:
+      An optional transposition table to speed up computations.
+    
+    verbose:
+      If set to ``True``, will print a summary of the best move
+      after each depth tried.
         
     Returns
-    -------
+    --------
     
-    This function returns a tuple (result, depth, move, tt)
+    (result, depth, move, tt):
+      As below
     
-    :result: Either 1 (certain victory of the first player) or -1
-    (certain defeat) or 0 (either draw, or the search was not deep enough)
-    :depth: The minimal number of moves before victory (or defeat)
-    :move: Best move to play for the first player.
-    :tt: will be None if ``use_tt`` was set to false, else will be a
-    transposition table containing all the relevant situations to play
-    a perfect game and can be used with ``AI_player(tt)``
+    result: 
+      Either 1 (certain victory of the first player) or -1
+      (certain defeat) or 0 (either draw, or the search was not
+      deep enough)
+      
+    depth:
+      The minimal number of moves before victory (or defeat)
+    
+    move:
+      Best move to play for the first player.
+    
+    tt:
+      Will be None if ``use_tt`` was set to false, else will be a
+      transposition table containing all the relevant situations to play
+      a perfect game and can be used with ``AI_player(tt)``
+      
     """
     
     if not hasattr(game, 'players'): # the user provided a Game class
@@ -77,13 +97,32 @@ def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
     the victory). It returns simply 1, 0, or -1 to indicate certain
     victory, draw, or defeat of the first player.
         
-    Arguments:
+    Parameters
+    -----------
     
-    :param game: an initialized game.
-    :param win_score: Score above which a score means a win.
-    :param maxdepth: Maximal recursion depth allowed
-    :param tt: (optional) a transpo. table can speed up computations.
-    :param depth: index of the current deapth (don't touch that :) )
+    game:
+      An Game instance, initialized and ready to be played.
+      
+    win_score:
+      Score above which a score means a win.
+    
+    maxdepth:
+      Maximal recursion depth allowed.
+    
+    tt:
+      An optional transposition table to speed up computations.
+      
+    
+    depth:
+      Index of the current depth (don't touch that).
+      
+    Returns
+    --------
+    
+    result
+      Either 1 (certain victory of the first player) or -1
+      (certain defeat) or 0 (either draw, or the search was not
+      deep enough)
     
     """
     

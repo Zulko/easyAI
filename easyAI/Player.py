@@ -9,7 +9,8 @@ except NameError:
 
 
 class Human_Player:
-    """ Class for a human player, which gets asked by text what moves
+    """
+    Class for a human player, which gets asked by text what moves
     she wants to play. She can type ``show moves`` to display a list of
     moves, or ``quit`` to quit the game.
     """
@@ -34,7 +35,8 @@ class Human_Player:
 
 
 class AI_Player:
-    """ Class for an AI player. This class must be initialized with an
+    """
+    Class for an AI player. This class must be initialized with an
     AI algortihm, like ``AI_Player( Negamax(9) )``
     """
 

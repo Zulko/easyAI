@@ -40,7 +40,10 @@ class TwoPlayersGame:
     
     For more, see the examples in the dedicated folder.
     
-    Example: ::
+    Examples:
+    ----------
+    
+    ::
     
         from easyAI import TwoPlayersGame, Human_Player
         

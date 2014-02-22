@@ -9,7 +9,7 @@ Under the hood, the AI is a Negamax algorithm with alpha-beta pruning and transp
 Installation
 ------------
 
-if you have ``pip`` installed, type this in a terminal ::
+If you have ``pip`` installed, type this in a terminal ::
     
     sudo pip install easyAI
     
@@ -86,7 +86,7 @@ After these lines are run the variable ``tt`` contains a transposition table sto
 Contribute !
 ------------
 
-EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. It is very small and could really do with some improvements, so if your are a Python/AI guru maybe you can contribute through Github_ . Some ideas of improvement are: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
+EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. It could do with some improvements, so if your are a Python/AI guru maybe you can contribute through Github_ . Some ideas: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
 
 For troubleshooting and bug reports, the best for now is to ask on Github_.
 
