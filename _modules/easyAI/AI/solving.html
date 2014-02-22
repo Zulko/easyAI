@@ -27,8 +27,9 @@
     <link rel="top" title="easyAI 0.0.0.1 documentation" href="../../../index.html" />
     <link rel="up" title="easyAI.AI" href="../AI.html" />
    
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
-  <link media="only screen and (max-device-width: 480px)" href="../../../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
   <body>
@@ -58,7 +59,7 @@
 <span class="kn">from</span> <span class="nn">easyAI.Player</span> <span class="kn">import</span> <span class="n">AI_Player</span>
 
 <div class="viewcode-block" id="id_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.id_solve">[docs]</a><span class="k">def</span> <span class="nf">id_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">ai_depths</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-          <span class="n">use_tt</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+          <span class="n">tt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Solves a game using iterative deepening, i.e. determines if by playing</span>
 <span class="sd">    perfectly the first player can force a win, or whether it will always</span>
@@ -69,45 +70,63 @@
 <span class="sd">    algorithm, always starting at the initial state of the game, but</span>
 <span class="sd">    taking increasing depth (in the list ai_depths) until the score of</span>
 <span class="sd">    the initial condition indicates that the first player will certainly</span>
-<span class="sd">    win or loose, in which case it stops. The use of transposition table</span>
-<span class="sd">    leads to speed gain as the results of shallower searches are used to</span>
-<span class="sd">    help exploring the deeper ones.</span>
+<span class="sd">    win or loose, in which case it stops.</span>
+<span class="sd">    The use of transposition table leads to speed gain as the results</span>
+<span class="sd">    of shallower searches are used to help exploring the deeper ones.</span>
 <span class="sd">        </span>
-<span class="sd">    Arguments:</span>
-<span class="sd">    ----------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
 <span class="sd">    </span>
-<span class="sd">    :ai_depths: list of AI depths to try (e.g. [5,6,7,8,9,10])</span>
-<span class="sd">    :win_score: Score above which a score means a win.</span>
-<span class="sd">    :scoring: scoring function (see Negamax)</span>
-<span class="sd">    :use_tt: should we use a transposition table to speed up</span>
-<span class="sd">        computations ? (default is True).</span>
-<span class="sd">    :verbose: If true, prints a summary of the best move after each</span>
-<span class="sd">        depth tried.</span>
+<span class="sd">    ai_depths:</span>
+<span class="sd">      List of AI depths to try (e.g. [5,6,7,8,9,10])</span>
+<span class="sd">      </span>
+<span class="sd">      </span>
+<span class="sd">    win_score:</span>
+<span class="sd">      Score above which a score means a win.</span>
+<span class="sd">    </span>
+<span class="sd">    scoring:</span>
+<span class="sd">      Scoring function (see doc of class Negamax)</span>
+<span class="sd">    </span>
+<span class="sd">    tt:</span>
+<span class="sd">      An optional transposition table to speed up computations.</span>
+<span class="sd">    </span>
+<span class="sd">    verbose:</span>
+<span class="sd">      If set to ``True``, will print a summary of the best move</span>
+<span class="sd">      after each depth tried.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
-<span class="sd">    -------</span>
+<span class="sd">    --------</span>
 <span class="sd">    </span>
-<span class="sd">    This function returns a tuple (result, depth, move, tt)</span>
+<span class="sd">    (result, depth, move, tt):</span>
+<span class="sd">      As below</span>
 <span class="sd">    </span>
-<span class="sd">    :result: Either 1 (certain victory of the first player) or -1</span>
-<span class="sd">    (certain defeat) or 0 (either draw, or the search was not deep enough)</span>
-<span class="sd">    :depth: The minimal number of moves before victory (or defeat)</span>
-<span class="sd">    :move: Best move to play for the first player.</span>
-<span class="sd">    :tt: will be None if ``use_tt`` was set to false, else will be a</span>
-<span class="sd">    transposition table containing all the relevant situations to play</span>
-<span class="sd">    a perfect game and can be used with ``AI_player(tt)``</span>
+<span class="sd">    result: </span>
+<span class="sd">      Either 1 (certain victory of the first player) or -1</span>
+<span class="sd">      (certain defeat) or 0 (either draw, or the search was not</span>
+<span class="sd">      deep enough)</span>
+<span class="sd">      </span>
+<span class="sd">    depth:</span>
+<span class="sd">      The minimal number of moves before victory (or defeat)</span>
+<span class="sd">    </span>
+<span class="sd">    move:</span>
+<span class="sd">      Best move to play for the first player.</span>
+<span class="sd">    </span>
+<span class="sd">    tt:</span>
+<span class="sd">      Will be None if ``use_tt`` was set to false, else will be a</span>
+<span class="sd">      transposition table containing all the relevant situations to play</span>
+<span class="sd">      a perfect game and can be used with ``AI_player(tt)``</span>
+<span class="sd">      </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="s">&#39;players&#39;</span><span class="p">):</span> <span class="c"># the user provided a Game class</span>
         <span class="n">game</span> <span class="o">=</span> <span class="n">game</span><span class="p">(</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="bp">None</span><span class="p">)])</span>
-    <span class="n">tt</span> <span class="o">=</span> <span class="n">DictTT</span><span class="p">()</span> <span class="k">if</span> <span class="n">use_tt</span> <span class="k">else</span> <span class="bp">None</span>
     
     <span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="n">ai_depths</span><span class="p">:</span>
         <span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span> <span class="n">tt</span><span class="p">)</span>
         <span class="n">ai</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">alpha</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-             <span class="k">print</span> <span class="s">&quot;d:</span><span class="si">%d</span><span class="s">, a:</span><span class="si">%d</span><span class="s">, m:</span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">ai_move</span><span class="p">))</span>
+             <span class="k">print</span><span class="p">(</span> <span class="s">&quot;d:</span><span class="si">%d</span><span class="s">, a:</span><span class="si">%d</span><span class="s">, m:</span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">ai_move</span><span class="p">)))</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">win_score</span><span class="p">:</span>
             <span class="k">break</span>
     
@@ -115,13 +134,12 @@
     <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">alpha</span><span class="o">&gt;=</span> <span class="n">win_score</span> <span class="k">else</span> <span class="p">(</span>
              <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">win_score</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
     
-    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span><span class="p">,</span> <span class="n">tt</span>
-
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span>
 
 </div>
 <div class="viewcode-block" id="df_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.df_solve">[docs]</a><span class="k">def</span> <span class="nf">df_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">maxdepth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">    Solves a game using a depth-first search: the game is explored</span>
+<span class="sd">    Solves a game using a depth-first search: the game is explored until</span>
 <span class="sd">    endgames are reached.</span>
 <span class="sd">    </span>
 <span class="sd">    The endgames are evaluated to see if their are victories or defeats.</span>
@@ -133,23 +151,35 @@
 <span class="sd">    </span>
 <span class="sd">    This algorithm can be faster but less informative than ``id_solve``,</span>
 <span class="sd">    as it does not provide &#39;optimal&#39; strategies (like shortest path to</span>
-<span class="sd">    the victory).</span>
+<span class="sd">    the victory). It returns simply 1, 0, or -1 to indicate certain</span>
+<span class="sd">    victory, draw, or defeat of the first player.</span>
 <span class="sd">        </span>
-<span class="sd">    Arguments:</span>
-<span class="sd">    ----------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
 <span class="sd">    </span>
-<span class="sd">    :game: an initialized game.</span>
-<span class="sd">    :win_score: Score above which a score means a win.</span>
-<span class="sd">    :maxdepth: Maximal recursion depth allowed</span>
-<span class="sd">    :tt: if provide, the transposition table can speed up computations.</span>
-<span class="sd">    :depth: index of the current deapth (don&#39;t touch that :) )</span>
-
-<span class="sd">        </span>
+<span class="sd">    game:</span>
+<span class="sd">      An Game instance, initialized and ready to be played.</span>
+<span class="sd">      </span>
+<span class="sd">    win_score:</span>
+<span class="sd">      Score above which a score means a win.</span>
+<span class="sd">    </span>
+<span class="sd">    maxdepth:</span>
+<span class="sd">      Maximal recursion depth allowed.</span>
+<span class="sd">    </span>
+<span class="sd">    tt:</span>
+<span class="sd">      An optional transposition table to speed up computations.</span>
+<span class="sd">      </span>
+<span class="sd">    </span>
+<span class="sd">    depth:</span>
+<span class="sd">      Index of the current depth (don&#39;t touch that).</span>
+<span class="sd">      </span>
 <span class="sd">    Returns</span>
-<span class="sd">    -------</span>
+<span class="sd">    --------</span>
 <span class="sd">    </span>
-<span class="sd">    This function returns 1, 0, or -1 to indicate certain victory, draw,</span>
-<span class="sd">    or defeat of the first player.</span>
+<span class="sd">    result</span>
+<span class="sd">      Either 1 (certain victory of the first player) or -1</span>
+<span class="sd">      (certain defeat) or 0 (either draw, or the search was not</span>
+<span class="sd">      deep enough)</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -206,6 +236,7 @@
           </div>
         </div>
       </div>
+  
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
 <ul>
@@ -233,12 +264,27 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
+
       <div class="clearer"></div>
     </div>
-  <div class="footer">
-    &copy; Copyright 2013, Zulko.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../../index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../easyAI.html" >easyAI</a> &raquo;</li>
+          <li><a href="../AI.html" >easyAI.AI</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" style="position:relative">
+      &copy; Copyright 2014, Zulko.
+    </div>
+    <div>
+
+    </div>
+
   </body>
 </html>

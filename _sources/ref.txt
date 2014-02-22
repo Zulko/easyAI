@@ -13,11 +13,9 @@ Players
 ---------
 
 .. autoclass:: easyAI.Human_Player
-   :members:
    :show-inheritance:
    
 .. autoclass:: easyAI.AI_Player
-   :members:
    :show-inheritance:
 
 AI algorithm

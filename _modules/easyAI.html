@@ -27,8 +27,9 @@
     <link rel="top" title="easyAI 0.0.0.1 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" />
    
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
-  <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
   <body>
@@ -52,15 +53,18 @@
           <div class="body">
             
   <h1>Source code for easyAI</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">TwoPlayersGame</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
-<span class="kn">from</span> <span class="nn">Player</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
-<span class="kn">from</span> <span class="nn">AI.Negamax</span> <span class="kn">import</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">negamax</span>
-<span class="kn">from</span> <span class="nn">AI.IterNegamax</span> <span class="kn">import</span> <span class="n">IterNegamax</span><span class="p">,</span> <span class="n">iternegamax</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;TwoPlayersGame&#39;</span><span class="p">,</span> <span class="s">&#39;Human_Player&#39;</span><span class="p">,</span> <span class="s">&#39;AI_Player&#39;</span><span class="p">,</span>
+           <span class="s">&#39;Negamax&#39;</span><span class="p">,</span> <span class="s">&#39;DictTT&#39;</span><span class="p">,</span> <span class="s">&#39;id_solve&#39;</span><span class="p">,</span> <span class="s">&#39;df_solve&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">.TwoPlayersGame</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+<span class="kn">from</span> <span class="nn">.Player</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
+<span class="kn">from</span> <span class="nn">.AI</span> <span class="kn">import</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">DictTT</span><span class="p">,</span> <span class="n">id_solve</span><span class="p">,</span> <span class="n">df_solve</span>
 </pre></div>
 
           </div>
         </div>
       </div>
+  
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
 <ul>
@@ -84,12 +88,25 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
+
       <div class="clearer"></div>
     </div>
-  <div class="footer">
-    &copy; Copyright 2013, Zulko.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" style="position:relative">
+      &copy; Copyright 2014, Zulko.
+    </div>
+    <div>
+
+    </div>
+
   </body>
 </html>

@@ -27,8 +27,9 @@
     <link rel="top" title="easyAI 0.0.0.1 documentation" href="index.html" />
     <link rel="prev" title="How to make the AI faster" href="examples/speedup.html" />
    
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
-  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
   <body>
@@ -95,26 +96,6 @@ be overwritten:</p>
 <li><tt class="docutils literal"><span class="pre">self.nmove</span></tt>: How many moves have been played so far ?</li>
 </ul>
 <p>For more, see the examples in the dedicated folder.</p>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span><span class="p">,</span> <span class="n">Human_Player</span>
-
-<span class="k">class</span> <span class="nc">Sticks</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; In turn, the players remove one, two or three sticks from</span>
-<span class="sd">        a pile. The player who removes the last stick loses &#39;&#39;&#39;</span>
-        
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pile</span> <span class="o">=</span> <span class="mi">20</span> <span class="c"># start with 20 sticks</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># player 1 starts</span>
-    <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="s">&#39;1&#39;</span><span class="p">,</span><span class="s">&#39;2&#39;</span><span class="p">,</span><span class="s">&#39;3&#39;</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">move</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">pile</span> <span class="o">-=</span> <span class="nb">int</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pile</span> <span class="o">&lt;=</span> <span class="mi">0</span>
-    
-
-<span class="n">game</span> <span class="o">=</span> <span class="n">Sticks</span><span class="p">(</span> <span class="p">[</span><span class="n">Human_Player</span><span class="p">(),</span> <span class="n">Human_Player</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
-<span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </div>
@@ -151,34 +132,48 @@ how to setup the AI and play a Connect Four game:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Arguments:</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>depth</strong> &#8211; How many turns in advance should the AI think ?</li>
-<li><strong>scoring</strong> &#8211; a function f(game)-&gt; score. If no scoring is provided
-and the game object has a <tt class="docutils literal"><span class="pre">scoring</span></tt> method it ill be used.</li>
-<li><strong>win_score</strong> &#8211; score above which the score means a win. This will be
-used to speed up computations if provided, but the AI will not
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>depth:</strong> :</p>
+<blockquote>
+<div><p>How many moves in advance should the AI think ?
+(2 moves = 1 complete turn)</p>
+</div></blockquote>
+<p><strong>scoring:</strong> :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>A function f(game)-&gt; score. If no scoring is provided</dt>
+<dd><p class="first last">and the game object has a <tt class="docutils literal"><span class="pre">scoring</span></tt> method it ill be used.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>win_score:</strong> :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Score above which the score means a win. This will be</dt>
+<dd><p class="first last">used to speed up computations if provided, but the AI will not
 differentiate quick defeats from long-fought ones (see next
-section).</li>
-<li><strong>tt</strong> &#8211; a transposition table (a table storing game states and moves)</li>
-</ul>
+section).</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>tt:</strong> :</p>
+<blockquote class="last">
+<div><p>A transposition table (a table storing game states and moves)
+scoring: can be none if the game that the AI will be given has a
+<tt class="docutils literal"><span class="pre">scoring</span></tt> method.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>scoring: can be none if the game that the AI will be given has a</dt>
-<dd><tt class="docutils literal"><span class="pre">scoring</span></tt> method.</dd>
-<dt>The score of a given game is given by</dt>
-<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">scoring</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">sign</span><span class="o">*</span><span class="n">current_depth</span>
+<p class="rubric">Notes</p>
+<p>The score of a given game is given by</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">scoring</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">sign</span><span class="o">*</span><span class="n">current_depth</span>
 </pre></div>
 </div>
-</dd>
-</dl>
 <p>for instance if a lose is -100 points, then losing after 4 moves
 will score -99.96 points but losing after 8 moves will be -99.92
 points. Thus, the AI will chose the move that leads to defeat in
@@ -252,40 +247,64 @@ lose against a perfect opponent.</p>
 algorithm, always starting at the initial state of the game, but
 taking increasing depth (in the list ai_depths) until the score of
 the initial condition indicates that the first player will certainly
-win or loose, in which case it stops. The use of transposition table
-leads to speed gain as the results of shallower searches are used to
-help exploring the deeper ones.</p>
+win or loose, in which case it stops.
+The use of transposition table leads to speed gain as the results
+of shallower searches are used to help exploring the deeper ones.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ai_depths</strong> &#8211; list of AI depths to try (e.g. [5,6,7,8,9,10])</li>
-<li><strong>win_score</strong> &#8211; Score above which a score means a win.</li>
-<li><strong>scoring</strong> &#8211; scoring function (see Negamax)</li>
-<li><strong>tt</strong> &#8211; (optional) a transpo. table to speed up computations.</li>
-<li><strong>verbose</strong> &#8211; If true, prints a summary of the best move after each
-depth tried.</li>
-</ul>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ai_depths:</strong> :</p>
+<blockquote>
+<div><p>List of AI depths to try (e.g. [5,6,7,8,9,10])</p>
+</div></blockquote>
+<p><strong>win_score:</strong> :</p>
+<blockquote>
+<div><p>Score above which a score means a win.</p>
+</div></blockquote>
+<p><strong>scoring:</strong> :</p>
+<blockquote>
+<div><p>Scoring function (see doc of class Negamax)</p>
+</div></blockquote>
+<p><strong>tt:</strong> :</p>
+<blockquote>
+<div><p>An optional transposition table to speed up computations.</p>
+</div></blockquote>
+<p><strong>verbose:</strong> :</p>
+<blockquote>
+<div><p>If set to <tt class="docutils literal"><span class="pre">True</span></tt>, will print a summary of the best move
+after each depth tried.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(result, depth, move, tt):</strong> :</p>
+<blockquote>
+<div><p>As below</p>
+</div></blockquote>
+<p><strong>result:</strong> :</p>
+<blockquote>
+<div><p>Either 1 (certain victory of the first player) or -1
+(certain defeat) or 0 (either draw, or the search was not
+deep enough)</p>
+</div></blockquote>
+<p><strong>depth:</strong> :</p>
+<blockquote>
+<div><p>The minimal number of moves before victory (or defeat)</p>
+</div></blockquote>
+<p><strong>move:</strong> :</p>
+<blockquote>
+<div><p>Best move to play for the first player.</p>
+</div></blockquote>
+<p><strong>tt:</strong> :</p>
+<blockquote class="last">
+<div><p>Will be None if <tt class="docutils literal"><span class="pre">use_tt</span></tt> was set to false, else will be a
+transposition table containing all the relevant situations to play
+a perfect game and can be used with <tt class="docutils literal"><span class="pre">AI_player(tt)</span></tt></p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p>This function returns a tuple (result, depth, move, tt)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Result :</th><td class="field-body">Either 1 (certain victory of the first player) or -1</td>
-</tr>
-</tbody>
-</table>
-<p>(certain defeat) or 0 (either draw, or the search was not deep enough)
-:depth: The minimal number of moves before victory (or defeat)
-:move: Best move to play for the first player.
-:tt: will be None if <tt class="docutils literal"><span class="pre">use_tt</span></tt> was set to false, else will be a
-transposition table containing all the relevant situations to play
-a perfect game and can be used with <tt class="docutils literal"><span class="pre">AI_player(tt)</span></tt></p>
 </dd></dl>
 
 <dl class="function">
@@ -303,18 +322,38 @@ Situations are evaluated until the initial condition receives a label
 as it does not provide &#8216;optimal&#8217; strategies (like shortest path to
 the victory). It returns simply 1, 0, or -1 to indicate certain
 victory, draw, or defeat of the first player.</p>
-<p>Arguments:</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>game</strong> &#8211; an initialized game.</li>
-<li><strong>win_score</strong> &#8211; Score above which a score means a win.</li>
-<li><strong>maxdepth</strong> &#8211; Maximal recursion depth allowed</li>
-<li><strong>tt</strong> &#8211; (optional) a transpo. table can speed up computations.</li>
-<li><strong>depth</strong> &#8211; index of the current deapth (don&#8217;t touch that :) )</li>
-</ul>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>game:</strong> :</p>
+<blockquote>
+<div><p>An Game instance, initialized and ready to be played.</p>
+</div></blockquote>
+<p><strong>win_score:</strong> :</p>
+<blockquote>
+<div><p>Score above which a score means a win.</p>
+</div></blockquote>
+<p><strong>maxdepth:</strong> :</p>
+<blockquote>
+<div><p>Maximal recursion depth allowed.</p>
+</div></blockquote>
+<p><strong>tt:</strong> :</p>
+<blockquote>
+<div><p>An optional transposition table to speed up computations.</p>
+</div></blockquote>
+<p><strong>depth:</strong> :</p>
+<blockquote>
+<div><p>Index of the current depth (don&#8217;t touch that).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> :</p>
+<blockquote class="last">
+<div><p>Either 1 (certain victory of the first player) or -1
+(certain defeat) or 0 (either draw, or the search was not
+deep enough)</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -328,6 +367,7 @@ victory, draw, or defeat of the first player.</p>
           </div>
         </div>
       </div>
+  
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
@@ -367,12 +407,27 @@ victory, draw, or defeat of the first player.</p>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
+
       <div class="clearer"></div>
     </div>
-  <div class="footer">
-    &copy; Copyright 2013, Zulko.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="examples/speedup.html" title="How to make the AI faster"
+             >previous</a> |</li>
+        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" style="position:relative">
+      &copy; Copyright 2014, Zulko.
+    </div>
+    <div>
+
+    </div>
+
   </body>
 </html>
