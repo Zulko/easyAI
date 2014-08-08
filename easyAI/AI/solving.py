@@ -85,7 +85,7 @@ def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
     Solves a game using a depth-first search: the game is explored until
     endgames are reached.
     
-    The endgames are evaluated to see if their are victories or defeats.
+    The endgames are evaluated to see if there are victories or defeats.
     Then, a situation in which every move leads to a defeat is labelled
     as a (certain) defeat, and a situation in which one move leads to a
     (certain) defeat of the opponent is labelled as a (certain) victory.
