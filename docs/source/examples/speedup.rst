@@ -89,7 +89,7 @@ Now that ``Connect4.lose()`` is called less our program runs in 0.74 seconds.
 Use transposition tables
 ------------------------
 
-Transposition tables store the values of already-computed moves and positions so that if the meets them again it will win time. To use such tables is very easy. First you need to tell easyAI how to represent a game in a simple form (a string or a tuple) to use as a key when you store the game in the table. In our example, the game will be represented by a string of 42 caracters indicating whether the different positions on the board are occupied by player 1, by player 2, or just empty.
+Transposition tables store the values of already-computed moves and positions so that if the AI meets them again it will win time. To use such tables is very easy. First you need to tell easyAI how to represent a game in a simple form (a string or a tuple) to use as a key when you store the game in the table. In our example, the game will be represented by a string of 42 caracters indicating whether the different positions on the board are occupied by player 1, by player 2, or just empty.
 ::
     def ttentry(self):
         return "".join([".0X"[i] for i in self.board.flatten()])

@@ -26,7 +26,7 @@ The ``__init__`` method *must* do the following actions:
   self.players
 - Tell which player plays first with ``self.nplayer = 1 # or 2``
     
-When defining ``possible_moves``, ``scoring``, etc. you must keep in mind that you are in the scope of the *current player*. More precisely, a subclass of TwoPlayersGame has the following attributes that indicate whose turn it is. These methods can be used but should not be overwritten:
+When defining ``possible_moves``, ``scoring``, etc. you must keep in mind that you are in the scope of the *current player*. More precisely, a subclass of TwoPlayersGame has the following attributes that indicate whose turn it is. These attributes can be used but should not be overwritten:
     
     - ``self.player`` : the current Player (e.g. a ``Human_Player()``).
     - ``self.opponent`` :  the current Player's opponent (Player). 
@@ -39,7 +39,7 @@ To start a game you will write something like this ::
     game = MyGame(players = [player_1, player_2], *other_arguments)
     history = game.play() # start the match !
 
-When the game ends it stores the history into the variables ``history``. The history is a list *[(g1,m1),(g2,m2)...]* where *gi* is a copy of the game after i moves and *mi* is the move made by the player whose turn it whose. So for instance: ::
+When the game ends it stores the history into the variable ``history``. The history is a list *[(g1,m1),(g2,m2)...]* where *gi* is a copy of the game after i moves and *mi* is the move made by the player whose turn it was. So for instance: ::
     
     history = game.play()
     game8, move8 = history[8]
