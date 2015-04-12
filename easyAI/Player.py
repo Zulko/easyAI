@@ -19,20 +19,29 @@ class Human_Player:
         self.name = name
 
     def ask_move(self, game):
-        possible_moves = list(map(str, game.possible_moves()))
-        move = -1
-        while not str(move) in possible_moves:
-            move = input("\nPlayer %s what do you play ? " % (
-                game.nplayer))
+        possible_moves = game.possible_moves()
+        # The str version of every move for comparison with the user input:
+        possible_moves_str = list(map(str, game.possible_moves()))
+        move = "NO_MOVE_DECIDED_YET"
+        while True:
+            move = input("\nPlayer %s what do you play ? "%(game.nplayer))
             if move == 'show moves':
-                print(possible_moves)
-            elif move.startswith("move #"):
-                move = game.possible_moves()[int(move[6:])]
-                print 
+                print ("Possible moves:\n"+ "\n".join(
+                       ["#%d: %s"%(i+1,m) for i,m in enumerate(possible_moves)])
+                       +"\nType a move or type 'move #move_number' to play.")
+
             elif move == 'quit':
                 raise KeyboardInterrupt
-        return move
 
+            elif move.startswith("move #"):
+                # Fetch the corresponding move and return.
+                move = possible_moves[int(move[6:])-1]
+                return move
+
+            elif str(move) in possible_moves_str:
+                # Transform the move into its real type (integer, etc. and return).
+                move = possible_moves[possible_moves_str.index(str(move))]
+                return move
 
 class AI_Player:
     """
