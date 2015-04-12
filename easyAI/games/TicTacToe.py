@@ -1,4 +1,5 @@
 from easyAI import TwoPlayersGame
+from easyAI.Player import Human_Player
 
 class TicTacToe( TwoPlayersGame ):
     """ The board positions are numbered as follows:
@@ -16,10 +17,10 @@ class TicTacToe( TwoPlayersGame ):
         return [i+1 for i,e in enumerate(self.board) if e==0]
     
     def make_move(self, move):
-        self.board[move-1] = self.nplayer
+        self.board[int(move)-1] = self.nplayer
 
     def unmake_move(self, move): # optional method (speeds up the AI)
-        self.board[move-1] = 0
+        self.board[int(move)-1] = 0
     
     def lose(self):
         """ Has the opponent "three in line ?" """
@@ -46,4 +47,4 @@ if __name__ == "__main__":
     
     from easyAI import AI_Player, Negamax
     ai_algo = Negamax(6)
-    TicTacToe( [AI_Player(ai_algo),AI_Player(ai_algo)]).play()
+    TicTacToe( [Human_Player(),AI_Player(ai_algo)]).play()

@@ -21,16 +21,16 @@ class Human_Player:
     def ask_move(self, game):
         possible_moves = list(map(str, game.possible_moves()))
         move = -1
-        while not move in possible_moves:
+        while not str(move) in possible_moves:
             move = input("\nPlayer %s what do you play ? " % (
                 game.nplayer))
             if move == 'show moves':
                 print(possible_moves)
             elif move.startswith("move #"):
-                move = possible_moves[int(move[6:])]
+                move = game.possible_moves()[int(move[6:])]
+                print 
             elif move == 'quit':
                 raise KeyboardInterrupt
-
         return move
 
 
