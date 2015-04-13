@@ -94,22 +94,19 @@ class Chopsticks( TwoPlayersGame ):
         """
             Returns game entry
         """
-        entry = []
-        flat_list(self.hands, entry)
-        entry += [self.nplayer]
+        entry = [self.hands[i][j] for i in range(len(self.players)) for j in range(self.numhands)]
+        entry = entry + [self.nplayer]
         return tuple(entry)  
     
     def back_to_startstate(self, move):
         """
             Checking if move will cause returning to start state - never-ending loop protection
         """
-        nextstate = deepcopy(self)
+        nextstate = self.copy()
         nextstate.make_move(move)
-        ok = False
-        for player in range(len(nextstate.players)):
-            for hand in range(nextstate.numhands):
-                ok |= (nextstate.hands[player][hand] != 1)
-        return ok
+        hands_min = min([min(nextstate.hands[i]) for i in range(len(self.players))])
+        hands_max = max([max(nextstate.hands[i]) for i in range(len(self.players))])
+        return hands_min == 1 and hands_max == 1
     
 def flat_list(x, l):
     """
@@ -122,4 +119,4 @@ def flat_list(x, l):
 if __name__ == "__main__":
     from easyAI import Negamax, AI_Player, DictTT
     ai_algo = Negamax(3, tt=DictTT())
-    Chopsticks( [AI_Player(ai_algo),AI_Player(ai_algo)]).play()  #first player never wins
+    Chopsticks( [AI_Player(ai_algo),AI_Player(Negamax(3))]).play()  #first player never wins
