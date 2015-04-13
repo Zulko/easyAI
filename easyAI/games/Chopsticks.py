@@ -117,6 +117,8 @@ def flat_list(x, l):
         for i in x: flat_list(i, l)
         
 if __name__ == "__main__":
-    from easyAI import Negamax, AI_Player, DictTT
-    ai_algo = Negamax(3, tt=DictTT())
-    Chopsticks( [AI_Player(ai_algo),AI_Player(Negamax(3))]).play()  #first player never wins
+    from easyAI import Negamax, AI_Player, DictTT, SSS, DUAL
+    ai_algo_neg = Negamax(4)
+    ai_algo_dual = DUAL(4, tt=DictTT())
+    ai_algo_sss = SSS(4, tt=DictTT())
+    Chopsticks( [AI_Player(ai_algo_neg),AI_Player(ai_algo_dual)]).play()  #first player never wins

@@ -1,3 +1,4 @@
+from easyAI.AI.DictTT import DictTT
 try:
     import numpy as np
 except ImportError:
@@ -39,7 +40,7 @@ class ConnectFour(TwoPlayersGame):
         return (self.board.min() > 0) or self.lose()
 
     def scoring(self):
-        return -100 if self.lose else 0
+        return -100 if self.lose() else 0
 
 
 def find_four(board, nplayer):
@@ -70,10 +71,11 @@ POS_DIR = np.array([[[i, 0], [0, 1]] for i in range(6)] +
 if __name__ == '__main__':
     # LET'S PLAY !
 
-    from easyAI import Human_Player, AI_Player, Negamax
+    from easyAI import Human_Player, AI_Player, Negamax, SSS, DUAL
 
-    AI = Negamax(7, win_score=80)
-    game = ConnectFour([Human_Player(), AI_Player(AI)])
+    ai_algo_neg = Negamax(5)
+    ai_algo_sss = SSS(5)
+    game = ConnectFour([AI_Player(ai_algo_neg), AI_Player(ai_algo_sss)])
     game.play()
     if game.lose():
         print("Player %d wins." % (game.nopponent))
