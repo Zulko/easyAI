@@ -1,5 +1,3 @@
-import sys
-
 inf = 1000000
 eps = 0.001
 
@@ -14,7 +12,8 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
     # Is there a transposition table and is this game in it ?
     lookup = None if (tt is None) else tt.lookup(game)
     possible_moves = None
-        
+    lowerbound, upperbound = -inf, inf
+    best_move = None
     
     if lookup != None and lookup['depth'] >= depth:
         # The game has been visited in the past
@@ -38,58 +37,48 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
         
         lowerbound = upperbound = bestValue = score
     else:
-        state = game
-        unmake_move = hasattr(state, 'unmake_move')
+        ngame = game
+        unmake_move = hasattr(game, 'unmake_move')
         possible_moves = game.possible_moves()
         best_move = possible_moves[0]
     
-        if not hasattr(state, 'ai_move'):
-            state.ai_move = best_move
-        
-        if tt != None:
-            possible_moves.remove(lookup['move'])
-            possible_moves = [lookup['move']] + possible_moves
+        if not hasattr(game, 'ai_move'):
+            game.ai_move = best_move
         
         for move in possible_moves:
             if bestValue >= gamma: break
             
             if not unmake_move:
-                game = state.copy() # re-initialize move
-        
-            game.make_move(move)
-            game.switch_player()
+                ngame = game.copy()
+                
+            ngame.make_move(move)
+            ngame.switch_player()
 
-            move_value = -mt(game, -gamma, depth-1, origDepth, scoring, tt)
+            move_value = -mt(ngame, -gamma, depth-1, origDepth, scoring, tt)
             if bestValue < move_value:
                 bestValue = move_value
                 best_move = move
-                    
-            """if depth == origDepth:
-                print 'depth:', depth
-                print 'score: ', move_value
-                print 'move: ', move
-                print 'best: ', state.ai_move
-                print 'board: '
-                game.show()"""
             
             if unmake_move:
-                game.switch_player()
-                game.unmake_move(move)
+                ngame.switch_player()
+                ngame.unmake_move(move)
                 
         if bestValue < gamma:
             upperbound = bestValue
         else:
             if depth == origDepth:
-                state.ai_move = best_move
+                game.ai_move = best_move
             lowerbound = bestValue
             
     if tt != None:
-        assert best_move in possible_moves
-        tt.store(game = state, 
-                 lowerbound = lowerbound, upperbound = upperbound,
-                 depth = depth,
-                 move = best_move)
-
+        
+        if depth > 0 and not game.is_over():
+            assert best_move in possible_moves
+            tt.store(game = game, 
+                     lowerbound = lowerbound, upperbound = upperbound,
+                     depth = depth,
+                     move = best_move)
+            
     return bestValue
 
 
@@ -110,7 +99,6 @@ def mtd(game, first, next, depth, scoring, tt = None):
             upperbound = bestValue
         else:
             lowerbound = bestValue
-        print lowerbound, upperbound, bestValue, bound
         if lowerbound == upperbound:
             break
     return bestValue
