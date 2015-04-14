@@ -1,3 +1,4 @@
+#contributed by mrfesol (Tomasz Wesolowski)
 
 from easyAI.AI.MTdriver import mtd
 

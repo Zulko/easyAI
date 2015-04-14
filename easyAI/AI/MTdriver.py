@@ -1,3 +1,5 @@
+#contributed by mrfesol (Tomasz Wesolowski)
+
 inf = 1000000
 eps = 0.001
 
@@ -27,7 +29,7 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
                 game.ai_move = lookup['move']
             return upperbound
             
-    bestValue = -inf
+    best_value = -inf
     
     if (depth == 0) or game.is_over():
         score = game.scoring()
@@ -35,7 +37,7 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
         if score != 0:
             score = (score - 0.99*depth*abs(score)/score)
         
-        lowerbound = upperbound = bestValue = score
+        lowerbound = upperbound = best_value = score
     else:
         ngame = game
         unmake_move = hasattr(game, 'unmake_move')
@@ -46,7 +48,7 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
             game.ai_move = best_move
         
         for move in possible_moves:
-            if bestValue >= gamma: break
+            if best_value >= gamma: break
             
             if not unmake_move:
                 ngame = game.copy()
@@ -55,20 +57,20 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
             ngame.switch_player()
 
             move_value = -mt(ngame, -gamma, depth-1, origDepth, scoring, tt)
-            if bestValue < move_value:
-                bestValue = move_value
+            if best_value < move_value:
+                best_value = move_value
                 best_move = move
             
             if unmake_move:
                 ngame.switch_player()
                 ngame.unmake_move(move)
                 
-        if bestValue < gamma:
-            upperbound = bestValue
+        if best_value < gamma:
+            upperbound = best_value
         else:
             if depth == origDepth:
                 game.ai_move = best_move
-            lowerbound = bestValue
+            lowerbound = best_value
             
     if tt != None:
         
@@ -79,7 +81,7 @@ def mt(game, gamma, depth, origDepth, scoring, tt=None):
                      depth = depth,
                      move = best_move)
             
-    return bestValue
+    return best_value
 
 
 def mtd(game, first, next, depth, scoring, tt = None):
@@ -90,15 +92,15 @@ def mtd(game, first, next, depth, scoring, tt = None):
     For more details read following paper:
     http://arxiv.org/ftp/arxiv/papers/1404/1404.1515.pdf
     """
-    bound, bestValue = first, first
+    bound, best_value = first, first
     lowerbound, upperbound = -inf, inf
     while True:
-        bound = next(lowerbound, upperbound, bestValue)
-        bestValue = mt(game, bound - eps, depth, depth, scoring, tt)
-        if bestValue < bound:
-            upperbound = bestValue
+        bound = next(lowerbound, upperbound, best_value)
+        best_value = mt(game, bound - eps, depth, depth, scoring, tt)
+        if best_value < bound:
+            upperbound = best_value
         else:
-            lowerbound = bestValue
+            lowerbound = best_value
         if lowerbound == upperbound:
             break
-    return bestValue
+    return best_value
