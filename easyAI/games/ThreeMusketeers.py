@@ -96,9 +96,10 @@ if __name__ == "__main__":
     
     # In what follows we setup the AI and launch a AI-vs-AI match.
     
-    from easyAI import Human_Player, AI_Player, Negamax, DictTT
+    from easyAI import Human_Player, AI_Player, Negamax
+    from easyAI.AI import TT
     
-    tt = DictTT()
+    tt = TT()
     ai = Negamax(5, tt=tt)
     players = [AI_Player(ai) for i in [0,1]]
     game =ThreeMusketeers(players)

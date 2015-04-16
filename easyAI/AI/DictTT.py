@@ -1,68 +1,126 @@
+#contributed by mrfesol (Tomasz Wesolowski)
+
 """
-This module implements transposition tables, which store positions
-and moves to speed up the AI.
+Different types of hashes.
 """
 
-import pickle
+def xor_hash(key):
+    ret = 0
+    if type(key) is int:
+        return key
+    if type(key) is str and len(key) <= 1:
+        return ord(key)
+    l = list(key)
+    for v in l:
+        ret ^= xor_hash(v)
+    return ret
+
+def simple_hash(key):
+    ret = 0
+    if type(key) is int:
+        return key
+    if type(key) is str and len(key) <= 1:
+        return ord(key)
+    if type(key) is str:
+        ret = 0
+        for c in key:
+            ret = 101 * hash  +  ord(c)
+        return ret
+    return hash(key)
+    
 
 class DictTT:
     """
-    A tranposition table made out of a Python dictionnary.
-    It can only be used on games which have a method
-    game.ttentry() -> string, or tuple
-    
-    Usage:
-        
-        >>> table = DicTT()  
-        >>> ai = Negamax(8, scoring, tt = table) # boosted Negamax !
-        >>> ai(some_game) # computes a move, fills the table
-        >>> table.to_file('saved_tt.data') # maybe save for later ?
-        
-        >>> # later...
-        >>> table = DictTT.fromfile('saved_tt.data')
-        >>> ai = Negamax(8, scoring, tt = table) # boosted Negamax !
-    
-    Transposition tables can also be used as an AI (``AI_player(tt)``)
-    but they must be exhaustive in this case: if they are asked for
-    a position that isn't stored in the table, it will lead to an error.
-    
+    A DictTT implements custom dictionary,
+    which can be used with transposition tables.
     """
-    
-    def __init__(self):
-        self.d = dict()
-        
-    def lookup(self, game):
-        """ Requests the entry in the table. Returns None if the
-            entry has not been previously stored in the table. """
-        return self.d.get(game.ttentry(), None)
-        
-    def __call__(self,game):
+    def __init__(self, num_buckets=1024, hash = hash):
         """
-        This method enables the transposition table to be used
-        like an AI algorithm. However it will just break if it falls
-        on some game state that is not in the table. Therefore it is a
-        better option to use a mixed algorithm like
+        Initializes a Map with the given number of buckets.
+        Set number of buckets to power of the 2 to speed up hash computation.
+        """
+        self.dict = []
+        for i in range(num_buckets):
+            self.dict.append((None, None))
+        self.keys = dict()
+        self.hash = hash
+        self.num_collisions = 0
+        self.num_calls = 0
+    
+    def hash_key(self, key):
+        """
+        Given a key this will create a number and then convert it to
+        an index for the dict.
+        """
+        self.num_calls += 1
+        return hash(key) & (len(self.dict)-1)
+    
+    def get_slot(self, key, default=None):
+        """
+        Returns the index, key, and value of a slot found in the dict.
+        Returns -1, key, and default (None if not set) when not found.
+        """
+        slot = self.hash_key(key)
         
-        >>> # negamax boosted with a transposition table !
-        >>> Negamax(10, tt= my_dictTT) 
+        if key == self.dict[slot][0]:
+            return slot, self.dict[slot][0], self.dict[slot][1]
+    
+        return -1, key, default
+    
+    def get(self, key, default=None):
+        """
+        Gets the value for the given key, or the default.
+        """        
+        i, k, v = self.get_slot(key, default=default)
+        return v
+    
+    def set(self, key, value):
+        """
+        Sets the key to the value, replacing any existing value.
+        """
+        slot = self.hash_key(key)
+        
+        if self.dict[slot] != (None, None):
+            self.num_collisions += 1 #collision occured
+                
+        self.dict[slot] = (key, value)
+     
+        if self.keys.__contains__(key):
+            self.keys[key] = self.keys[key] + 1
+        else:
+            self.keys[key] = 1
+    
+    def delete(self, key):
+        """
+        Deletes the given key from the dictionary.
         """
         
-        return self.d[game.ttentry()]['move']
-        
-    def store(self, **data):
-        """ Stores an entry into the table """
-        entry = data.pop("game").ttentry()
-        self.d[entry] = data
-        
-    def tofile(self, filename):
-        """ Saves the transposition table to a file. Warning: the file
-            can be big (~100Mo). """
-        with open(filename, 'w+') as f:
-            pickle.dump(self, f)
+        slot = self.hash_key(key)
+        self.dict[slot] = (None, None)
+            
+        if self.keys.__contains__(key):
+            self.keys[key] = self.keys[key] - 1
+            if self.keys[key] <= 0:
+                del self.keys[key]
+                
+    def collisions(self):
+        return self.num_collisions
+                    
+    def __getitem__(self, key):
+        return self.get(key)
     
-    @staticmethod
-    def fromfile(self, filename):
-        """ Loads a transposition table previously saved with
-             ``DictTT.tofile`` """
-        with open(filename, 'r') as f:
-            pickle.load(self, filename)
+    def __missing__(self, key):
+        return None
+    
+    def __setitem__(self, key, value):
+        self.set(key, value)
+        
+    def __delitem__(self, key):
+        self.delete(key)
+        
+    def __iter__(self):
+        return iter(self.keys)
+        
+    def __contains__(self, key):
+        return self.keys.__contains__(key)
+        
