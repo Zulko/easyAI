@@ -4,6 +4,7 @@ __all__ = ['TwoPlayersGame', 'Human_Player', 'AI_Player',
 from .TwoPlayersGame import TwoPlayersGame
 from .Player import Human_Player, AI_Player
 from .AI import Negamax, id_solve, df_solve
-from easyAI.AI import TT
+from .AI import TT
 from .AI import mtd
 from .AI import SSS, DUAL
+from .AI import HashTT, DictTT

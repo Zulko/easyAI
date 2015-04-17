@@ -7,19 +7,33 @@ class HashTT:
     
     def __init__(self):
         self.modulo = 1024 #default value
-        self.initial_value = 0 #initial hash value
         
-    def get_hash(self, key):
+    def before(self, key):
+        """
+        Returns initial value of hash.
+        It's also the place where you can initialize some auxiliary variables
+        """
+        return 0
+    
+    def after(self, key, hash):
+        """
+        Returns final value of hash
+        """
+        return hash
+        
+    def get_hash(self, key, depth = 0):
         """
         Recursively computes a hash
         """
-        ret_hash = self.initial_value
+        ret_hash = self.before(key)
         if type(key) is int:
             return self.hash_int(key)
         if type(key) is str and len(key) <= 1:
             return self.hash_char(key)
         for v in list(key):
-            ret_hash = self.join(ret_hash, self.get_hash(v)) % self.modulo
+            ret_hash = self.join(ret_hash, self.get_hash(v, depth+1)) % self.modulo
+        if depth == 0:
+            ret_hash = self.after(key, ret_hash)
         return ret_hash
     
     def hash_int(self, number):
@@ -42,42 +56,3 @@ class HashTT:
         one = join(one, two)
         """
         return (one * two) % self.modulo
-    
-"""
-Different types of hashes.
-Try each to choose the one that cause the least collisions (you can check it by printing DictTT.num_collisions)
-Also, you can easily create one of your own!
-"""
-
-class SimpleHashTT(HashTT):
-    """
-    Suprisingly - very effective for strings
-    """
-    def join(self, one, two):
-        return 101 * one  +  two
-
-class XorHashTT(HashTT):
-    def join(self, one, two):
-        return one ^ two
-    
-class AddHashTT(HashTT):
-    def join(self, one, two):
-        return one  +  two
-    
-class RotateHashTT(HashTT):
-    def join(self, one, two):
-        return (one << 4) ^ (one >> 28) ^ two
-    
-class BernsteinHashTT(HashTT):
-    def join(self, one, two):
-        return 33 * one + two
-    
-class ShiftAndAddHashTT(HashTT):
-    def join(self, one, two):
-        return one ^ (one << 5) + (one >> 2) + two
-    
-class FNVHashTT(HashTT):
-    def __init__(self):
-        self.initial_value = 2166136261
-    def join(self, one, two):
-        return (one * 16777619) ^ two

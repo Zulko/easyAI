@@ -3,8 +3,8 @@
 from easyAI import TwoPlayersGame
 from easyAI.Player import Human_Player
 from copy import deepcopy
-from easyAI.AI.DictTT import DictTT 
-from easyAI.AI.HashTT import HashTT, XorHashTT, SimpleHashTT, FNVHashTT
+from easyAI.AI.DictTT import DictTT
+from easyAI.AI.Hashes import JSWHashTT
 
 class Chopsticks( TwoPlayersGame ):
     """ 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     from easyAI.AI.TT import TT
     ai_algo_neg = Negamax(4)
     ai_algo_sss = SSS(4)
-    dict_tt = DictTT(32, FNVHashTT())
+    dict_tt = DictTT(32, JSWHashTT())
     ai_algo_dual = DUAL(4, tt=TT(dict_tt))
     Chopsticks( [AI_Player(ai_algo_neg),AI_Player(ai_algo_dual)]).play()  #first player never wins
     
