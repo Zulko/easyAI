@@ -3,12 +3,15 @@
 Different types of hashes.
 Try each to choose the one that cause the least collisions (you can check it by printing DictTT.num_collisions)
 Also, you can easily create one of your own!
+
+You can read more about these hash function on:
+http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
 """
 from .HashTT import HashTT
 
 class SimpleHashTT(HashTT):
     """
-    Suprisingly - very effective for strings
+    Surprisingly - very effective for strings
     """
     def join(self, one, two):
         return 101 * one  +  two
@@ -72,7 +75,14 @@ class ELFHashTT(HashTT):
         return (one << 1 | one >> 31) ^ two
     
 class JenkinsHashTT(HashTT):
+    """
+    The most advanced hash function on the list.
+    Way too many things going on to put something smart in short comment.
+    """
     def mix(self, a, b, c):
+        """
+        Auxiliary function.
+        """
         a -= b; a -= c; a ^= (c >> 13)
         b -= c; b -= a; b ^= (a << 8)
         c -= a; c -= b; c ^= (b >> 13)
@@ -89,6 +99,10 @@ class JenkinsHashTT(HashTT):
         self.c = 0
     
     def get_hash(self, key, depth = 0):
+        """
+        Overridden.
+        Just to create list of single elements to hash
+        """
         if depth == 0:
             self.before(key)
         if type(key) is int:
@@ -101,6 +115,9 @@ class JenkinsHashTT(HashTT):
         return self.compute_hash(tab)
     
     def compute_hash(self, tab):
+        """
+        Computes real hash
+        """
         length = len(tab)
         cur = 0
         while length >= 12:
