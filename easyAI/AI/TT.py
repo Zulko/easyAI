@@ -14,7 +14,7 @@ class TT:
     
     Usage:
         
-        >>> table = DicTT()  
+        >>> table = TT(DictTT(1024)) or table = TT() for default dictionary
         >>> ai = Negamax(8, scoring, tt = table) # boosted Negamax !
         >>> ai(some_game) # computes a move, fills the table
         >>> table.to_file('saved_tt.data') # maybe save for later ?

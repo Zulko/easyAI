@@ -1,49 +1,23 @@
 #contributed by mrfesol (Tomasz Wesolowski)
-
-"""
-Different types of hashes.
-"""
-
-def xor_hash(key):
-    ret = 0
-    if type(key) is int:
-        return key
-    if type(key) is str and len(key) <= 1:
-        return ord(key)
-    l = list(key)
-    for v in l:
-        ret ^= xor_hash(v)
-    return ret
-
-def simple_hash(key):
-    ret = 0
-    if type(key) is int:
-        return key
-    if type(key) is str and len(key) <= 1:
-        return ord(key)
-    if type(key) is str:
-        ret = 0
-        for c in key:
-            ret = 101 * hash  +  ord(c)
-        return ret
-    return hash(key)
-    
+from easyAI.AI.HashTT import HashTT
 
 class DictTT:
     """
     A DictTT implements custom dictionary,
     which can be used with transposition tables.
     """
-    def __init__(self, num_buckets=1024, hash = hash):
+    def __init__(self, num_buckets=1024, own_hash = None):
         """
-        Initializes a Map with the given number of buckets.
-        Set number of buckets to power of the 2 to speed up hash computation.
+        Initializes a dictionary with the given number of buckets.
         """
         self.dict = []
         for i in range(num_buckets):
             self.dict.append((None, None))
         self.keys = dict()
         self.hash = hash
+        if own_hash != None:
+            own_hash.modulo = len(self.dict)
+            self.hash = own_hash.get_hash
         self.num_collisions = 0
         self.num_calls = 0
     
@@ -53,7 +27,7 @@ class DictTT:
         an index for the dict.
         """
         self.num_calls += 1
-        return hash(key) & (len(self.dict)-1)
+        return self.hash(key) % len(self.dict)
     
     def get_slot(self, key, default=None):
         """
