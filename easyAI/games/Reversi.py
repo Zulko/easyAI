@@ -115,11 +115,11 @@ if __name__ == "__main__":
     from easyAI import Human_Player, AI_Player, Negamax
 
     # An example: Computer vs Computer:
-    game = Reversi([AI_Player(Negamax(4)) for i in (1, 2)])
+    game = Reversi([AI_Player(Negamax(4)), AI_Player(Negamax(4))])
     game.play()
-    if game.score() > 0:
+    if game.scoring() > 0:
         print("player %d wins." % game.nplayer)
-    elif game.score() < 0:
+    elif game.scoring() < 0:
         print("player %d wins." % game.nopponent)
     else:
         print("Draw.")
