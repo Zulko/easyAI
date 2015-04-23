@@ -48,7 +48,8 @@ class Nim(TwoPlayersGame):
 if __name__ == "__main__":
     # IN WHAT FOLLOWS WE SOLVE THE GAME AND START A MATCH AGAINST THE AI
 
-    from easyAI import AI_Player, Human_Player, Negamax, DictTT, id_solve
+    from easyAI import AI_Player, Human_Player, Negamax, id_solve
+    from easyAI.AI import TT
     # we first solve the game
     w, d, m, tt = id_solve(Nim, range(5, 20), win_score = 80)
     print
@@ -58,7 +59,7 @@ if __name__ == "__main__":
     # always win in 16 (total) moves or less.
 
     # Now let's play (and lose !) against the AI
-    ai = Negamax(16, tt = DictTT())
+    ai = Negamax(16, tt = TT())
     game = Nim([Human_Player(), AI_Player(tt)])
     game.play() # You will always lose this game !
     print("player %d wins" % game.nplayer)

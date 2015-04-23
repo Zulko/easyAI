@@ -1,6 +1,10 @@
+#contributed by mrfesol (Tomasz Wesolowski)
+
 from easyAI import TwoPlayersGame
 from easyAI.Player import Human_Player
 from copy import deepcopy
+from easyAI.AI.DictTT import DictTT
+from easyAI.AI.Hashes import JSWHashTT
 
 class Chopsticks( TwoPlayersGame ):
     """ 
@@ -22,9 +26,12 @@ class Chopsticks( TwoPlayersGame ):
 
     def __init__(self, players, numhands = 2):
         self.players = players
+        self.numplayers = len(self.players)
         self.numhands = numhands
-        self.hands = [[1 for hand in range(self.numhands)] for player in range(len(self.players))]
         self.nplayer = 1 # player 1 starts.
+        
+        hand = [1 for hand in range(self.numhands)]
+        self.hands = [hand[:] for player in range(self.numplayers)]       
     
     def possible_moves(self):
         moves = []
@@ -32,15 +39,19 @@ class Chopsticks( TwoPlayersGame ):
         for h1 in range(self.numhands):
             for h2 in range(self.numhands):
                 if h1 == h2: continue
-                for i in range(1, 1+min(self.hands[self.nplayer-1][h1], 5-self.hands[self.nplayer-1][h2])):
+                hand1 = self.hands[self.nplayer-1][h1]
+                hand2 = self.hands[self.nplayer-1][h2]
+                for i in range(1, 1+min(hand1, 5-hand2)):
                     move = ('split', h1, h2, i)
-                    if self.hands[self.nplayer-1][h2] + i != self.hands[self.nplayer-1][h1] and self.back_to_startstate(move) == False:
+                    if hand1 != hand2 + i and self.back_to_startstate(move) == False:
                         moves.append(move)
         
         #taps
         for i in range(self.numhands):
             for j in range(self.numhands):
-                if self.hands[self.nplayer-1][i] != 0 and self.hands[self.nopponent-1][j] != 0:
+                hand_player = self.hands[self.nplayer-1][i]
+                hand_opp = self.hands[self.nopponent-1][j]
+                if hand_player != 0 and hand_opp != 0:
                     moves.append(('tap', i, j, self.hands[self.nplayer-1][i]))
         return moves
     
@@ -52,7 +63,7 @@ class Chopsticks( TwoPlayersGame ):
         else:
             self.hands[self.nopponent-1][two] += value
             
-        for player in range(len(self.players)):
+        for player in range(self.numplayers):
             for hand in range(self.numhands):
                 if self.hands[player][hand] >= 5:
                     self.hands[player][hand] = 0
@@ -67,7 +78,7 @@ class Chopsticks( TwoPlayersGame ):
         return self.lose() or self.win()
         
     def show(self):
-        for i in range(len(self.players)):
+        for i in range(self.numplayers):
             print("Player %d: " %(i+1)),
             for j in range(self.numhands):
                 if self.hands[i][j] > 0:
@@ -85,7 +96,7 @@ class Chopsticks( TwoPlayersGame ):
         if self.win():
             return 100
         alive = [0] * 2
-        for player in range(len(self.players)):
+        for player in range(self.numplayers):
             for hand in range(len(self.hands[player])):
                 alive[player] += (self.hands[player][hand] > 0)
         return alive[self.nplayer-1] - alive[self.nopponent-1]
@@ -94,32 +105,30 @@ class Chopsticks( TwoPlayersGame ):
         """
             Returns game entry
         """
-        entry = []
-        flat_list(self.hands, entry)
-        entry += [self.nplayer]
+        entry = [self.hands[i][j] for i in range(self.numplayers) for j in range(self.numhands)]
+        entry = entry + [self.nplayer]
         return tuple(entry)  
     
     def back_to_startstate(self, move):
         """
             Checking if move will cause returning to start state - never-ending loop protection
         """
-        nextstate = deepcopy(self)
+        nextstate = self.copy()
         nextstate.make_move(move)
-        ok = False
-        for player in range(len(nextstate.players)):
-            for hand in range(nextstate.numhands):
-                ok |= (nextstate.hands[player][hand] != 1)
-        return ok
+        hands_min = min([min(nextstate.hands[i]) for i in range(self.numplayers)])
+        hands_max = max([max(nextstate.hands[i]) for i in range(self.numplayers)])
+        return hands_min == 1 and hands_max == 1
     
-def flat_list(x, l):
-    """
-        Helper - converts nested lists to flat one (required to store game state)
-    """
-    if type(x) != list: l += [x]
-    else:
-        for i in x: flat_list(i, l)
-        
 if __name__ == "__main__":
-    from easyAI import Negamax, AI_Player, DictTT
-    ai_algo = Negamax(3, tt=DictTT())
-    Chopsticks( [AI_Player(ai_algo),AI_Player(ai_algo)]).play()  #first player never wins
+    from easyAI import Negamax, AI_Player, SSS, DUAL
+    from easyAI.AI.TT import TT
+    ai_algo_neg = Negamax(4)
+    ai_algo_sss = SSS(4)
+    dict_tt = DictTT(32, JSWHashTT())
+    ai_algo_dual = DUAL(4, tt=TT(dict_tt))
+    Chopsticks( [AI_Player(ai_algo_neg),AI_Player(ai_algo_dual)]).play()  #first player never wins
+    
+    print '-'*10
+    print 'Statistics of custom dictionary:'
+    print 'Calls of hash: ', dict_tt.num_calls
+    print 'Collisions: ', dict_tt.num_collisions

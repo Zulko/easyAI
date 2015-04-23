@@ -35,9 +35,10 @@ if __name__ == "__main__":
 
     # Let's solve the game
 
-    from easyAI import id_solve, DictTT, Human_Player, AI_Player
+    from easyAI import id_solve, Human_Player, AI_Player
+    from easyAI.AI import TT
 
-    tt = DictTT()
+    tt = TT()
     GameOfBones.ttentry = lambda self: self.pile
     r, d, m = id_solve(GameOfBones, range(2, 20), win_score = 100, tt = tt)
     print(r, d, m)  # see the docs.

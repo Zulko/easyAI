@@ -1,4 +1,5 @@
-from easyAI.AI import DictTT, Negamax
+from easyAI.AI import Negamax
+from easyAI.AI import TT
 from easyAI.Player import AI_Player
 
 def id_solve(game, ai_depths, win_score, scoring=None,
