@@ -13,7 +13,7 @@ class HashTT:
         Returns initial value of hash.
         It's also the place where you can initialize some auxiliary variables
         """
-        return 0
+        return 1
     
     def after(self, key, hash):
         """
@@ -25,7 +25,8 @@ class HashTT:
         """
         Recursively computes a hash
         """
-        ret_hash = self.before(key)
+        if depth == 0:
+            ret_hash = self.before(key)
         if type(key) is int:
             return self.hash_int(key)
         if type(key) is str and len(key) <= 1:

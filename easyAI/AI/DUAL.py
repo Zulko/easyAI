@@ -61,8 +61,8 @@ class DUAL:
         scoring = self.scoring if self.scoring else (
                        lambda g: g.scoring() ) # horrible hack
         
-        first = -self.win_score #essence of DUAL algorithm
-        next = (lambda lowerbound, upperbound, bestValue: bestValue + 1) 
+        first = (lambda game, tt: -self.win_score)  #essence of DUAL algorithm
+        next = (lambda lowerbound, upperbound, bestValue, bound: bestValue + 1) 
         
         self.alpha = mtd(game, 
                          first, next,

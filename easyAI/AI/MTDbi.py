@@ -61,8 +61,8 @@ class MTDbi:
         scoring = self.scoring if self.scoring else (
                        lambda g: g.scoring() ) # horrible hack
         
-        first = 0 #essence of MTDbi algorithm
-        next = (lambda lowerbound, upperbound, bestValue: (lowerbound + upperbound)/2) 
+        first = (lambda game, tt: 0) #essence of MTDbi algorithm
+        next = (lambda lowerbound, upperbound, bestValue, bound: (lowerbound + upperbound)/2) 
         
         self.alpha = mtd(game, 
                          first, next,

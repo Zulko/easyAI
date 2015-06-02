@@ -5,5 +5,6 @@ from .MTdriver import mtd
 from .SSS import SSS
 from .DUAL import DUAL
 from .MTDbi import MTDbi
+from .MTDf import MTDf
 from .HashTT import HashTT
 from .DictTT import DictTT

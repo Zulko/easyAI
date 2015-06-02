@@ -20,7 +20,6 @@ class DictTT:
             self.hash = own_hash.get_hash
         self.num_collisions = 0
         self.num_calls = 0
-        self.num_calcs = 0
         self.num_lookups = 0
     
     def hash_key(self, key):
@@ -46,7 +45,8 @@ class DictTT:
     def get(self, key, default=None):
         """
         Gets the value for the given key, or the default.
-        """        
+        """   
+        self.num_lookups += 1     
         i, k, v = self.get_slot(key, default=default)
         return v
     
@@ -100,3 +100,9 @@ class DictTT:
     def __contains__(self, key):
         return self.keys.__contains__(key)
         
+    def print_stats(self):
+        print '-'*10
+        print 'Statistics of custom dictionary:'
+        print 'Calls of hash: ', self.num_calls
+        print 'Collisions: ', self.num_collisions
+        print 'Num lookups: ', self.num_lookups

@@ -92,10 +92,10 @@ def mtd(game, first, next, depth, scoring, tt = None):
     For more details read following paper:
     http://arxiv.org/ftp/arxiv/papers/1404/1404.1515.pdf
     """
-    bound, best_value = first, first
+    bound, best_value = first(game, tt), first(game, tt)
     lowerbound, upperbound = -inf, inf
     while True:
-        bound = next(lowerbound, upperbound, best_value)
+        bound = next(lowerbound, upperbound, best_value, bound)
         best_value = mt(game, bound - eps, depth, depth, scoring, tt)
         if best_value < bound:
             upperbound = best_value

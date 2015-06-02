@@ -2,13 +2,13 @@
 
 from easyAI.AI.MTdriver import mtd
 
-class SSS:
+class MTDf:
     """
-    This implements SSS* algorithm. The following example shows
+    This implements MTDbi algorithm. The following example shows
     how to setup the AI and play a Connect Four game:
     
-        >>> from easyAI import Human_Player, AI_Player, SSS
-        >>> AI = SSS(7)
+        >>> from easyAI import Human_Player, AI_Player, MTDbi
+        >>> AI = DUAL(7)
         >>> game = ConnectFour([AI_Player(AI),Human_Player()])
         >>> game.play()
     
@@ -52,6 +52,14 @@ class SSS:
         self.depth = depth
         self.tt = tt
         self.win_score= win_score
+        
+    @staticmethod
+    def first(game, tt):
+        lookup = None if (tt is None) else tt.lookup(game)
+        if lookup == None:
+            return 0
+        lowerbound, upperbound = lookup['lowerbound'], lookup['upperbound']
+        return (lowerbound+upperbound)/2
     
     def __call__(self,game):
         """
@@ -61,13 +69,14 @@ class SSS:
         scoring = self.scoring if self.scoring else (
                        lambda g: g.scoring() ) # horrible hack
         
-        first = (lambda game, tt: self.win_score) #essence of SSS algorithm
-        next = (lambda lowerbound, upperbound, bestValue, bound: bestValue) 
+        
+        first = MTDf.first  #essence of MTDf algorithm
+        next = (lambda lowerbound, upperbound, bestValue, bound: bestValue if bestValue < bound else bestValue + 1) 
         
         self.alpha = mtd(game, 
                          first, next,
                          self.depth, 
                          scoring,
                          self.tt)
-                
+        
         return game.ai_move
