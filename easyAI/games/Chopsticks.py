@@ -121,7 +121,7 @@ class Chopsticks( TwoPlayersGame ):
         return hands_min == 1 and hands_max == 1
     
 if __name__ == "__main__":
-    from easyAI import Negamax, AI_Player, SSS, DUAL, MTDbi, MTDf
+    from easyAI import Negamax, AI_Player, SSS, DUAL, MTDbi, MTDf, MTDstep
     from easyAI.AI.TT import TT
     
     dict_tt = DictTT(32)
@@ -129,6 +129,7 @@ if __name__ == "__main__":
     ai_algo_neg = Negamax(6, tt=TT(dict_tt))
     ai_algo_bi = MTDbi(6, tt=TT(dict_tt))
     ai_algo_f = MTDf(5, tt=TT(dict_tt))
+    ai_algo_step = MTDstep(5, tt=TT(dict_tt))
     #ai_algo_dual = DUAL(4, tt=TT(dict_tt))
-    Chopsticks( [AI_Player(Negamax(5)),AI_Player(ai_algo_f)]).play()  #first player never wins
+    Chopsticks( [AI_Player(Negamax(5)),AI_Player(ai_algo_step)]).play()  #first player never wins
     dict_tt.print_stats()

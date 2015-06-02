@@ -4,11 +4,11 @@ from easyAI.AI.MTdriver import mtd
 
 class MTDf:
     """
-    This implements MTDbi algorithm. The following example shows
+    This implements MTD-f algorithm. The following example shows
     how to setup the AI and play a Connect Four game:
     
-        >>> from easyAI import Human_Player, AI_Player, MTDbi
-        >>> AI = DUAL(7)
+        >>> from easyAI import Human_Player, AI_Player, MTDf
+        >>> AI = MTDf(7)
         >>> game = ConnectFour([AI_Player(AI),Human_Player()])
         >>> game.play()
     

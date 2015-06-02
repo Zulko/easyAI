@@ -6,5 +6,5 @@ from .Player import Human_Player, AI_Player
 from .AI import Negamax, id_solve, df_solve
 from .AI import TT
 from .AI import mtd
-from .AI import SSS, DUAL, MTDbi, MTDf
+from .AI import SSS, DUAL, MTDbi, MTDf, MTDstep
 from .AI import HashTT, DictTT

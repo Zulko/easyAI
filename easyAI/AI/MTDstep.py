@@ -2,13 +2,13 @@
 
 from easyAI.AI.MTdriver import mtd
 
-class MTDbi:
+class MTDstep:
     """
-    This implements MTD-bi algorithm. The following example shows
+    This implements MTD-step algorithm. The following example shows
     how to setup the AI and play a Connect Four game:
     
-        >>> from easyAI import Human_Player, AI_Player, MTDbi
-        >>> AI = MTDbi(7)
+        >>> from easyAI import Human_Player, AI_Player, MTDstep
+        >>> AI = MTDstep(7)
         >>> game = ConnectFour([AI_Player(AI),Human_Player()])
         >>> game.play()
     
@@ -31,6 +31,9 @@ class MTDbi:
       A transposition table (a table storing game states and moves)
       scoring: can be none if the game that the AI will be given has a
       ``scoring`` method.
+          
+    step_size:
+      Size of jump from one bound to next
       
     Notes
     -----
@@ -47,11 +50,12 @@ class MTDbi:
     
     """
     
-    def __init__(self, depth, scoring=None, win_score=100000, tt=None):
+    def __init__(self, depth, scoring=None, win_score=100000, tt=None, step_size = 100):
         self.scoring = scoring        
         self.depth = depth
         self.tt = tt
-        self.win_score= win_score
+        self.win_score = win_score
+        self.step_size = step_size
     
     def __call__(self,game):
         """
@@ -61,8 +65,9 @@ class MTDbi:
         scoring = self.scoring if self.scoring else (
                        lambda g: g.scoring() ) # horrible hack
         
-        first = (lambda game, tt: 0) #essence of MTDbi algorithm
-        next = (lambda lowerbound, upperbound, bestValue, bound: (lowerbound + upperbound)/2) 
+        
+        first = (lambda game, tt: self.win_score)
+        next = (lambda lowerbound, upperbound, bestValue, bound: max(lowerbound + 1, bestValue - self.step_size)) 
         
         self.alpha = mtd(game, 
                          first, next,
