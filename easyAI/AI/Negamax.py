@@ -4,6 +4,7 @@ and (optionnally), transposition tables.
 """
 
 import pickle
+from easyAI.games.ThreeMusketeers import MOVES
         
 LOWERBOUND, EXACT, UPPERBOUND = -1,0,1
 inf = float('infinity')
@@ -18,6 +19,10 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
     http://en.wikipedia.org/wiki/Negamax
     """
     
+        
+    #if tt != None:
+        #tt.d.num_calcs += 1
+    
     alphaOrig = alpha
     
     # Is there a transposition table and is this game in it ?
@@ -27,6 +32,7 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
         # The game has been visited in the past
         
         if lookup['depth'] >= depth:
+            #tt.d.num_lookups += 1
             flag, value = lookup['flag'], lookup['value']
             if flag == EXACT:
                 if depth == origDepth:
@@ -60,17 +66,14 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
         possible_moves = [lookup['move']] + possible_moves
         
     else:
-        
         possible_moves = game.possible_moves()
-    
-    
     
     state = game
     best_move = possible_moves[0]
     if depth == origDepth:
         state.ai_move = possible_moves[0]
         
-    bestValue = -inf
+    best_value = -inf
     unmake_move = hasattr(state, 'unmake_move')
     
     
@@ -89,7 +92,7 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
             game.switch_player()
             game.unmake_move(move)
         
-        bestValue = max( bestValue,  move_alpha )
+        best_value = max( best_value,  move_alpha )
         if  alpha < move_alpha :
                 alpha = move_alpha
                 best_move = move
@@ -101,12 +104,12 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
     if tt != None:
         
         assert best_move in possible_moves
-        tt.store(game=state, depth=depth, value = bestValue,
+        tt.store(game=state, depth=depth, value = best_value,
                  move= best_move,
-                 flag = UPPERBOUND if (bestValue <= alphaOrig) else (
-                        LOWERBOUND if (bestValue >= beta) else EXACT))
+                 flag = UPPERBOUND if (best_value <= alphaOrig) else (
+                        LOWERBOUND if (best_value >= beta) else EXACT))
 
-    return bestValue
+    return best_value
 
         
 class Negamax:

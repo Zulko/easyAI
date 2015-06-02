@@ -5,6 +5,7 @@ from easyAI.Player import Human_Player
 from copy import deepcopy
 from easyAI.AI.DictTT import DictTT
 from easyAI.AI.Hashes import JSWHashTT
+from easyAI.AI import MTDbi
 
 class Chopsticks( TwoPlayersGame ):
     """ 
@@ -120,15 +121,19 @@ class Chopsticks( TwoPlayersGame ):
         return hands_min == 1 and hands_max == 1
     
 if __name__ == "__main__":
-    from easyAI import Negamax, AI_Player, SSS, DUAL
+    from easyAI import Negamax, AI_Player, SSS, DUAL, MTDbi
     from easyAI.AI.TT import TT
-    ai_algo_neg = Negamax(4)
-    ai_algo_sss = SSS(4)
-    dict_tt = DictTT(32, JSWHashTT())
-    ai_algo_dual = DUAL(4, tt=TT(dict_tt))
-    Chopsticks( [AI_Player(ai_algo_neg),AI_Player(ai_algo_dual)]).play()  #first player never wins
+    
+    dict_tt = DictTT(32)
+    ai_algo_sss = SSS(6, tt=TT(dict_tt))
+    ai_algo_neg = Negamax(6, tt=TT(dict_tt))
+    ai_algo_bi = MTDbi(6, tt=TT(dict_tt))
+    #ai_algo_dual = DUAL(4, tt=TT(dict_tt))
+    Chopsticks( [AI_Player(Negamax(6)),AI_Player(ai_algo_bi)]).play()  #first player never wins
     
     print '-'*10
     print 'Statistics of custom dictionary:'
     print 'Calls of hash: ', dict_tt.num_calls
     print 'Collisions: ', dict_tt.num_collisions
+    print 'Num of calculations: ', dict_tt.num_calcs
+    print 'Num lookups: ', dict_tt.num_lookups

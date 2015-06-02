@@ -1,4 +1,5 @@
 from easyAI.AI.DictTT import DictTT
+from easyAI.AI.MTDbi import MTDbi
 try:
     import numpy as np
 except ImportError:
@@ -71,10 +72,10 @@ POS_DIR = np.array([[[i, 0], [0, 1]] for i in range(6)] +
 if __name__ == '__main__':
     # LET'S PLAY !
 
-    from easyAI import Human_Player, AI_Player, Negamax, SSS, DUAL
+    from easyAI import Human_Player, AI_Player, Negamax, SSS, DUAL, MTDbi
 
     ai_algo_neg = Negamax(5)
-    ai_algo_sss = SSS(5)
+    ai_algo_sss = MTDbi(5)
     game = ConnectFour([AI_Player(ai_algo_neg), AI_Player(ai_algo_sss)])
     game.play()
     if game.lose():

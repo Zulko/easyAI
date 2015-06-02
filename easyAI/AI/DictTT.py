@@ -13,13 +13,15 @@ class DictTT:
         self.dict = []
         for i in range(num_buckets):
             self.dict.append((None, None))
-        self.keys = dict()
+        #self.keys = dict()
         self.hash = hash
         if own_hash != None:
-            own_hash.modulo = len(self.dict)
+            own_hash.modulo = len(self.dict)-1
             self.hash = own_hash.get_hash
         self.num_collisions = 0
         self.num_calls = 0
+        self.num_calcs = 0
+        self.num_lookups = 0
     
     def hash_key(self, key):
         """
@@ -27,7 +29,7 @@ class DictTT:
         an index for the dict.
         """
         self.num_calls += 1
-        return self.hash(key) % len(self.dict)
+        return self.hash(key) & len(self.dict)-1
     
     def get_slot(self, key, default=None):
         """
@@ -59,10 +61,10 @@ class DictTT:
                 
         self.dict[slot] = (key, value)
      
-        if self.keys.__contains__(key):
-            self.keys[key] = self.keys[key] + 1
-        else:
-            self.keys[key] = 1
+        #if self.keys.__contains__(key):
+        #    self.keys[key] = self.keys[key] + 1
+        #else:
+        #    self.keys[key] = 1
     
     def delete(self, key):
         """

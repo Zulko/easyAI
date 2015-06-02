@@ -4,4 +4,6 @@ from .solving import id_solve, df_solve
 from .MTdriver import mtd
 from .SSS import SSS
 from .DUAL import DUAL
+from .MTDbi import MTDbi
 from .HashTT import HashTT
+from .DictTT import DictTT
