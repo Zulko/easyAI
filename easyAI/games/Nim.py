@@ -1,4 +1,6 @@
 from easyAI import TwoPlayersGame
+from easyAI.AI import MCTS
+from easyAI.AI.MCTS import MCTS
 
 
 class Nim(TwoPlayersGame):
@@ -60,9 +62,10 @@ if __name__ == "__main__":
 
     # Now let's play (and lose !) against the AI
     dict_tt = DictTT()
-    ai1 = Negamax(1024, tt = TT())
+    ai1 = Negamax(7)
     ai2 = SSS(10, tt = TT(dict_tt))
-    game = Nim([AI_Player(ai1), AI_Player(ai2)])
+    ai3 = MCTS(20000)
+    game = Nim([AI_Player(ai3), AI_Player(ai1)])
     game.play() # You will always lose this game !
     print("player %d wins" % game.nplayer)
 

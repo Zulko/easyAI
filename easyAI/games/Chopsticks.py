@@ -93,7 +93,7 @@ class Chopsticks( TwoPlayersGame ):
             Very simple heuristic counting 'alive' hands
         """
         if self.lose():
-            return -100
+            return 0
         if self.win():
             return 100
         alive = [0] * 2

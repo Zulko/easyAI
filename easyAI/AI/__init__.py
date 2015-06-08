@@ -9,3 +9,4 @@ from .MTDf import MTDf
 from .MTDstep import MTDstep
 from .HashTT import HashTT
 from .DictTT import DictTT
+from .MCTS import MCTS
