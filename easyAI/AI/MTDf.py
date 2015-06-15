@@ -71,7 +71,8 @@ class MTDf:
         
         
         first = MTDf.first  #essence of MTDf algorithm
-        next = (lambda lowerbound, upperbound, bestValue, bound: bestValue if bestValue < bound else bestValue + 1) 
+        next = (lambda lowerbound, upperbound, bestValue, bound: bestValue 
+                if bestValue < bound else bestValue + 1) 
         
         self.alpha = mtd(game, 
                          first, next,

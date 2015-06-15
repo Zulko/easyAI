@@ -1,3 +1,5 @@
+#contributed by mrfesol (Tomasz Wesolowski)
+
 import random
 from math import sqrt, log
 
@@ -74,7 +76,7 @@ class MCTS:
                 state.switch_player()
                 node = node.add_child(m,state)
                 
-            # Rollout,
+            # Rollout
             while state.possible_moves() != [] and depth < self.max_depth:
                 state.make_move(random.choice(state.possible_moves()))
                 state.switch_player()
@@ -109,7 +111,8 @@ class MCTSNode:
     def select_child(self, expand_factor):
         """ Using the UCB1 formula to select_child a child node.
         """
-        return sorted(self.children, key = lambda c: c.wins/c.visits + expand_factor*sqrt(2*log(self.visits)/c.visits))[-1]
+        return sorted(self.children, key = lambda c: c.wins/c.visits + \
+                      expand_factor*sqrt(2*log(self.visits)/c.visits))[-1]
     
     def add_child(self, m, s):
         n = MCTSNode(move = m, parent = self, state = s)
@@ -122,4 +125,6 @@ class MCTSNode:
         self.wins += result
 
     def __repr__(self):
-        return "[P: " + str(self.last_player) + " M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " F: " + str(self.formula()) + " F_exp: " + str(self.formula_exp()) + "]"
+        return "[P: " + str(self.last_player) + " M:" + str(self.move) + \
+             " W/V:" + str(self.wins) + "/" + str(self.visits) + " F: " + \
+             str(self.formula()) + " F_exp: " + str(self.formula_exp()) + "]"

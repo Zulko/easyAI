@@ -78,7 +78,7 @@ def id_solve(game, ai_depths, win_score, scoring=None,
     result = (+1 if alpha>= win_score else (
              -1 if alpha <= -win_score else 0))
     
-    return result, depth, game.ai_move
+    return result, depth, game.ai_move, tt
 
 
 def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):

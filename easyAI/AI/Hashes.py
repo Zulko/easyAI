@@ -66,7 +66,7 @@ class ELFHashTT(HashTT):
         return 0
     def join(self, one, two):
         one = (one << 4) + two;
-        self.g = one & 0xf0000000L;
+        self.g = one & 0xf0000000;
 
         if self.g != 0:
             one ^= self.g >> 24

@@ -6,7 +6,7 @@ class HashTT:
     """    
     
     def __init__(self):
-        self.modulo = 1023 #default value
+        self.modulo = 1024 #default value
         
     def before(self, key):
         """
@@ -32,7 +32,7 @@ class HashTT:
         if type(key) is str and len(key) <= 1:
             return self.hash_char(key)
         for v in list(key):
-            ret_hash = self.join(ret_hash, self.get_hash(v, depth+1)) & self.modulo
+            ret_hash = self.join(ret_hash, self.get_hash(v, depth+1)) % self.modulo
         if depth == 0:
             ret_hash = self.after(key, ret_hash)
         return ret_hash

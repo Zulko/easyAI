@@ -16,7 +16,7 @@ class DictTT:
         #self.keys = dict()
         self.hash = hash
         if own_hash != None:
-            own_hash.modulo = len(self.dict)-1
+            own_hash.modulo = len(self.dict)
             self.hash = own_hash.get_hash
         self.num_collisions = 0
         self.num_calls = 0
@@ -101,8 +101,8 @@ class DictTT:
         return self.keys.__contains__(key)
         
     def print_stats(self):
-        print '-'*10
-        print 'Statistics of custom dictionary:'
-        print 'Calls of hash: ', self.num_calls
-        print 'Collisions: ', self.num_collisions
-        print 'Num lookups: ', self.num_lookups
+        print ('-'*10)
+        print ('Statistics of custom dictionary:')
+        print ('Calls of hash: ', self.num_calls)
+        print ('Collisions: ', self.num_collisions)
+        print ('Num lookups: ', self.num_lookups)
