@@ -19,8 +19,8 @@ Tic-Tac-Toe Using Flask
 
 .. literalinclude:: ../../../easyAI/games/TicTacToe-Flask.py
 
-Game of Nim using Kivy
-----------------------
+Game of Knights using Kivy
+--------------------------
 
-.. literalinclude:: ../../../easyAI/games/Nim.py
+.. literalinclude:: ../../../easyAI/games/Knights-Kivy.py
 

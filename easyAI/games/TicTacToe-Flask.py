@@ -1,5 +1,5 @@
 from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
-from flask import Flask, render_template_string, request, redirect, url_for, make_response
+from flask import Flask, render_template_string, request, make_response
 
 
 class TicTacToe(TwoPlayersGame):
@@ -23,22 +23,30 @@ class TicTacToe(TwoPlayersGame):
     def unmake_move(self, move):  # optional method (speeds up the AI)
         self.board[int(move) - 1] = 0
 
+    WIN_LINES = [
+        [1, 2, 3], [4, 5, 6], [7, 8, 9],  # horiz.
+        [1, 4, 7], [2, 5, 8], [3, 6, 9],  # vertical
+        [1, 5, 9], [3, 5, 7]  # diagonal
+    ]
+
     def lose(self, who=None):
         """ Has the opponent "three in line ?" """
         if who is None:
             who = self.nopponent
-        return any( [all([(self.board[c-1] == who)
-                      for c in line])
-                      for line in [[1,2,3],[4,5,6],[7,8,9], # horiz.
-                                   [1,4,7],[2,5,8],[3,6,9], # vertical
-                                   [1,5,9],[3,5,7]]]) # diagonal
+        wins = [all(
+            [(self.board[c - 1] == who) for c in line]
+        ) for line in self.WIN_LINES]
+        return any(wins)
 
     def is_over(self):
-        return (self.possible_moves() == []) or self.lose()
+        return (self.possible_moves() == []) or self.lose() or \
+            self.lose(who=self.nplayer)
 
     def show(self):
         print ('\n' + '\n'.join([
-            ' '.join([['.', 'O', 'X'][self.board[3 * j + i]] for i in range(3)])
+            ' '.join(
+                [['.', 'O', 'X'][self.board[3 * j + i]] for i in range(3)]
+            )
             for j in range(3)
         ]))
 
@@ -46,15 +54,21 @@ class TicTacToe(TwoPlayersGame):
         return ["_", "O", "X"][self.board[3 * j + i]]
 
     def scoring(self):
-        return -100 if self.lose() else 0
+        opp_won = self.lose()
+        i_won = self.lose(who=self.nplayer)
+        if opp_won and not i_won:
+            return -100
+        if i_won and not opp_won:
+            return 100
+        return 0
 
     def winner(self):
-        if self.lose(who=1):
+        if self.lose(who=2):
             return "AI Wins"
         return "Tie"
 
 
-page_text = '''
+TEXT = '''
 <!doctype html>
 <html>
   <head><title>Tic Tac Toe</title></head>
@@ -67,7 +81,8 @@ page_text = '''
         <tr>
           {% for i in range(0, 3) %}
           <td>
-            <button type="submit" name="choice" value="{{j*3+i+1}}" {{"disabled" if ttt.spot_string(i, j)!="_"}}>
+            <button type="submit" name="choice" value="{{j*3+i+1}}"
+             {{"disabled" if ttt.spot_string(i, j)!="_"}}>
               {{ttt.spot_string(i, j)}}
             </button>
           </td>
@@ -83,6 +98,7 @@ page_text = '''
 
 app = Flask(__name__)
 ai_algo = Negamax(6)
+
 
 @app.route("/", methods=['GET', 'POST'])
 def play_game():
@@ -101,10 +117,11 @@ def play_game():
         msg = ttt.winner()
     else:
         msg = "play move"
-    resp = make_response(render_template_string(page_text, ttt=ttt, msg=msg))
+    resp = make_response(render_template_string(TEXT, ttt=ttt, msg=msg))
     c = ",".join(map(str, ttt.board))
     resp.set_cookie("game_board", c)
     return resp
+
 
 if __name__ == "__main__":
     app.run()
