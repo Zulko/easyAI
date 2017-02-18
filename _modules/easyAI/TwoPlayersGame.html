@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>easyAI.TwoPlayersGame &#8212; easyAI 0.0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="../../_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">easyAI 0.0.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for easyAI.TwoPlayersGame</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+
+
+<div class="viewcode-block" id="TwoPlayersGame"><a class="viewcode-back" href="../../ref.html#easyAI.TwoPlayersGame">[docs]</a><span class="k">class</span> <span class="nc">TwoPlayersGame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for... wait for it... two-players games !</span>
+<span class="sd">     </span>
+<span class="sd">    To define a new game, make a subclass of TwoPlayersGame, and define</span>
+<span class="sd">    the following methods:</span>
+<span class="sd">    </span>
+<span class="sd">    - ``__init__(self, players, ...)`` : initialization of the game</span>
+<span class="sd">    - ``possible_moves(self)`` : returns of all moves allowed</span>
+<span class="sd">    - ``make_move(self, move)``: transforms the game according to the move</span>
+<span class="sd">    - ``is_over(self)``: check whether the game has ended</span>
+<span class="sd">    </span>
+<span class="sd">    The following methods are optional:</span>
+<span class="sd">    </span>
+<span class="sd">    - ``show(self)`` : prints/displays the game</span>
+<span class="sd">    - ``scoring``: gives a score to the current game (for the AI)</span>
+<span class="sd">    - ``unmake_move(self, move)``: how to unmake a move (speeds up the AI)</span>
+<span class="sd">    - ``ttentry(self)``: returns a string/tuple describing the game.</span>
+<span class="sd">    </span>
+<span class="sd">    The __init__ method *must* do the following actions:</span>
+<span class="sd">    </span>
+<span class="sd">    - Store ``players`` (which must be a list of two Players) into</span>
+<span class="sd">      self.players</span>
+<span class="sd">    - Tell which player plays first with ``self.nplayer = 1 # or 2``</span>
+<span class="sd">    </span>
+<span class="sd">    When defining ``possible_moves``, you must keep in mind that you</span>
+<span class="sd">    are in the scope of the *current player*. More precisely, a    </span>
+<span class="sd">    subclass of TwoPlayersGame has the following attributes that</span>
+<span class="sd">    indicate whose turn it is. These methods can be used but should not</span>
+<span class="sd">    be overwritten:</span>
+<span class="sd">    </span>
+<span class="sd">    - ``self.player`` : the current player (e.g. ``Human_Player``)</span>
+<span class="sd">    - ``self.opponent`` : the current Player&#39;s opponent (Player). </span>
+<span class="sd">    - ``self.nplayer``: the number (1 or 2) of the current player.</span>
+<span class="sd">    - ``self.nopponent``: the number (1 or 2) of the opponent.</span>
+<span class="sd">    - ``self.nmove``: How many moves have been played so far ?</span>
+<span class="sd">    </span>
+<span class="sd">    For more, see the examples in the dedicated folder.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    ::</span>
+<span class="sd">    </span>
+<span class="sd">        from easyAI import TwoPlayersGame, Human_Player</span>
+<span class="sd">        </span>
+<span class="sd">        class Sticks( TwoPlayersGame ):</span>
+<span class="sd">            &#39;&#39;&#39; In turn, the players remove one, two or three sticks from</span>
+<span class="sd">                a pile. The player who removes the last stick loses &#39;&#39;&#39;</span>
+<span class="sd">                </span>
+<span class="sd">            def __init__(self, players):</span>
+<span class="sd">                self.players = players</span>
+<span class="sd">                self.pile = 20 # start with 20 sticks</span>
+<span class="sd">                self.nplayer = 1 # player 1 starts</span>
+<span class="sd">            def possible_moves(self): return [&#39;1&#39;,&#39;2&#39;,&#39;3&#39;]</span>
+<span class="sd">            def make_move(self,move): self.pile -= int(move)</span>
+<span class="sd">            def is_over(self): return self.pile &lt;= 0</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        game = Sticks( [Human_Player(), Human_Player() ] )</span>
+<span class="sd">        game.play()</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nmoves</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmove</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmoves</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_over</span><span class="p">():</span>
+                <span class="k">break</span>
+
+            <span class="n">move</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">ask_move</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">move</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Move #</span><span class="si">%d</span><span class="s2">: player </span><span class="si">%d</span><span class="s2"> plays </span><span class="si">%s</span><span class="s2"> :&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">nmove</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">move</span><span class="p">)))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">switch_player</span><span class="p">()</span>
+
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">history</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nopponent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">opponent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nopponent</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">switch_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nopponent</span>
+
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_move</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">ask_move</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">play_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">switch_player</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2014, Zulko.
+    </div>
+  </body>
+</html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reference manual &mdash; easyAI 0.0.0.1 documentation</title>
+    <title>Reference manual &#8212; easyAI 0.0.0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,29 +14,28 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0.1',
+        VERSION:     '0.0.0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="easyAI 0.0.0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="How to make the AI faster" href="examples/speedup.html" />
    
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body>
-  
-  
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -45,14 +44,14 @@
         <li class="right" >
           <a href="examples/speedup.html" title="How to make the AI faster"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">easyAI 0.0.0.5 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="reference-manual">
 <h1>Reference manual<a class="headerlink" href="#reference-manual" title="Permalink to this headline">¶</a></h1>
@@ -60,40 +59,40 @@
 <h2>Games<a class="headerlink" href="#games" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="easyAI.TwoPlayersGame">
-<em class="property">class </em><tt class="descclassname">easyAI.</tt><tt class="descname">TwoPlayersGame</tt><a class="headerlink" href="#easyAI.TwoPlayersGame" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">easyAI.</code><code class="descname">TwoPlayersGame</code><a class="reference internal" href="_modules/easyAI/TwoPlayersGame.html#TwoPlayersGame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.TwoPlayersGame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for... wait for it... two-players games !</p>
 <p>To define a new game, make a subclass of TwoPlayersGame, and define
 the following methods:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">__init__(self,</span> <span class="pre">players,</span> <span class="pre">...)</span></tt> : initialization of the game</li>
-<li><tt class="docutils literal"><span class="pre">possible_moves(self)</span></tt> : returns of all moves allowed</li>
-<li><tt class="docutils literal"><span class="pre">make_move(self,</span> <span class="pre">move)</span></tt>: transforms the game according to the move</li>
-<li><tt class="docutils literal"><span class="pre">is_over(self)</span></tt>: check whether the game has ended</li>
+<li><code class="docutils literal"><span class="pre">__init__(self,</span> <span class="pre">players,</span> <span class="pre">...)</span></code> : initialization of the game</li>
+<li><code class="docutils literal"><span class="pre">possible_moves(self)</span></code> : returns of all moves allowed</li>
+<li><code class="docutils literal"><span class="pre">make_move(self,</span> <span class="pre">move)</span></code>: transforms the game according to the move</li>
+<li><code class="docutils literal"><span class="pre">is_over(self)</span></code>: check whether the game has ended</li>
 </ul>
 <p>The following methods are optional:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">show(self)</span></tt> : prints/displays the game</li>
-<li><tt class="docutils literal"><span class="pre">scoring</span></tt>: gives a score to the current game (for the AI)</li>
-<li><tt class="docutils literal"><span class="pre">unmake_move(self,</span> <span class="pre">move)</span></tt>: how to unmake a move (speeds up the AI)</li>
-<li><tt class="docutils literal"><span class="pre">ttentry(self)</span></tt>: returns a string/tuple describing the game.</li>
+<li><code class="docutils literal"><span class="pre">show(self)</span></code> : prints/displays the game</li>
+<li><code class="docutils literal"><span class="pre">scoring</span></code>: gives a score to the current game (for the AI)</li>
+<li><code class="docutils literal"><span class="pre">unmake_move(self,</span> <span class="pre">move)</span></code>: how to unmake a move (speeds up the AI)</li>
+<li><code class="docutils literal"><span class="pre">ttentry(self)</span></code>: returns a string/tuple describing the game.</li>
 </ul>
 <p>The __init__ method <em>must</em> do the following actions:</p>
 <ul class="simple">
-<li>Store <tt class="docutils literal"><span class="pre">players</span></tt> (which must be a list of two Players) into
+<li>Store <code class="docutils literal"><span class="pre">players</span></code> (which must be a list of two Players) into
 self.players</li>
-<li>Tell which player plays first with <tt class="docutils literal"><span class="pre">self.nplayer</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">#</span> <span class="pre">or</span> <span class="pre">2</span></tt></li>
+<li>Tell which player plays first with <code class="docutils literal"><span class="pre">self.nplayer</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">#</span> <span class="pre">or</span> <span class="pre">2</span></code></li>
 </ul>
-<p>When defining <tt class="docutils literal"><span class="pre">possible_moves</span></tt>, you must keep in mind that you
+<p>When defining <code class="docutils literal"><span class="pre">possible_moves</span></code>, you must keep in mind that you
 are in the scope of the <em>current player</em>. More precisely, a    
 subclass of TwoPlayersGame has the following attributes that
 indicate whose turn it is. These methods can be used but should not
 be overwritten:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">self.player</span></tt> : the current player (e.g. <tt class="docutils literal"><span class="pre">Human_Player</span></tt>)</li>
-<li><tt class="docutils literal"><span class="pre">self.opponent</span></tt> : the current Player&#8217;s opponent (Player).</li>
-<li><tt class="docutils literal"><span class="pre">self.nplayer</span></tt>: the number (1 or 2) of the current player.</li>
-<li><tt class="docutils literal"><span class="pre">self.nopponent</span></tt>: the number (1 or 2) of the opponent.</li>
-<li><tt class="docutils literal"><span class="pre">self.nmove</span></tt>: How many moves have been played so far ?</li>
+<li><code class="docutils literal"><span class="pre">self.player</span></code> : the current player (e.g. <code class="docutils literal"><span class="pre">Human_Player</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">self.opponent</span></code> : the current Player&#8217;s opponent (Player).</li>
+<li><code class="docutils literal"><span class="pre">self.nplayer</span></code>: the number (1 or 2) of the current player.</li>
+<li><code class="docutils literal"><span class="pre">self.nopponent</span></code>: the number (1 or 2) of the opponent.</li>
+<li><code class="docutils literal"><span class="pre">self.nmove</span></code>: How many moves have been played so far ?</li>
 </ul>
 <p>For more, see the examples in the dedicated folder.</p>
 </dd></dl>
@@ -103,17 +102,17 @@ be overwritten:</p>
 <h2>Players<a class="headerlink" href="#players" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="easyAI.Human_Player">
-<em class="property">class </em><tt class="descclassname">easyAI.</tt><tt class="descname">Human_Player</tt><big>(</big><em>name='Human'</em><big>)</big><a class="headerlink" href="#easyAI.Human_Player" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">easyAI.</code><code class="descname">Human_Player</code><span class="sig-paren">(</span><em>name='Human'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/Player.html#Human_Player"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.Human_Player" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for a human player, which gets asked by text what moves
-she wants to play. She can type <tt class="docutils literal"><span class="pre">show</span> <span class="pre">moves</span></tt> to display a list of
-moves, or <tt class="docutils literal"><span class="pre">quit</span></tt> to quit the game.</p>
+she wants to play. She can type <code class="docutils literal"><span class="pre">show</span> <span class="pre">moves</span></code> to display a list of
+moves, or <code class="docutils literal"><span class="pre">quit</span></code> to quit the game.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="easyAI.AI_Player">
-<em class="property">class </em><tt class="descclassname">easyAI.</tt><tt class="descname">AI_Player</tt><big>(</big><em>AI_algo</em>, <em>name='AI'</em><big>)</big><a class="headerlink" href="#easyAI.AI_Player" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">easyAI.</code><code class="descname">AI_Player</code><span class="sig-paren">(</span><em>AI_algo</em>, <em>name='AI'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/Player.html#AI_Player"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI_Player" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for an AI player. This class must be initialized with an
-AI algortihm, like <tt class="docutils literal"><span class="pre">AI_Player(</span> <span class="pre">Negamax(9)</span> <span class="pre">)</span></tt></p>
+AI algortihm, like <code class="docutils literal"><span class="pre">AI_Player(</span> <span class="pre">Negamax(9)</span> <span class="pre">)</span></code></p>
 </dd></dl>
 
 </div>
@@ -121,13 +120,13 @@ AI algortihm, like <tt class="docutils literal"><span class="pre">AI_Player(</sp
 <h2>AI algorithm<a class="headerlink" href="#ai-algorithm" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="easyAI.AI.Negamax">
-<em class="property">class </em><tt class="descclassname">easyAI.AI.</tt><tt class="descname">Negamax</tt><big>(</big><em>depth</em>, <em>scoring=None</em>, <em>win_score=inf</em>, <em>tt=None</em><big>)</big><a class="headerlink" href="#easyAI.AI.Negamax" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">easyAI.AI.</code><code class="descname">Negamax</code><span class="sig-paren">(</span><em>depth</em>, <em>scoring=None</em>, <em>win_score=inf</em>, <em>tt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/Negamax.html#Negamax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.Negamax" title="Permalink to this definition">¶</a></dt>
 <dd><p>This implements Negamax on steroids. The following example shows
 how to setup the AI and play a Connect Four game:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easyAI.games</span> <span class="kn">import</span> <span class="n">ConnectFour</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easyAI.games</span> <span class="k">import</span> <span class="n">ConnectFour</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">Negamax</span><span class="p">,</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scoring</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span><span class="p">:</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">)</span> <span class="c"># AI will think 8 turns in advance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">)</span> <span class="c1"># AI will think 8 turns in advance</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">game</span> <span class="o">=</span> <span class="n">ConnectFour</span><span class="p">([</span><span class="n">Human_Player</span><span class="p">(),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai_algo</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </pre></div>
@@ -136,20 +135,20 @@ how to setup the AI and play a Connect Four game:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>depth:</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>depth:</strong></p>
 <blockquote>
 <div><p>How many moves in advance should the AI think ?
 (2 moves = 1 complete turn)</p>
 </div></blockquote>
-<p><strong>scoring:</strong> :</p>
+<p><strong>scoring:</strong></p>
 <blockquote>
 <div><dl class="docutils">
 <dt>A function f(game)-&gt; score. If no scoring is provided</dt>
-<dd><p class="first last">and the game object has a <tt class="docutils literal"><span class="pre">scoring</span></tt> method it ill be used.</p>
+<dd><p class="first last">and the game object has a <code class="docutils literal"><span class="pre">scoring</span></code> method it ill be used.</p>
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>win_score:</strong> :</p>
+<p><strong>win_score:</strong></p>
 <blockquote>
 <div><dl class="docutils">
 <dt>Score above which the score means a win. This will be</dt>
@@ -159,11 +158,11 @@ section).</p>
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>tt:</strong> :</p>
+<p><strong>tt:</strong></p>
 <blockquote class="last">
 <div><p>A transposition table (a table storing game states and moves)
 scoring: can be none if the game that the AI will be given has a
-<tt class="docutils literal"><span class="pre">scoring</span></tt> method.</p>
+<code class="docutils literal"><span class="pre">scoring</span></code> method.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -171,67 +170,23 @@ scoring: can be none if the game that the AI will be given has a
 </table>
 <p class="rubric">Notes</p>
 <p>The score of a given game is given by</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">scoring</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">sign</span><span class="o">*</span><span class="n">current_depth</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scoring</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">sign</span><span class="o">*</span><span class="n">current_depth</span>
 </pre></div>
 </div>
 <p>for instance if a lose is -100 points, then losing after 4 moves
 will score -99.96 points but losing after 8 moves will be -99.92
 points. Thus, the AI will chose the move that leads to defeat in
 8 turns, which makes it more difficult for the (human) opponent.
-This will not always work if a <tt class="docutils literal"><span class="pre">win_score</span></tt> argument is provided.</p>
+This will not always work if a <code class="docutils literal"><span class="pre">win_score</span></code> argument is provided.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="transposition-tables">
 <h2>Transposition tables<a class="headerlink" href="#transposition-tables" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="attribute">
 <dt id="easyAI.AI.DictTT">
-<em class="property">class </em><tt class="descclassname">easyAI.AI.</tt><tt class="descname">DictTT</tt><a class="headerlink" href="#easyAI.AI.DictTT" title="Permalink to this definition">¶</a></dt>
-<dd><p>A tranposition table made out of a Python dictionnary.
-It can only be used on games which have a method
-game.ttentry() -&gt; string, or tuple</p>
-<p>Usage:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">DicTT</span><span class="p">()</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span> <span class="c"># boosted Negamax !</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span><span class="p">(</span><span class="n">some_game</span><span class="p">)</span> <span class="c"># computes a move, fills the table</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s">&#39;saved_tt.data&#39;</span><span class="p">)</span> <span class="c"># maybe save for later ?</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># later...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">DictTT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s">&#39;saved_tt.data&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span> <span class="c"># boosted Negamax !</span>
-</pre></div>
-</div>
-<p>Transposition tables can also be used as an AI (<tt class="docutils literal"><span class="pre">AI_player(tt)</span></tt>)
-but they must be exhaustive in this case: if they are asked for
-a position that isn&#8217;t stored in the table, it will lead to an error.</p>
-<dl class="staticmethod">
-<dt id="easyAI.AI.DictTT.fromfile">
-<em class="property">static </em><tt class="descname">fromfile</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#easyAI.AI.DictTT.fromfile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads a transposition table previously saved with
-<tt class="docutils literal"><span class="pre">DictTT.tofile</span></tt></p>
-</dd></dl>
-
-<dl class="method">
-<dt id="easyAI.AI.DictTT.lookup">
-<tt class="descname">lookup</tt><big>(</big><em>game</em><big>)</big><a class="headerlink" href="#easyAI.AI.DictTT.lookup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requests the entry in the table. Returns None if the
-entry has not been previously stored in the table.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="easyAI.AI.DictTT.store">
-<tt class="descname">store</tt><big>(</big><em>**data</em><big>)</big><a class="headerlink" href="#easyAI.AI.DictTT.store" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stores an entry into the table</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="easyAI.AI.DictTT.tofile">
-<tt class="descname">tofile</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#easyAI.AI.DictTT.tofile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves the transposition table to a file. Warning: the file
-can be big (~100Mo).</p>
-</dd></dl>
-
+<code class="descclassname">easyAI.AI.</code><code class="descname">DictTT</code><a class="headerlink" href="#easyAI.AI.DictTT" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#easyAI.AI.DictTT" title="easyAI.AI.DictTT"><code class="xref py py-class docutils literal"><span class="pre">easyAI.AI.DictTT</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -239,7 +194,7 @@ can be big (~100Mo).</p>
 <h2>Solving Games<a class="headerlink" href="#solving-games" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="easyAI.AI.solving.id_solve">
-<tt class="descclassname">easyAI.AI.solving.</tt><tt class="descname">id_solve</tt><big>(</big><em>game</em>, <em>ai_depths</em>, <em>win_score</em>, <em>scoring=None</em>, <em>tt=None</em>, <em>verbose=True</em><big>)</big><a class="reference internal" href="_modules/easyAI/AI/solving.html#id_solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.solving.id_solve" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">easyAI.AI.solving.</code><code class="descname">id_solve</code><span class="sig-paren">(</span><em>game</em>, <em>ai_depths</em>, <em>win_score</em>, <em>scoring=None</em>, <em>tt=None</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/solving.html#id_solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.solving.id_solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solves a game using iterative deepening, i.e. determines if by playing
 perfectly the first player can force a win, or whether it will always
 lose against a perfect opponent.</p>
@@ -254,52 +209,52 @@ of shallower searches are used to help exploring the deeper ones.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ai_depths:</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ai_depths:</strong></p>
 <blockquote>
 <div><p>List of AI depths to try (e.g. [5,6,7,8,9,10])</p>
 </div></blockquote>
-<p><strong>win_score:</strong> :</p>
+<p><strong>win_score:</strong></p>
 <blockquote>
 <div><p>Score above which a score means a win.</p>
 </div></blockquote>
-<p><strong>scoring:</strong> :</p>
+<p><strong>scoring:</strong></p>
 <blockquote>
 <div><p>Scoring function (see doc of class Negamax)</p>
 </div></blockquote>
-<p><strong>tt:</strong> :</p>
+<p><strong>tt:</strong></p>
 <blockquote>
 <div><p>An optional transposition table to speed up computations.</p>
 </div></blockquote>
-<p><strong>verbose:</strong> :</p>
+<p><strong>verbose:</strong></p>
 <blockquote>
-<div><p>If set to <tt class="docutils literal"><span class="pre">True</span></tt>, will print a summary of the best move
+<div><p>If set to <code class="docutils literal"><span class="pre">True</span></code>, will print a summary of the best move
 after each depth tried.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(result, depth, move, tt):</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(result, depth, move, tt):</p>
 <blockquote>
 <div><p>As below</p>
 </div></blockquote>
-<p><strong>result:</strong> :</p>
+<p>result:</p>
 <blockquote>
 <div><p>Either 1 (certain victory of the first player) or -1
 (certain defeat) or 0 (either draw, or the search was not
 deep enough)</p>
 </div></blockquote>
-<p><strong>depth:</strong> :</p>
+<p>depth:</p>
 <blockquote>
 <div><p>The minimal number of moves before victory (or defeat)</p>
 </div></blockquote>
-<p><strong>move:</strong> :</p>
+<p>move:</p>
 <blockquote>
 <div><p>Best move to play for the first player.</p>
 </div></blockquote>
-<p><strong>tt:</strong> :</p>
+<p>tt:</p>
 <blockquote class="last">
-<div><p>Will be None if <tt class="docutils literal"><span class="pre">use_tt</span></tt> was set to false, else will be a
+<div><p>Will be None if <code class="docutils literal"><span class="pre">use_tt</span></code> was set to false, else will be a
 transposition table containing all the relevant situations to play
-a perfect game and can be used with <tt class="docutils literal"><span class="pre">AI_player(tt)</span></tt></p>
+a perfect game and can be used with <code class="docutils literal"><span class="pre">AI_player(tt)</span></code></p>
 </div></blockquote>
 </td>
 </tr>
@@ -309,16 +264,16 @@ a perfect game and can be used with <tt class="docutils literal"><span class="pr
 
 <dl class="function">
 <dt id="easyAI.AI.solving.df_solve">
-<tt class="descclassname">easyAI.AI.solving.</tt><tt class="descname">df_solve</tt><big>(</big><em>game</em>, <em>win_score</em>, <em>maxdepth=50</em>, <em>tt=None</em>, <em>depth=0</em><big>)</big><a class="reference internal" href="_modules/easyAI/AI/solving.html#df_solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.solving.df_solve" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">easyAI.AI.solving.</code><code class="descname">df_solve</code><span class="sig-paren">(</span><em>game</em>, <em>win_score</em>, <em>maxdepth=50</em>, <em>tt=None</em>, <em>depth=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/solving.html#df_solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.solving.df_solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solves a game using a depth-first search: the game is explored until
 endgames are reached.</p>
-<p>The endgames are evaluated to see if their are victories or defeats.
+<p>The endgames are evaluated to see if there are victories or defeats.
 Then, a situation in which every move leads to a defeat is labelled
 as a (certain) defeat, and a situation in which one move leads to a
 (certain) defeat of the opponent is labelled as a (certain) victory.
 Situations are evaluated until the initial condition receives a label
 (victory or defeat). Draws are also possible.</p>
-<p>This algorithm can be faster but less informative than <tt class="docutils literal"><span class="pre">id_solve</span></tt>,
+<p>This algorithm can be faster but less informative than <code class="docutils literal"><span class="pre">id_solve</span></code>,
 as it does not provide &#8216;optimal&#8217; strategies (like shortest path to
 the victory). It returns simply 1, 0, or -1 to indicate certain
 victory, draw, or defeat of the first player.</p>
@@ -326,29 +281,29 @@ victory, draw, or defeat of the first player.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>game:</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>game:</strong></p>
 <blockquote>
 <div><p>An Game instance, initialized and ready to be played.</p>
 </div></blockquote>
-<p><strong>win_score:</strong> :</p>
+<p><strong>win_score:</strong></p>
 <blockquote>
 <div><p>Score above which a score means a win.</p>
 </div></blockquote>
-<p><strong>maxdepth:</strong> :</p>
+<p><strong>maxdepth:</strong></p>
 <blockquote>
 <div><p>Maximal recursion depth allowed.</p>
 </div></blockquote>
-<p><strong>tt:</strong> :</p>
+<p><strong>tt:</strong></p>
 <blockquote>
 <div><p>An optional transposition table to speed up computations.</p>
 </div></blockquote>
-<p><strong>depth:</strong> :</p>
+<p><strong>depth:</strong></p>
 <blockquote>
 <div><p>Index of the current depth (don&#8217;t touch that).</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>result</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">result</p>
 <blockquote class="last">
 <div><p>Either 1 (certain victory of the first player) or -1
 (certain defeat) or 0 (either draw, or the search was not
@@ -367,8 +322,7 @@ deep enough)</p>
           </div>
         </div>
       </div>
-  
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -387,47 +341,29 @@ deep enough)</p>
       <li>Previous: <a href="examples/speedup.html" title="previous chapter">How to make the AI faster</a></li>
   </ul></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/ref.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ref.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
-
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="examples/speedup.html" title="How to make the AI faster"
-             >previous</a> |</li>
-        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" style="position:relative">
+    <div class="footer">
       &copy; Copyright 2014, Zulko.
     </div>
-    <div>
-
-    </div>
-
   </body>
 </html>

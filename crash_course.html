@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>An easyAI crash course &mdash; easyAI 0.0.0.1 documentation</title>
+    <title>An easyAI crash course &#8212; easyAI 0.0.0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,85 +14,84 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0.1',
+        VERSION:     '0.0.0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="easyAI 0.0.0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body>
-  
-  
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">easyAI 0.0.0.5 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="an-easyai-crash-course">
 <h1>An easyAI crash course<a class="headerlink" href="#an-easyai-crash-course" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="defining-a-game">
 <h2>Defining a game<a class="headerlink" href="#defining-a-game" title="Permalink to this headline">¶</a></h2>
 <p>Defining a new game with easyAI looks like this:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">TwoPlayersGame</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">TwoPlayersGame</span>
 
 <span class="k">class</span> <span class="nc">MyNewGame</span><span class="p">(</span> <span class="n">TwoPlayersGame</span> <span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">players</span><span class="p">)</span> <span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="n">players</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span><span class="o">=</span> <span class="mi">1</span> <span class="c"># initialization. Player #1 starts.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nplayer</span><span class="o">=</span> <span class="mi">1</span> <span class="c1"># initialization. Player #1 starts.</span>
 
     <span class="k">def</span> <span class="nf">possible_moves</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
-        <span class="k">return</span> <span class="c"># all moves allowed to the current player</span>
+        <span class="k">return</span> <span class="c1"># all moves allowed to the current player</span>
 
-    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">)</span> <span class="p">:</span> <span class="c"># play the move !</span>
+    <span class="k">def</span> <span class="nf">make_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">)</span> <span class="p">:</span> <span class="c1"># play the move !</span>
        <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">move</span>
 
     <span class="k">def</span> <span class="nf">is_over</span><span class="p">()</span> <span class="p">:</span>
-        <span class="k">return</span> <span class="c"># whether the game has ended.</span>
+        <span class="k">return</span> <span class="c1"># whether the game has ended.</span>
 
     <span class="k">def</span> <span class="nf">show</span><span class="p">()</span> <span class="p">:</span>
-        <span class="k">print</span>  <span class="c"># or display the current game</span>
+        <span class="nb">print</span>  <span class="c1"># or display the current game</span>
 </pre></div>
 </div>
 <p>Then you set the AI algorithm as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Negamax</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">Negamax</span>
 
 <span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; give a (heuristic) score to the game &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">lose</span><span class="p">(</span><span class="n">game</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span> <span class="c"># very basic example</span>
+    <span class="k">return</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">lose</span><span class="p">(</span><span class="n">game</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span> <span class="c1"># very basic example</span>
 
-<span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">scoring</span><span class="p">)</span> <span class="c"># AI will think 8 moves in advance</span>
+<span class="n">ai_algo</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="n">scoring</span><span class="p">)</span> <span class="c1"># AI will think 8 moves in advance</span>
 </pre></div>
 </div>
 <p>Now you can start a game, for instance human vs. AI:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">easyAI</span> <span class="kn">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span>
 
-<span class="n">human</span> <span class="o">=</span> <span class="n">Human_Player</span><span class="p">(</span> <span class="s">&quot;Roger&quot;</span> <span class="p">)</span> <span class="c"># The name is optional :)</span>
+<span class="n">human</span> <span class="o">=</span> <span class="n">Human_Player</span><span class="p">(</span> <span class="s2">&quot;Roger&quot;</span> <span class="p">)</span> <span class="c1"># The name is optional :)</span>
 <span class="n">ai</span> <span class="o">=</span> <span class="n">AI_Player</span><span class="p">(</span> <span class="n">ai_algo</span> <span class="p">)</span>
 <span class="n">game</span> <span class="o">=</span> <span class="n">MyNewGame</span><span class="p">(</span> <span class="p">[</span> <span class="n">human</span><span class="p">,</span> <span class="n">ai</span> <span class="p">]</span> <span class="p">)</span>
-<span class="n">history</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span> <span class="c"># Starts the game. Returns the &#39;history&#39; at the end</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span> <span class="c1"># Starts the game. Returns the &#39;history&#39; at the end</span>
 </pre></div>
 </div>
 </div>
@@ -102,8 +101,7 @@
           </div>
         </div>
       </div>
-  
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -117,44 +115,29 @@
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/crash_course.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/crash_course.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
-
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" style="position:relative">
+    <div class="footer">
       &copy; Copyright 2014, Zulko.
     </div>
-    <div>
-
-    </div>
-
   </body>
 </html>
