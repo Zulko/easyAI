@@ -8,4 +8,5 @@ In these pages you will find a few examples of use of easyAI:
    
    quick_example
    games
+   integrate
    speedup

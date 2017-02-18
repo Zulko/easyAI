@@ -42,3 +42,6 @@ nosetests.xml
 # Pipy codes
 
 .pypirc
+
+# virtual env
+venv/
