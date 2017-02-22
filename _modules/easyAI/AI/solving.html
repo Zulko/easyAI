@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>easyAI.AI.solving &mdash; easyAI 0.0.0.1 documentation</title>
+    <title>easyAI.AI.solving &#8212; easyAI 0.0.0.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,52 +14,49 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.0.1',
+        VERSION:     '0.0.0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="easyAI 0.0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="easyAI.AI" href="../AI.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:400|Antic+Slab" rel="stylesheet" type="text/css">
   
+  <link media="only screen and (max-device-width: 480px)" href="../../../_static/small_flask.css" type= "text/css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body>
-  
-  
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../../../index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../easyAI.html" >easyAI</a> &raquo;</li>
-          <li><a href="../AI.html" accesskey="U">easyAI.AI</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">easyAI 0.0.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for easyAI.AI.solving</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">easyAI.AI</span> <span class="kn">import</span> <span class="n">DictTT</span><span class="p">,</span> <span class="n">Negamax</span>
-<span class="kn">from</span> <span class="nn">easyAI.Player</span> <span class="kn">import</span> <span class="n">AI_Player</span>
+<span></span><span class="kn">from</span> <span class="nn">easyAI.AI</span> <span class="k">import</span> <span class="n">Negamax</span>
+<span class="kn">from</span> <span class="nn">easyAI.AI</span> <span class="k">import</span> <span class="n">TT</span>
+<span class="kn">from</span> <span class="nn">easyAI.Player</span> <span class="k">import</span> <span class="n">AI_Player</span>
 
-<div class="viewcode-block" id="id_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.id_solve">[docs]</a><span class="k">def</span> <span class="nf">id_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">ai_depths</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-          <span class="n">tt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="id_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.id_solve">[docs]</a><span class="k">def</span> <span class="nf">id_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">ai_depths</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+          <span class="n">tt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Solves a game using iterative deepening, i.e. determines if by playing</span>
 <span class="sd">    perfectly the first player can force a win, or whether it will always</span>
@@ -118,31 +115,31 @@
 <span class="sd">      </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="s">&#39;players&#39;</span><span class="p">):</span> <span class="c"># the user provided a Game class</span>
-        <span class="n">game</span> <span class="o">=</span> <span class="n">game</span><span class="p">(</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="bp">None</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="s1">&#39;players&#39;</span><span class="p">):</span> <span class="c1"># the user provided a Game class</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">game</span><span class="p">(</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="n">AI_Player</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">AI_Player</span><span class="p">(</span><span class="kc">None</span><span class="p">)])</span>
     
     <span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="n">ai_depths</span><span class="p">:</span>
         <span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span> <span class="n">tt</span><span class="p">)</span>
         <span class="n">ai</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">alpha</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-             <span class="k">print</span><span class="p">(</span> <span class="s">&quot;d:</span><span class="si">%d</span><span class="s">, a:</span><span class="si">%d</span><span class="s">, m:</span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">ai_move</span><span class="p">)))</span>
+             <span class="nb">print</span><span class="p">(</span> <span class="s2">&quot;d:</span><span class="si">%d</span><span class="s2">, a:</span><span class="si">%d</span><span class="s2">, m:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">ai_move</span><span class="p">)))</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">win_score</span><span class="p">:</span>
             <span class="k">break</span>
     
-    <span class="c"># 1:win, 0:draw, -1:defeat</span>
+    <span class="c1"># 1:win, 0:draw, -1:defeat</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">alpha</span><span class="o">&gt;=</span> <span class="n">win_score</span> <span class="k">else</span> <span class="p">(</span>
              <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">win_score</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
     
-    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span></div>
 
-</div>
-<div class="viewcode-block" id="df_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.df_solve">[docs]</a><span class="k">def</span> <span class="nf">df_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">maxdepth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="df_solve"><a class="viewcode-back" href="../../../ref.html#easyAI.AI.solving.df_solve">[docs]</a><span class="k">def</span> <span class="nf">df_solve</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">win_score</span><span class="p">,</span> <span class="n">maxdepth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Solves a game using a depth-first search: the game is explored until</span>
 <span class="sd">    endgames are reached.</span>
 <span class="sd">    </span>
-<span class="sd">    The endgames are evaluated to see if their are victories or defeats.</span>
+<span class="sd">    The endgames are evaluated to see if there are victories or defeats.</span>
 <span class="sd">    Then, a situation in which every move leads to a defeat is labelled</span>
 <span class="sd">    as a (certain) defeat, and a situation in which one move leads to a</span>
 <span class="sd">    (certain) defeat of the opponent is labelled as a (certain) victory.</span>
@@ -184,31 +181,31 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     
     
-    <span class="c"># Is there a transposition table and is this game in it ?</span>
-    <span class="n">lookup</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">tt</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span> <span class="k">else</span> <span class="n">tt</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">lookup</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">lookup</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+    <span class="c1"># Is there a transposition table and is this game in it ?</span>
+    <span class="n">lookup</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">tt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="n">tt</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lookup</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lookup</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
         
     <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">maxdepth</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="s">&quot;Max recursion depth reached :(&quot;</span>
+        <span class="k">raise</span> <span class="s2">&quot;Max recursion depth reached :(&quot;</span>
     
     <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">is_over</span><span class="p">():</span>
         <span class="n">score</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">scoring</span><span class="p">()</span>
         <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">score</span><span class="o">&gt;=</span><span class="n">win_score</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="o">-</span><span class="n">score</span><span class="o">&gt;=</span><span class="n">win_score</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">tt</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">game</span><span class="o">=</span><span class="n">game</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">move</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">tt</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">game</span><span class="o">=</span><span class="n">game</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">move</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span>  <span class="n">value</span>
     
     <span class="n">possible_moves</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">possible_moves</span><span class="p">()</span>
     
     <span class="n">state</span> <span class="o">=</span> <span class="n">game</span>
-    <span class="n">unmake_move</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="s">&#39;unmake_move&#39;</span><span class="p">)</span>
+    <span class="n">unmake_move</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="s1">&#39;unmake_move&#39;</span><span class="p">)</span>
     
-    <span class="n">best_value</span><span class="p">,</span> <span class="n">best_move</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span>
+    <span class="n">best_value</span><span class="p">,</span> <span class="n">best_move</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span>
     
     <span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">possible_moves</span><span class="p">:</span>
         
         <span class="k">if</span> <span class="ow">not</span> <span class="n">unmake_move</span><span class="p">:</span>
-            <span class="n">game</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c"># re-initialize move</span>
+            <span class="n">game</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># re-initialize move</span>
         
         <span class="n">game</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
         <span class="n">game</span><span class="o">.</span><span class="n">switch_player</span><span class="p">()</span>
@@ -224,7 +221,7 @@
             <span class="k">return</span> <span class="n">move_value</span>
         
         <span class="k">if</span> <span class="n">move_value</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">best_value</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="c"># Is forcing a draw possible ?</span>
+            <span class="c1"># Is forcing a draw possible ?</span>
             <span class="n">best_value</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">best_move</span> <span class="o">=</span> <span class="n">move</span>
     
@@ -236,55 +233,30 @@
           </div>
         </div>
       </div>
-  
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../../index.html">Module code</a><ul>
-  <li><a href="../../easyAI.html">easyAI</a><ul>
-  <li><a href="../AI.html">easyAI.AI</a><ul>
-  </ul></li>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
-
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li><a href="../../../index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../easyAI.html" >easyAI</a> &raquo;</li>
-          <li><a href="../AI.html" >easyAI.AI</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" style="position:relative">
+    <div class="footer">
       &copy; Copyright 2014, Zulko.
     </div>
-    <div>
-
-    </div>
-
   </body>
 </html>
