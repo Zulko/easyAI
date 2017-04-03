@@ -26,20 +26,43 @@ PLAYER = 5
 ALPHA = 6
 BETA = 7
 
-TOP = 0
 DOWN = 1
 UP = 2
-PRUNE = 3 # similar to UP but it prunes the remaining moves
 
 def flipped_score(game, me, scoring):
     if game.nplayer == me:
         return scoring(game)
     return -scoring(game)
 
-def prune_parent(state):
-    index = state[CURRENT_MOVE] + 1
-    state[MOVE_LIST] = state[MOVE_LIST][0:index]
-    return
+class StateObject(object):
+
+    def __init__(self):
+        self.image = None
+        self.move_list = []
+        self.current_move = 0
+        self.best_move = 0
+        self.best_score = -INF
+        self.player = None
+        self.alpha = -INF
+        self.beta = INF
+
+    def prune(self):
+        index = self.current_move + 1
+        self.move_list = self.move_list[0:index]
+
+    def out_of_moves(self):
+        ''' we are at or past the end of the move list '''
+        return self.current_move >= len(self.move_list) - 1
+
+class StateList(object):
+
+
+    def __init__(self, target_depth):
+        self.state_list = [StateObject() for _ in range(target_depth + 2)]
+
+    def __getitem__(self, key):
+        return self.state_list[key + 1]
+
 
 def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
 
@@ -59,17 +82,8 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
         game.ai_move = None
         return score
 
-    empty_state = {
-        IMAGE: None,
-        MOVE_LIST: None,
-        CURRENT_MOVE: None,
-        BEST_MOVE: None,
-        PLAYER: None,
-        ALPHA: None,
-        BETA: None,
-    }
 
-    states = [copy.copy(empty_state) for _ in range(target_depth + 2)]
+    states = StateList(target_depth)
 
     me = game.nplayer
 
@@ -79,101 +93,76 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
     #
     ################################################
 
+    depth = -1  # proto-parent
+    states[depth].alpha = alpha
+    states[depth].beta = beta
+    direction = DOWN
     depth = 0
-    direction = TOP
-
-    # if True: print "TARGET DEPTH", target_depth
 
     while True:
-        if direction == TOP:  # this state only seen once; at the very beginning
-            # if True: print "TOP",
-            states[depth][IMAGE] = game.ttentry()
-            states[depth][MOVE_LIST] = game.possible_moves()
-            # if True: print "movelist =", states[depth][MOVE_LIST],
-            states[depth][BEST_MOVE] = 0 # set default
-            states[depth][BEST_SCORE] = -INF # set default
-            states[depth][CURRENT_MOVE] = 0
-            states[depth][PLAYER] = game.nplayer
-            states[depth][ALPHA] = alpha
-            states[depth][BETA] = beta
-            index = states[depth][CURRENT_MOVE]
-            game.make_move(states[depth][MOVE_LIST][index])
-            game.switch_player()
-            depth += 1
-            direction = DOWN
-            # if True: print "to DOWN", depth
-            continue
-        elif direction == DOWN:
-            # if True: print "DOWN"
-            # if True: print "    depth=",depth,
-            if depth < target_depth and not game.is_over():  # down, down, we go...
+        # print "DEPTH, DIR", depth, direction, states[depth].move_list
+        if direction == DOWN:
+            if (depth < target_depth) and not game.is_over():  # down, down, we go...
                 parent = depth - 1
-                states[depth][IMAGE] = game.ttentry()
-                states[depth][MOVE_LIST] = game.possible_moves()
-                states[depth][BEST_MOVE] = 0 # set default
-                states[depth][BEST_SCORE] = -INF # set default
-                states[depth][CURRENT_MOVE] = 0
-                states[depth][PLAYER] = game.nplayer
-                states[depth][ALPHA] = -states[parent][BETA] # inherit alpha from -beta
-                states[depth][BETA] = -states[parent][ALPHA]   # inherit beta from -alpha
-                index = states[depth][CURRENT_MOVE]
-                game.make_move(states[depth][MOVE_LIST][index])
+                states[depth].image = game.ttentry()
+                states[depth].move_list = game.possible_moves()
+                states[depth].best_move = 0 # set default
+                states[depth].best_score = -states[parent].best_score #  -INF # set default
+                states[depth].current_move = 0
+                states[depth].player = game.nplayer
+                states[depth].alpha = -states[parent].beta # inherit alpha from -beta
+                states[depth].beta = -states[parent].alpha   # inherit beta from -alpha
+                index = states[depth].current_move
+                game.make_move(states[depth].move_list[index])
                 game.switch_player()
                 direction = DOWN
                 depth += 1
-                # if True: print "    to DOWN", depth
             else: # reached a leaf or the game is over; going back up
                 leaf_score = flipped_score(game, me, scoring)
                 parent = depth - 1
-                # if True: print "    at leaf, score=", leaf_score
-                if states[parent][BEST_SCORE] < leaf_score:
-                    states[parent][BEST_SCORE] = leaf_score
-                    states[parent][BEST_MOVE] = states[parent][CURRENT_MOVE]
-                if states[parent][ALPHA] < leaf_score:
-                    states[parent][ALPHA] = leaf_score
-                if states[parent][ALPHA]>=states[parent][BETA]:
-                    prune_parent(states[parent])
-                    # if True: print "    PRUNE!"
+                if states[parent].best_score < leaf_score:
+                    states[parent].best_score = leaf_score
+                    states[parent].best_move = states[parent].current_move
+                if states[parent].alpha < leaf_score:
+                    states[parent].alpha = leaf_score
+                if states[parent].alpha >= states[parent].beta:
+                   states[parent].prune()
                 direction = UP
                 depth = parent
-                # if True: print "    to UP", depth
             continue
         elif direction == UP:
-            # if True: print "UP"
-            states[depth][CURRENT_MOVE] += 1 # choose next move
-            # if True: print "    depth=",depth,
-            # if True: print "    new cmove=",states[depth][CURRENT_MOVE],
-            # if True: print "    current movelist=",states[depth][MOVE_LIST], 
-            if states[depth][CURRENT_MOVE] >= len(states[depth][MOVE_LIST]):  # out of moves
-                if depth == 0:
-                    break;   # we are done.
-                parent = depth - 1
-                best_score = states[depth][BEST_SCORE]
-                if states[parent][BEST_SCORE] < best_score:
-                    states[parent][BEST_SCORE] = best_score
-                    states[parent][BEST_MOVE] = states[parent][CURRENT_MOVE]
-                if states[parent][ALPHA] < best_score:
-                    states[parent][ALPHA] = best_score
-                if states[parent][ALPHA]>=states[parent][BETA]:
-                    prune_parent(states[parent])
-                    # if True: print "    PRUNE!"
+            if depth<=0 and states[depth].out_of_moves():
+                break   # we are done.
+            best_score = states[depth].best_score
+            parent = depth - 1
+            if states[parent].best_score < best_score:
+                states[parent].best_score = best_score
+                states[parent].best_move = states[parent].current_move
+            if states[parent].alpha < best_score:
+                states[parent].alpha = best_score
+            if states[parent].alpha >= states[parent].beta:
+                states[parent].prune()
+                if depth<=0:
+                    break # we are done (we have 'pruned' our way out)
                 direction = UP
                 depth = parent
-                # if True: print "    to UP", depth
-            else:  # with next move, go down again
-                parent = depth - 1
-                game.ttrestore(states[depth][IMAGE])
-                game.nplayer = states[depth][PLAYER]
-                index = states[depth][CURRENT_MOVE]
-                game.make_move(states[depth][MOVE_LIST][index])
-                game.switch_player()
-                direction = DOWN
-                depth += 1
-                # if True: print "    to DOWN", depth
+                continue
+            if states[depth].out_of_moves():  # out of moves
+                direction = UP
+                depth = parent
+                continue
+            states[depth].current_move += 1 # choose next move
+            game.ttrestore(states[depth].image)
+            game.nplayer = states[depth].player
+            index = states[depth].current_move
+            game.make_move(states[depth].move_list[index])
+            game.switch_player()
+            direction = DOWN
+            depth += 1
 
-    best_move_index = states[0][BEST_MOVE]
-    best_move = states[0][MOVE_LIST][best_move_index]
-    best_value = states[0][BEST_SCORE]
+    best_move_index = states[0].best_move
+    best_move = states[0].move_list[best_move_index]
+    best_value = states[0].best_score
     game.ai_move = best_move
     return best_value
 
