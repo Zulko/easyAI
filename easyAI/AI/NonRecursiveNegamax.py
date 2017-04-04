@@ -31,8 +31,8 @@ UP = 2
 
 def flipped_score(game, me, scoring):
     if game.nplayer == me:
-        return scoring(game)
-    return -scoring(game)
+        return -scoring(game)
+    return scoring(game)
 
 class StateObject(object):
 
@@ -53,6 +53,14 @@ class StateObject(object):
     def out_of_moves(self):
         ''' we are at or past the end of the move list '''
         return self.current_move >= len(self.move_list) - 1
+
+    def goto_next_move(self):
+        self.current_move += 1
+        return self.move_list[self.current_move]
+
+    def swap_alpha_beta(self):
+        (self.alpha, self.beta) = (self.beta, self.alpha)
+
 
 class StateList(object):
 
@@ -100,14 +108,15 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
     depth = 0
 
     while True:
-        # print "DEPTH, DIR", depth, direction, states[depth].move_list
+        print "DEPTH", target_depth - depth
+        parent = depth - 1
         if direction == DOWN:
             if (depth < target_depth) and not game.is_over():  # down, down, we go...
-                parent = depth - 1
                 states[depth].image = game.ttentry()
                 states[depth].move_list = game.possible_moves()
+                print "MOVES", states[depth].move_list
                 states[depth].best_move = 0 # set default
-                states[depth].best_score = -states[parent].best_score #  -INF # set default
+                states[depth].best_score = INF # set default
                 states[depth].current_move = 0
                 states[depth].player = game.nplayer
                 states[depth].alpha = -states[parent].beta # inherit alpha from -beta
@@ -119,14 +128,17 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
                 depth += 1
             else: # reached a leaf or the game is over; going back up
                 leaf_score = flipped_score(game, me, scoring)
-                parent = depth - 1
-                if states[parent].best_score < leaf_score:
+                print "LEAF w AB", leaf_score, states[parent].alpha, states[parent].beta
+                if states[parent].best_score > leaf_score:
                     states[parent].best_score = leaf_score
                     states[parent].best_move = states[parent].current_move
-                if states[parent].alpha < leaf_score:
-                    states[parent].alpha = leaf_score
-                if states[parent].alpha >= states[parent].beta:
-                   states[parent].prune()
+                print "BEST_SCORE", states[parent].best_score
+                if states[parent].beta > leaf_score:
+                    print "LEAF CHANGE BETA to ", leaf_score, "for", (target_depth - parent)
+                    states[parent].beta = leaf_score
+                # if states[parent].alpha >= states[parent].beta:
+                #    states[parent].prune()
+                #    print "PRUNE (via leaf)"
                 direction = UP
                 depth = parent
             continue
@@ -134,28 +146,27 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
             if depth<=0 and states[depth].out_of_moves():
                 break   # we are done.
             best_score = states[depth].best_score
-            parent = depth - 1
-            if states[parent].best_score < best_score:
+            if states[parent].best_score > best_score:
                 states[parent].best_score = best_score
                 states[parent].best_move = states[parent].current_move
-            if states[parent].alpha < best_score:
-                states[parent].alpha = best_score
-            if states[parent].alpha >= states[parent].beta:
-                states[parent].prune()
-                if depth<=0:
-                    break # we are done (we have 'pruned' our way out)
-                direction = UP
-                depth = parent
-                continue
+                states[parent].beta = min(-states[depth].best_score, states[depth].beta)
+                print "UP BETA to ", states[parent].beta, "for", (target_depth - parent)
+
             if states[depth].out_of_moves():  # out of moves
                 direction = UP
                 depth = parent
                 continue
-            states[depth].current_move += 1 # choose next move
+            if states[depth].alpha >= states[depth].beta:
+                # print "MOVES, CURRENT", states[depth].move_list, states[depth].current_move
+                print "PRUNE (via UP)"
+                direction = UP
+                depth = parent
+                continue
+            # else go down the next branch
             game.ttrestore(states[depth].image)
             game.nplayer = states[depth].player
-            index = states[depth].current_move
-            game.make_move(states[depth].move_list[index])
+            next_move = states[depth].goto_next_move()
+            game.make_move(next_move)
             game.switch_player()
             direction = DOWN
             depth += 1

@@ -44,12 +44,14 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
         
         
         
-    
+    print "DEPTH", depth    
     if (depth == 0) or game.is_over():
         score = scoring(game)
         if score == 0:
+            print "LEAF w AB", score, alpha, beta
             return score
         else:
+            print "LEAF w AB", (score - 0.01*depth*abs(score)/score), alpha, beta
             return  (score - 0.01*depth*abs(score)/score)
     
     
@@ -62,7 +64,8 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
     else:
         
         possible_moves = game.possible_moves()
-    
+
+    print "MOVES",  possible_moves    
     
     
     state = game
@@ -96,6 +99,7 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
                 if depth == origDepth:
                     state.ai_move = move
                 if (alpha >= beta):
+                    print "PRUNE"
                     break
         
     if tt != None:
