@@ -15,7 +15,6 @@ import easyAI.games as examples
 class Test_Negamax(unittest.TestCase):
 
     def test_play_knights_against_self(self):
-        return
         ai_algo_K1 = easyAI.Negamax(8)
         ai_algo_K2 = easyAI.Negamax(10)
         game = examples.Knights([easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)])
@@ -34,7 +33,6 @@ class Test_Negamax(unittest.TestCase):
         self.assertEqual(move_list_K2, K2_correct)
 
     def test_play_awele_against_self(self):
-        return
         ai_algo_P1 = easyAI.Negamax(3)
         ai_algo_P2 = easyAI.Negamax(4)
         game = examples.AweleTactical([easyAI.AI_Player(ai_algo_P1), easyAI.AI_Player(ai_algo_P2)])
@@ -42,7 +40,6 @@ class Test_Negamax(unittest.TestCase):
         move_list_P2 = []
         while not game.is_over():
             move = game.get_move()
-            zak()
             if game.nplayer==1:
                 move_list_P1.append(move)
             else:
@@ -57,7 +54,6 @@ class Test_Negamax(unittest.TestCase):
 class Test_NonRecursiveNegamax(unittest.TestCase):
 
     def test_play_knights_against_self(self):
-        return
         ai_algo_K1 = easyAI.NonRecursiveNegamax(8)
         ai_algo_K2 = easyAI.NonRecursiveNegamax(10)
         game = examples.Knights([easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)])
@@ -83,7 +79,6 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
         move_list_P2 = []
         while not game.is_over():
             move = game.get_move()
-            # zak()
             if game.nplayer==1:
                 move_list_P1.append(move)
             else:
@@ -98,7 +93,6 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
 class Test_SSS(unittest.TestCase):
 
     def test_play_knights_against_self(self):
-        return
         ai_algo_K1 = easyAI.SSS(8)
         ai_algo_K2 = easyAI.SSS(10)
         game = examples.Knights([easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)])
@@ -119,7 +113,6 @@ class Test_SSS(unittest.TestCase):
 class Test_DUAL(unittest.TestCase):
 
     def test_play_knights_against_self(self):
-        return
         ai_algo_K1 = easyAI.DUAL(8)
         ai_algo_K2 = easyAI.DUAL(10)
         game = examples.Knights([easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)])

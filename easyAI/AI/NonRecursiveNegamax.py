@@ -29,11 +29,6 @@ BETA = 7
 DOWN = 1
 UP = 2
 
-def flipped_score(game, me, scoring):
-    if game.nplayer == me:
-        return -scoring(game)
-    return scoring(game)
-
 class StateObject(object):
 
     def __init__(self):
@@ -108,15 +103,15 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
     depth = 0
 
     while True:
-        print "DEPTH", target_depth - depth
+        # print "DEPTH", target_depth - depth
         parent = depth - 1
         if direction == DOWN:
             if (depth < target_depth) and not game.is_over():  # down, down, we go...
                 states[depth].image = game.ttentry()
                 states[depth].move_list = game.possible_moves()
-                print "MOVES", states[depth].move_list
-                states[depth].best_move = 0 # set default
-                states[depth].best_score = INF # set default
+                # print "MOVES", states[depth].move_list
+                states[depth].best_move = 0
+                states[depth].best_score = -INF
                 states[depth].current_move = 0
                 states[depth].player = game.nplayer
                 states[depth].alpha = -states[parent].beta # inherit alpha from -beta
@@ -127,40 +122,36 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
                 direction = DOWN
                 depth += 1
             else: # reached a leaf or the game is over; going back up
-                leaf_score = flipped_score(game, me, scoring)
-                print "LEAF w AB", leaf_score, states[parent].alpha, states[parent].beta
-                if states[parent].best_score > leaf_score:
+                leaf_score = -scoring(game)
+                # print "LEAF w AB", -leaf_score, -states[parent].beta, -states[parent].alpha
+                if leaf_score > states[parent].best_score:
                     states[parent].best_score = leaf_score
                     states[parent].best_move = states[parent].current_move
-                print "BEST_SCORE", states[parent].best_score
-                if states[parent].beta > leaf_score:
-                    print "LEAF CHANGE BETA to ", leaf_score, "for", (target_depth - parent)
-                    states[parent].beta = leaf_score
-                # if states[parent].alpha >= states[parent].beta:
-                #    states[parent].prune()
-                #    print "PRUNE (via leaf)"
+                # print "BEST_SCORE SO FAR", states[parent].best_score, "at", (target_depth - parent)
+                if states[parent].alpha < leaf_score:
+                    # print "LEAF CHANGE ALPHA to ", leaf_score, "for", (target_depth - parent)
+                    states[parent].alpha = leaf_score
                 direction = UP
                 depth = parent
             continue
         elif direction == UP:
-            if depth<=0 and states[depth].out_of_moves():
-                break   # we are done.
-            best_score = states[depth].best_score
-            if states[parent].best_score > best_score:
-                states[parent].best_score = best_score
-                states[parent].best_move = states[parent].current_move
-                states[parent].beta = min(-states[depth].best_score, states[depth].beta)
-                print "UP BETA to ", states[parent].beta, "for", (target_depth - parent)
-
-            if states[depth].out_of_moves():  # out of moves
+            prune_time = states[depth].alpha >= states[depth].beta
+            if states[depth].out_of_moves() or prune_time:  # out of moves
+                bs = -states[depth].best_score
+                if bs > states[parent].best_score:
+                    states[parent].best_score = bs
+                    states[parent].best_move = states[parent].current_move
+                if states[parent].alpha < bs:
+                    # print "UP CHANGE ALPHA to ", bs, "for", (target_depth - parent)
+                    states[parent].alpha = bs
+                # print "UP BEST_SCORE SO FAR", bs, states[parent].move_list[states[parent].best_move], "to", (target_depth - parent)
+                # print "BEST_SCORE, BEST_MOVE", bs, states[depth].move_list[states[depth].best_move], "at", (target_depth - depth)
+                if depth<=0:
+                    break   # we are done.
                 direction = UP
                 depth = parent
-                continue
-            if states[depth].alpha >= states[depth].beta:
-                # print "MOVES, CURRENT", states[depth].move_list, states[depth].current_move
-                print "PRUNE (via UP)"
-                direction = UP
-                depth = parent
+                #if prune_time:
+                    # print "PRUNE (via UP)"
                 continue
             # else go down the next branch
             game.ttrestore(states[depth].image)
