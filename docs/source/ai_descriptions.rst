@@ -22,7 +22,7 @@ is that the algorithm has been redesigned to not use recursion.
 
 Recursion is where a process calls itself. For example, if function A calls function A which in turn calls function A, then it is behaving recursively. The negamax algorithm is naturally recursive. One of the problems with resursion is that it is not possible to predict the amount of memory and processing needed to finish the algorithm.
 
-This variation instead pre-allocates a "list of states" to avoid recursion. For same games, this can dramatically improve performance.
+This variation instead pre-allocates a "list of states" to avoid recursion. For some games, this can dramatically improve performance.
 
 DUAL
 ----
