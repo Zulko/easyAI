@@ -32,6 +32,8 @@ User's Guide
    installation
    get_started
    examples/examples
+   speedup
+   ai_descriptions
    ref
 
 Contribute !

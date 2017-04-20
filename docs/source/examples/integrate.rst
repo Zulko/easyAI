@@ -1,4 +1,4 @@
-.. _ExamplesOfGames:
+.. _ExamplesOfGameIntegration:
 
 Integrating easyAI with other frameworks
 ========================================

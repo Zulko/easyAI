@@ -1,4 +1,3 @@
-from easyAI.AI.DictTT import DictTT
 try:
     import numpy as np
 except ImportError:

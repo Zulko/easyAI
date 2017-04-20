@@ -1,5 +1,5 @@
-Reference manual
-=================
+Reference Manual
+================
 
 Games
 -----
@@ -10,7 +10,7 @@ Games
 
 
 Players
----------
+-------
 
 .. autoclass:: easyAI.Human_Player
    :show-inheritance:
@@ -18,17 +18,30 @@ Players
 .. autoclass:: easyAI.AI_Player
    :show-inheritance:
 
-AI algorithm
+AI algorithms
 -------------
 
 .. autoclass:: easyAI.AI.Negamax
    :members:
    :show-inheritance:
+
+.. autoclass:: easyAI.AI.NonRecursiveNegamax
+   :members:
+   :show-inheritance:
+
+.. autoclass:: easyAI.AI.DUAL
+   :members:
+   :show-inheritance:
+
+.. autoclass:: easyAI.AI.SSS
+   :members:
+   :show-inheritance:
+
    
 Transposition tables
 --------------------
 
-.. autoclass:: easyAI.AI.DictTT
+.. autoclass:: easyAI.AI.TT
    :members:
    :show-inheritance:
    
