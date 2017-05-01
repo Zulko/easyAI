@@ -19,6 +19,7 @@ class TwoPlayersGame:
     - ``scoring``: gives a score to the current game (for the AI)
     - ``unmake_move(self, move)``: how to unmake a move (speeds up the AI)
     - ``ttentry(self)``: returns a string/tuple describing the game.
+    - ``ttrestore(self, entry)``: use string/tuple from ttentry to restore a game.
     
     The __init__ method *must* do the following actions:
     
@@ -67,6 +68,21 @@ class TwoPlayersGame:
     """
 
     def play(self, nmoves=1000, verbose=True):
+        """
+        Method for starting the play of a game to completion. If one of the
+        players is a Human_Player, then the interaction with the human is via
+        the text terminal.
+
+        Parameters
+        -----------
+
+        nmoves:
+          The limit of how many moves (plies) to play unless the game ends on
+          it's own first.
+
+        verbose:
+          Setting verbose=True displays additional text messages.
+        """
 
         history = []
 
@@ -112,9 +128,25 @@ class TwoPlayersGame:
         return deepcopy(self)
 
     def get_move(self):
+        """
+        Method for getting a move from the current player. If the player is an
+        AI_Player, then this method will invoke the AI algorithm to choose the
+        move. If the player is a Human_Player, then the interaction with the
+        human is via the text terminal.
+        """
         return self.player.ask_move(self)
 
     def play_move(self, move):
+        """
+        Method for playing one move with the current player. After making the move,
+        the current player will change to the next player.
+
+        Parameters
+        -----------
+
+        move:
+          The move to be played. ``move`` should match an entry in the ``.possibles_moves()`` list.
+        """
         result = self.make_move(move)
         self.switch_player()
         return result

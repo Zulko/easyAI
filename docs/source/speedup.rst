@@ -1,6 +1,6 @@
 .. _speedup:
 
-How to make the AI faster
+How To Make The AI Faster
 ==========================
 
 EasyAI has been written with clarity/simplicity and in mind, rather than speed. In this section we will see how to  make the AI run faster with a few refinements in the way the game is defined.
@@ -89,19 +89,35 @@ Now that ``Connect4.lose()`` is called less our program runs in 0.74 seconds.
 Use transposition tables
 ------------------------
 
-Transposition tables store the values of already-computed moves and positions so that if the AI meets them again it will win time. To use such tables is very easy. First you need to tell easyAI how to represent a game in a simple form (a string or a tuple) to use as a key when you store the game in the table. In our example, the game will be represented by a string of 42 caracters indicating whether the different positions on the board are occupied by player 1, by player 2, or just empty.
-::
+Transposition tables store the values of already-computed moves and positions so that if the AI meets them again it will win time. To use such tables is very easy. First you need to tell easyAI how to represent a game in a simple form (a string or a tuple) to use as a key when you store the game in the table. In our example, the game will be represented by a string of 42 caracters indicating whether the different positions on the board are occupied by player 1, by player 2, or just empty. ::
+
     def ttentry(self):
         return "".join([".0X"[i] for i in self.board.flatten()])
 
 Then you simply tell the AI that you want to use transposition tables: ::
     
-    from easyAI import DictTT
-    ai = Negamax(7, scoring, tt = DictTT())
+    from easyAI import TT
+    ai = Negamax(7, scoring, tt = TT())
 
 The AI now runs in **0.4 seconds !** 
 
 Transposition tables become more advantageous when you are thinking many moves in advance: Negamax(10) takes 2.4 seconds with transposition tables,  and 9.4 second without (for Connect 4 it is known that the tables help the AI a lot. In some other games they might be useless).
+
+Solve the game first
+--------------------
+
+Not all games are solvable. But if it is possible to fully solve a game, you could solve it first, then store the results for use in your program. Using the GameOfBones example ::
+    
+    tt = TT()
+    GameOfBones.ttentry = lambda game : game.pile  # key for the table
+    r,d,m = id_solve(GameOfBones, range(2,20), win_score=100, tt=tt)
+
+After these lines are run the variable ``tt`` contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With ``tt`` you can play perfectly without *thinking*: ::
+    
+    game = GameOfBones( [  AI_Player( tt ), Human_Player() ] )
+    game.play()  # you will always lose this game :)
+
+One could save the solved transposition table to a file using a python library such as ``pickle``. Then, your program need not recalculate the solution every time it starts. Instead it simply reads the saved tranposition table.
 
 Conclusion
 -----------
