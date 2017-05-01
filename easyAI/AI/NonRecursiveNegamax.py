@@ -78,10 +78,25 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
     if not hasattr(game, "ttrestore"):
         raise AttributeError('Method "ttrestore()" missing from game.')
 
-    if (target_depth == 0) or game.is_over():
+    if game.is_over():
         score = scoring(game)
         game.ai_move = None
         return score
+
+    if target_depth == 0:
+        current_game = game.ttentry()
+        move_list = game.possible_moves()
+        best_move = None
+        best_score = -INF
+        for move in move_list:
+            game.make_move(move)
+            score = scoring(game)
+            if score > best_score:
+                best_move = copy.copy(move)
+                best_score = score
+            game.ttrestore(current_game)
+        game.ai_move = best_move
+        return best_score
 
     states = StateList(target_depth)
 
