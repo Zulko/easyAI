@@ -74,7 +74,7 @@ We obtain ``r=1``, meaning that if both players play perfectly, the first player
 
 These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each: ::
     
-    tt = DictTT()
+    tt = TT()
     GameOfBones.ttentry = lambda game : game.pile # key for the table
     r,d,m = id_solve(GameOfBones, range(2,20), win_score=100, tt=tt)
 
@@ -94,3 +94,9 @@ For troubleshooting and bug reports, the best for now is to ask on Github_.
 .. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
 .. _Zulko : https://github.com/Zulko
 .. _Github :  https://github.com/Zulko/easyAI
+
+Maintainers
+-----------
+
+- Zulko_ (owner)
+- `@JohnAD`_
