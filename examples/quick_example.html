@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>A quick example &#8212; easyAI 0.0.0.5 documentation</title>
+    <title>A quick example &#8212; easyAI 1.0.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.0.5',
+        VERSION:     '1.0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Games implemented with easyAI" href="games.html" />
-    <link rel="prev" title="Examples of use" href="examples.html" />
+    <link rel="prev" title="Examples Of Use" href="examples.html" />
    
   
   <link media="only screen and (max-device-width: 480px)" href="../_static/small_flask.css" type= "text/css" rel="stylesheet" />
@@ -46,10 +46,10 @@
           <a href="games.html" title="Games implemented with easyAI"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="examples.html" title="Examples of use"
+          <a href="examples.html" title="Examples Of Use"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">easyAI 0.0.0.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="examples.html" accesskey="U">Examples of use</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">easyAI 1.0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" accesskey="U">Examples Of Use</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -108,7 +108,7 @@ Player 1 what do you play ?
 </div>
 <p>We obtain <code class="docutils literal"><span class="pre">r=1</span></code>, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), <code class="docutils literal"><span class="pre">d=10</span></code>, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and <code class="docutils literal"><span class="pre">m='3'</span></code>, which indicates that the first player&#8217;s first move should be <code class="docutils literal"><span class="pre">'3'</span></code>.</p>
 <p>These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tt</span> <span class="o">=</span> <span class="n">DictTT</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tt</span> <span class="o">=</span> <span class="n">TT</span><span class="p">()</span>
 <span class="n">GameOfBones</span><span class="o">.</span><span class="n">ttentry</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span> <span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">pile</span> <span class="c1"># key for the table</span>
 <span class="n">r</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span> <span class="o">=</span> <span class="n">id_solve</span><span class="p">(</span><span class="n">GameOfBones</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">win_score</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">)</span>
 </pre></div>
@@ -127,6 +127,9 @@ Player 1 what do you play ?
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpeg" alt="Logo"/>
+            </a></p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">A quick example</a><ul>
@@ -137,8 +140,8 @@ Player 1 what do you play ?
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="examples.html">Examples of use</a><ul>
-      <li>Previous: <a href="examples.html" title="previous chapter">Examples of use</a></li>
+  <li><a href="examples.html">Examples Of Use</a><ul>
+      <li>Previous: <a href="examples.html" title="previous chapter">Examples Of Use</a></li>
       <li>Next: <a href="games.html" title="next chapter">Games implemented with easyAI</a></li>
   </ul></li>
   </ul></li>
@@ -165,7 +168,7 @@ Player 1 what do you play ?
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; Copyright 2014, Zulko.
+      &copy; Copyright 2014-2017, Zulko.
     </div>
   </body>
 </html>

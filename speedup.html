@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; easyAI 0.0.0.1 documentation</title>
+    <title>How To Make The AI Faster &#8212; easyAI 1.0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,78 +14,211 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0.1',
+        VERSION:     '1.0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="easyAI 0.0.0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AI Class Descriptions" href="ai_descriptions.html" />
+    <link rel="prev" title="Integrating easyAI with other frameworks" href="examples/integrate.html" />
    
   
   <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body>
-  
-  
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">easyAI 0.0.0.1 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="ai_descriptions.html" title="AI Class Descriptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="examples/integrate.html" title="Integrating easyAI with other frameworks"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">easyAI 1.0.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
-  
+  <div class="section" id="how-to-make-the-ai-faster">
+<span id="speedup"></span><h1>How To Make The AI Faster<a class="headerlink" href="#how-to-make-the-ai-faster" title="Permalink to this headline">¶</a></h1>
+<p>EasyAI has been written with clarity/simplicity and in mind, rather than speed. In this section we will see how to  make the AI run faster with a few refinements in the way the game is defined.</p>
+<ul class="simple">
+<li>Profile your code !</li>
+<li>Optimize (avoid recomputing things that have already been computed).</li>
+<li>For the most computer-intensive parts use fast libraries or code in C/Cython.</li>
+</ul>
+<div class="section" id="let-s-play-connect-4">
+<h2>Let&#8217;s play Connect 4<a class="headerlink" href="#let-s-play-connect-4" title="Permalink to this headline">¶</a></h2>
+<p>So let&#8217;s start. We want to play <em>Connect 4</em> (<a class="reference internal" href="#rules">rules</a>) against the computer.</p>
+<img alt="http://upload.wikimedia.org/wikipedia/commons/a/ad/Connect_Four.gif" class="align-center" src="http://upload.wikimedia.org/wikipedia/commons/a/ad/Connect_Four.gif" />
+<p>I chose this game because the implementation given in easyAI (see section <a class="reference internal" href="examples/games.html#connect4"><span class="std std-ref">Connect 4</span></a>) is really not optimized: we will show that it can be sped up 25 times.</p>
+<p>We load the game and start a match, with the following code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">easyAI.games</span> <span class="k">import</span> <span class="n">ConnectFour</span>
+<span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">Human_Player</span><span class="p">,</span> <span class="n">AI_Player</span><span class="p">,</span> <span class="n">Negamax</span>
+
+<span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># AI thinks 7 moves in advance</span>
+<span class="n">game</span> <span class="o">=</span> <span class="n">ConnectFour</span><span class="p">(</span> <span class="p">[</span> <span class="n">AI_Player</span><span class="p">(</span><span class="n">ai</span><span class="p">),</span> <span class="n">Human_Player</span><span class="p">()</span> <span class="p">])</span>
+<span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We launch the script, and the computer plays after nine seconds... nine seconds !!! I mean, even in the 1990s it was considered slow ! So let&#8217;s see what we can do about that.</p>
+<p>First we profile the AI with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cProfile</span>
+<span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;game.play(1)&quot;</span><span class="p">)</span> <span class="c1"># play one move, stop the game, profile</span>
+</pre></div>
+</div>
+<p>This will print every function used to play the first move, and the time taken by each function.</p>
+</div>
+<div class="section" id="cythonize-what-you-can">
+<h2>Cythonize what you can<a class="headerlink" href="#cythonize-what-you-can" title="Permalink to this headline">¶</a></h2>
+<p>The results of <code class="docutils literal"><span class="pre">cProfile</span></code> are clear: 6.7 of the 9 seconds are spent computing the function <code class="docutils literal"><span class="pre">find_four</span></code>, which checks whether there are 4 connected pieces in the board. This is not the kind of function that python likes (many <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">while</span></code> loops) so we will rewrite this function in a faster language. You can write it in C and link it to python, but for this example I prefer to write it in Cython, because it integrates well with Python and the iPython Notebook (<code class="xref download docutils literal"><span class="pre">Cython</span> <span class="pre">code</span></code>). After the function is rewritten, we run again</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cProfile</span>
+<span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;game.play(1)&quot;</span><span class="p">)</span> <span class="c1"># play one move and profile</span>
+</pre></div>
+</div>
+<p>Now it takes 2.7 seconds !</p>
+</div>
+<div class="section" id="use-unmake-move">
+<h2>Use <code class="docutils literal"><span class="pre">unmake_move</span></code><a class="headerlink" href="#use-unmake-move" title="Permalink to this headline">¶</a></h2>
+<p>So what is the next bottleneck ? Apparently the function <code class="docutils literal"><span class="pre">deepcopy</span></code> is called a lot and takes a total of 1.4 seconds.</p>
+<p>This problem is very much linked with the way easyAI works: when the AI thinks a few moves in advances, it creates whole copies of the entire game, on which it can experiment. In our case the AI has created 35000 copies of the game, no wonder it was slow.</p>
+<p>A better solution is to perform a move directly on the original game, and once the move is evaluated, undo the move and continue with the same game. This is very easy to do with easyAI, all we have to do is to add a method called <code class="docutils literal"><span class="pre">unmake_move</span></code> to the class ConnectFour, which explains how to cancel a given move:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unmake_move</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Unmake a move by removing the last piece of the column &quot;&quot;&quot;</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span> <span class="k">if</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">else</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span> <span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="n">line</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Now as expected <code class="docutils literal"><span class="pre">cProfile</span></code> tells us that our program runs in 1.2 seconds.
+Note that for some games <em>undoing</em> a move knowing just the move is not easy (sometimes it is even impossible).</p>
+</div>
+<div class="section" id="don-t-look-twice-if-you-have-lost">
+<h2>Don&#8217;t look twice if you have lost<a class="headerlink" href="#don-t-look-twice-if-you-have-lost" title="Permalink to this headline">¶</a></h2>
+<p>Now the function <code class="docutils literal"><span class="pre">Connect4.lose()</span></code> is responsible for half of the duration. This is the method which calls <code class="docutils literal"><span class="pre">find_four</span></code>, to see if the opponent has won.  <code class="docutils literal"><span class="pre">Connect4.lose()</span></code>  is really not called efficiently: first the AI checks if the player has lost with <code class="docutils literal"><span class="pre">Connect4.lose()</span></code>, in order to know if the game is over (method <cite>is_over</cite>), then it computes a score, and for this it calls the function <cite>scoring</cite>, which will also call <code class="docutils literal"><span class="pre">Connect4.lose()</span></code>.</p>
+<p>It would be better if <code class="docutils literal"><span class="pre">is_over</span></code> could directly tell to <code class="docutils literal"><span class="pre">scoring</span></code> something like <em>we have lost, I already checked</em>. So let&#8217;s rewrite these two functions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; You lose if your opponent has four &#39;connected&#39; pieces &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">haslost</span> <span class="o">=</span> <span class="n">find_four</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nopponent</span><span class="p">)</span> <span class="c1"># store result</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">haslost</span>
+
+<span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">haslost</span> <span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">haslost</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">haslost</span> <span class="c1"># use the stored result of ``lose``.</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">haslost</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="n">haslost</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">100</span> <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">lose</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Now that <code class="docutils literal"><span class="pre">Connect4.lose()</span></code> is called less our program runs in 0.74 seconds.</p>
+</div>
+<div class="section" id="use-transposition-tables">
+<h2>Use transposition tables<a class="headerlink" href="#use-transposition-tables" title="Permalink to this headline">¶</a></h2>
+<p>Transposition tables store the values of already-computed moves and positions so that if the AI meets them again it will win time. To use such tables is very easy. First you need to tell easyAI how to represent a game in a simple form (a string or a tuple) to use as a key when you store the game in the table. In our example, the game will be represented by a string of 42 caracters indicating whether the different positions on the board are occupied by player 1, by player 2, or just empty.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ttentry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;.0X&quot;</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p>Then you simply tell the AI that you want to use transposition tables:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">easyAI</span> <span class="k">import</span> <span class="n">TT</span>
+<span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">TT</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The AI now runs in <strong>0.4 seconds !</strong></p>
+<p>Transposition tables become more advantageous when you are thinking many moves in advance: Negamax(10) takes 2.4 seconds with transposition tables,  and 9.4 second without (for Connect 4 it is known that the tables help the AI a lot. In some other games they might be useless).</p>
+</div>
+<div class="section" id="solve-the-game-first">
+<h2>Solve the game first<a class="headerlink" href="#solve-the-game-first" title="Permalink to this headline">¶</a></h2>
+<p>Not all games are solvable. But if it is possible to fully solve a game, you could solve it first, then store the results for use in your program. Using the GameOfBones example</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tt</span> <span class="o">=</span> <span class="n">TT</span><span class="p">()</span>
+<span class="n">GameOfBones</span><span class="o">.</span><span class="n">ttentry</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span> <span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">pile</span>  <span class="c1"># key for the table</span>
+<span class="n">r</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span> <span class="o">=</span> <span class="n">id_solve</span><span class="p">(</span><span class="n">GameOfBones</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">win_score</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="n">tt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After these lines are run the variable <code class="docutils literal"><span class="pre">tt</span></code> contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With <code class="docutils literal"><span class="pre">tt</span></code> you can play perfectly without <em>thinking</em>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">game</span> <span class="o">=</span> <span class="n">GameOfBones</span><span class="p">(</span> <span class="p">[</span>  <span class="n">AI_Player</span><span class="p">(</span> <span class="n">tt</span> <span class="p">),</span> <span class="n">Human_Player</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
+<span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>  <span class="c1"># you will always lose this game :)</span>
+</pre></div>
+</div>
+<p>One could save the solved transposition table to a file using a python library such as <code class="docutils literal"><span class="pre">pickle</span></code>. Then, your program need not recalculate the solution every time it starts. Instead it simply reads the saved tranposition table.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Now there are no obvious ways to gain significant speed. Maybe speeding up Python in general by using an optimized compiler like PyPy could help win a few more percents. But if you really want a fast and smart AI you may also consider other strategies like mixing algortihms, using opening books, etc.</p>
+<span class="target" id="here"><span id="rules"></span></span></div>
+</div>
+
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.jpeg" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How To Make The AI Faster</a><ul>
+<li><a class="reference internal" href="#let-s-play-connect-4">Let&#8217;s play Connect 4</a></li>
+<li><a class="reference internal" href="#cythonize-what-you-can">Cythonize what you can</a></li>
+<li><a class="reference internal" href="#use-unmake-move">Use <code class="docutils literal"><span class="pre">unmake_move</span></code></a></li>
+<li><a class="reference internal" href="#don-t-look-twice-if-you-have-lost">Don&#8217;t look twice if you have lost</a></li>
+<li><a class="reference internal" href="#use-transposition-tables">Use transposition tables</a></li>
+<li><a class="reference internal" href="#solve-the-game-first">Solve the game first</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="examples/integrate.html" title="previous chapter">Integrating easyAI with other frameworks</a></li>
+      <li>Next: <a href="ai_descriptions.html" title="next chapter">AI Class Descriptions</a></li>
   </ul></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/speedup.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/speedup.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-  <div class="footer">
-    &copy; Copyright 2013, Zulko.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    <div class="footer">
+      &copy; Copyright 2014-2017, Zulko.
+    </div>
   </body>
 </html>
