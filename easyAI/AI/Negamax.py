@@ -44,7 +44,6 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
         
         
         
-    
     if (depth == 0) or game.is_over():
         score = scoring(game)
         if score == 0:
@@ -62,7 +61,7 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
     else:
         
         possible_moves = game.possible_moves()
-    
+
     
     
     state = game
@@ -89,15 +88,19 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf,
             game.switch_player()
             game.unmake_move(move)
         
-        bestValue = max( bestValue,  move_alpha )
+        # bestValue = max( bestValue,  move_alpha )
+        if bestValue < move_alpha:
+            bestValue = move_alpha
+            best_move = move
+
         if  alpha < move_alpha :
                 alpha = move_alpha
-                best_move = move
+                # best_move = move
                 if depth == origDepth:
                     state.ai_move = move
                 if (alpha >= beta):
                     break
-        
+
     if tt != None:
         
         assert best_move in possible_moves

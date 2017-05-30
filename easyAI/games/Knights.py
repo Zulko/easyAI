@@ -43,6 +43,19 @@ class Knights(TwoPlayersGame):
         pi, pj = self.player.pos
         self.board[pi, pj] = self.nplayer # place player on board
 
+    def ttentry(self):
+        e = [tuple(row) for row in self.board]
+        e.append(pos2string(self.players[0].pos))
+        e.append(pos2string(self.players[1].pos))
+        return tuple(e)
+
+    def ttrestore(self, entry):
+        for x, row in enumerate(entry[:self.board_size[0]]):
+            for y, n in enumerate(row):
+                self.board[x, y] = n
+        self.players[0].pos = string2pos(entry[-2])
+        self.players[1].pos = string2pos(entry[-1])
+
     def show(self):
         print('\n' + '\n'.join(['  1 2 3 4 5 6 7 8'] +
               ['ABCDEFGH'[k] + 

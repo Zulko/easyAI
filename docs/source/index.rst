@@ -32,6 +32,8 @@ User's Guide
    installation
    get_started
    examples/examples
+   speedup
+   ai_descriptions
    ref
 
 Contribute !
@@ -54,3 +56,9 @@ Some ideas of improvements are: AI algos for incomplete information games, bette
 .. _`AI design/optimization`:
 .. _Zulko : https://github.com/Zulko
 .. _Github :  https://github.com/Zulko/easyAI
+
+Maintainers
+-----------
+
+- Zulko_ (owner)
+- `@JohnAD`_
