@@ -1,4 +1,4 @@
-Get started with easyAI 
+Get Started With easyAI 
 ========================
 
 The best way to get started is to have a look at :ref:`a-quick-example`. What follows is a summary of all there is to know about easyAI (you can also find these informations in the documentation of the code).
@@ -18,7 +18,8 @@ The following methods are optional:
     - ``show(self)`` : prints/displays the game
     - ``scoring``: gives a score to the current game (for the AI)
     - ``unmake_move(self, move)``: how to unmake a move (speeds up the AI)
-    - ``ttentry(self)``: makes a string describing the game.
+    - ``ttentry(self)``: returns a string/tuple describing the game.
+    - ``ttrestore(self, entry)``: use string/tuple from ttentry to restore a game.
     
 The ``__init__`` method *must* do the following actions:
     
@@ -53,7 +54,7 @@ Human and AI players
 
 The players can be either a ``Human_Player()`` (which will be asked interactively which moves it wants to play) or a ``AI_Player(algo)``, so you will have for instance ::
     
-    game = MyGame( [ Human_Player(), AI_player(algo) ])
+    game = MyGame( [ Human_Player(), AI_Player(algo) ])
     
 If you are a human player you will be asked to enter a move when it is your turn. You can also enter ``show moves`` to have a list of all moves allowed, or ``quit`` to quit.
 
@@ -71,23 +72,30 @@ The Negamax algorithm will always look for the shortest path to victory, or the 
     scoring = lambda game: 100 if game.win() else 0
 
 you should write ``Negamax(9, win_score=90)``.
-    
-Additionally, you can use transposition tables, which are tables storing the situations already encountered by the AI, and the move that seemed best last time their were evaluated. You can define your own transpostion table (they should have two methods to be valid, ``lookup`` and ``store``, plus a method ``__call__`` if you intend to use them as an AI). The class DictTT provides simple tables based on Python dictionnaries: ::
-    
-    from easyAI import AI_Player, Negamax, DictTT
-    table = DictTT()
-    algo = Negamax(9, tt= table) # negamax boosted by a TT 
-    # start a match AI vs. AI
-    game = TicTacToe( [AI_Player( algo ), AI_Player( algo )])
+
+
+Interactive Play
+----------------
+
+If you are needing to be more interactive with the game play, such as when integrating with other frameworks, you can use the ``get_move`` and ``play_move`` methods instead. ``get_move`` get's an AI player's decision. ``play_move`` executes a move (for either player).  To illustrate ::
+
     game.play()
-    
-An important thing is that, to use transposition tables, your `game` should have a method `ttentry(self)` which returns a description of the game, either as a string or as a tuple, to serve as key in the transposition table. For example in TicTacToe or Connect 4 the game can be entirely described by the state of the board, so you may write ::
-    
-    def ttentry(self): return str( self.board ) 
 
-At the end of the party ``table`` may have stored enough situations to be used as a proper AI algorithm, at which case you can define a player with ``AI_Player(tt)``. But beware that an error will be raised if this player meets a situation that is not referenced in the table.
+is functionally the same as ::
 
- 
+    while not game.is_over():
+        game.show()
+        if game.nplayer==1:  # we are assuming player 1 is a Human_Player
+            poss = game.possible_moves()
+            for index, move in enumerate(poss):
+                print("{} : {}".format(index, move))
+            index = int(input("enter move: "))
+            move = poss[index]
+        else:  # we are assuming player 2 is an AI_Player
+            move = game.get_move()
+            print("AI plays {}".format(move))
+        game.play_move(move)
+
 
 Solving a game
 ---------------
@@ -106,7 +114,7 @@ Note that the first argument can be either a game instance or a game class. We o
 
     from easyAI import df_solve
     game = MyGame(players = [... , ...]) # the players are not important
-    tt = DictTT() # optional, will speed up the algo
+    tt = TT() # optional, will speed up the algo
     r = df_solve(game, winscore= 90, tt = tt)
 
 After this ``r`` is either -1 (certain defeat of the first player against a perfect opponent), 0 (it is possible to force a draw, but not to win), or 1 (certain victory if the first player plays perfectly).

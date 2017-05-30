@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AI Class Descriptions &#8212; easyAI 1.0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference Manual" href="ref.html" />
+    <link rel="prev" title="How To Make The AI Faster" href="speedup.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ref.html" title="Reference Manual"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="speedup.html" title="How To Make The AI Faster"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">easyAI 1.0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ai-class-descriptions">
+<h1>AI Class Descriptions<a class="headerlink" href="#ai-class-descriptions" title="Permalink to this headline">¶</a></h1>
+<p>EasyAI has four AI classes available; each with their own characteristics.</p>
+<div class="section" id="negamax-with-alpha-beta-pruning">
+<h2>Negamax with Alpha/Beta Pruning<a class="headerlink" href="#negamax-with-alpha-beta-pruning" title="Permalink to this headline">¶</a></h2>
+<p>Negamax is a variation of the MiniMax algorithm. Minimax works by always considering the worst-case score for all possible moves for a set number of turns (plies) into the future. See <a class="reference external" href="https://en.wikipedia.org/wiki/Minimax">https://en.wikipedia.org/wiki/Minimax</a></p>
+<p>Negamax is a more efficient version of Minimax for games where the scoring is zero-sum. That is, when the score of the game board is exactly the opposite for each player. For example, if player A sees the game currently having a &#8220;score&#8221; of 7, then player B sees the score as -7.</p>
+<p>This algorithmm also supports alpha/beta pruning. Instead of considering ALL branches, the algorithm ignores branches that cannot possibly be better given what it has seen so far.</p>
+<p>For more information, see <a class="reference external" href="https://en.wikipedia.org/wiki/Negamax">https://en.wikipedia.org/wiki/Negamax</a></p>
+</div>
+<div class="section" id="non-recursive-negamax">
+<h2>Non-Recursive Negamax<a class="headerlink" href="#non-recursive-negamax" title="Permalink to this headline">¶</a></h2>
+<p>This variation of Negamax has the same features as the regular Negamax described above. The difference
+is that the algorithm has been redesigned to not use recursion.</p>
+<p>Recursion is where a process calls itself. For example, if function A calls function A which in turn calls function A, then it is behaving recursively. The negamax algorithm is naturally recursive. One of the problems with resursion is that it is not possible to predict the amount of memory and processing needed to finish the algorithm.</p>
+<p>This variation instead pre-allocates a &#8220;list of states&#8221; to avoid recursion. For same games, this can dramatically improve performance.</p>
+</div>
+<div class="section" id="dual">
+<h2>DUAL<a class="headerlink" href="#dual" title="Permalink to this headline">¶</a></h2>
+<p>A variation of the Monte-Carlo Tree search algorithm described by L. W. Zhang and S. X. He, <em>The convergence of a dual algorithm for nonlinear programming</em>, Korean J. Comput. &amp; Appl. Math.7 (2000), 487–506.</p>
+</div>
+<div class="section" id="sss">
+<h2>SSS*<a class="headerlink" href="#sss" title="Permalink to this headline">¶</a></h2>
+<p>A minimax algorithm similar to Negamax but where the pruning is much more extreme. It prunes all but one branch at each node in the decision tree.</p>
+<p>As such, the SSS* algorithm does not always provide the ideal/right answer. But it can dramatically increase the performance of some games without sacrificing quality too much. It depends the nature of the game.</p>
+<p>See <a class="reference external" href="https://en.wikipedia.org/wiki/SSS*">https://en.wikipedia.org/wiki/SSS*</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.jpeg" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">AI Class Descriptions</a><ul>
+<li><a class="reference internal" href="#negamax-with-alpha-beta-pruning">Negamax with Alpha/Beta Pruning</a></li>
+<li><a class="reference internal" href="#non-recursive-negamax">Non-Recursive Negamax</a></li>
+<li><a class="reference internal" href="#dual">DUAL</a></li>
+<li><a class="reference internal" href="#sss">SSS*</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="speedup.html" title="previous chapter">How To Make The AI Faster</a></li>
+      <li>Next: <a href="ref.html" title="next chapter">Reference Manual</a></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ai_descriptions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2014-2017, Zulko.
+    </div>
+  </body>
+</html>

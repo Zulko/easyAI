@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>easyAI &#8212; easyAI 0.0.0.5 documentation</title>
+    <title>easyAI &#8212; easyAI 1.0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0.5',
+        VERSION:     '1.0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">easyAI 0.0.0.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">easyAI 1.0.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,7 +57,7 @@
 <h1>easyAI<a class="headerlink" href="#easyai" title="Permalink to this headline">¶</a></h1>
 <p>EasyAI is an artificial intelligence framework for two-players abstract games such as Tic Tac Toe, Connect 4, Reversi, etc.</p>
 <p>It is written in Python and makes it easy to define the mechanisms of a game and play against the computer or solve the game (see <a class="reference internal" href="examples/quick_example.html#a-quick-example"><span class="std std-ref">A quick example</span></a>).</p>
-<p>Under the hood, the AI is a Negamax algorithm with alpha-beta pruning and transposition tables as described on <a class="reference external" href="http://en.wikipedia.org/wiki/Negamax">Wikipedia</a>. It has been written with clarity/simplicity in mind, rather than speed, so it can be slow, but there are fixes (see <a class="reference internal" href="examples/speedup.html#speedup"><span class="std std-ref">How to make the AI faster</span></a>).</p>
+<p>Under the hood, the AI is a Negamax algorithm with alpha-beta pruning and transposition tables as described on <a class="reference external" href="http://en.wikipedia.org/wiki/Negamax">Wikipedia</a>. It has been written with clarity/simplicity in mind, rather than speed, so it can be slow, but there are fixes (see <a class="reference internal" href="speedup.html#speedup"><span class="std std-ref">How To Make The AI Faster</span></a>).</p>
 <a href="https://twitter.com/share" class="twitter-share-button"
 data-text="easyAI, a Python AI framework" data-size="large" data-hashtags="easyAI">Tweet
 </a>
@@ -72,9 +72,11 @@ allowtransparency="true" frameborder="0" scrolling="0" width="152px" height="30p
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get started with easyAI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples of use</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref.html">Reference manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started With easyAI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples Of Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="speedup.html">How To Make The AI Faster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_descriptions.html">AI Class Descriptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html">Reference Manual</a></li>
 </ul>
 </div>
 </div>
@@ -95,6 +97,9 @@ alt="Fork me on GitHub"></a></div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo.jpeg" alt="Logo"/>
+            </a></p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">easyAI</a><ul>
@@ -131,7 +136,7 @@ alt="Fork me on GitHub"></a></div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; Copyright 2014, Zulko.
+      &copy; Copyright 2014-2017, Zulko.
     </div>
   </body>
 </html>

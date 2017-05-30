@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>easyAI.TwoPlayersGame &#8212; easyAI 0.0.0.5 documentation</title>
+    <title>easyAI.TwoPlayersGame &#8212; easyAI 1.0.0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.0.5',
+        VERSION:     '1.0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +40,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">easyAI 0.0.0.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">easyAI 1.0.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -72,6 +72,7 @@
 <span class="sd">    - ``scoring``: gives a score to the current game (for the AI)</span>
 <span class="sd">    - ``unmake_move(self, move)``: how to unmake a move (speeds up the AI)</span>
 <span class="sd">    - ``ttentry(self)``: returns a string/tuple describing the game.</span>
+<span class="sd">    - ``ttrestore(self, entry)``: use string/tuple from ttentry to restore a game.</span>
 <span class="sd">    </span>
 <span class="sd">    The __init__ method *must* do the following actions:</span>
 <span class="sd">    </span>
@@ -119,7 +120,22 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nmoves</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="TwoPlayersGame.play"><a class="viewcode-back" href="../../ref.html#easyAI.TwoPlayersGame.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nmoves</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for starting the play of a game to completion. If one of the</span>
+<span class="sd">        players is a Human_Player, then the interaction with the human is via</span>
+<span class="sd">        the text terminal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        nmoves:</span>
+<span class="sd">          The limit of how many moves (plies) to play unless the game ends on</span>
+<span class="sd">          it&#39;s own first.</span>
+
+<span class="sd">        verbose:</span>
+<span class="sd">          Setting verbose=True displays additional text messages.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -144,7 +160,7 @@
 
         <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">history</span>
+        <span class="k">return</span> <span class="n">history</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nopponent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -164,20 +180,39 @@
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_move</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">ask_move</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<div class="viewcode-block" id="TwoPlayersGame.get_move"><a class="viewcode-back" href="../../ref.html#easyAI.TwoPlayersGame.get_move">[docs]</a>    <span class="k">def</span> <span class="nf">get_move</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for getting a move from the current player. If the player is an</span>
+<span class="sd">        AI_Player, then this method will invoke the AI algorithm to choose the</span>
+<span class="sd">        move. If the player is a Human_Player, then the interaction with the</span>
+<span class="sd">        human is via the text terminal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="o">.</span><span class="n">ask_move</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">play_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+<div class="viewcode-block" id="TwoPlayersGame.play_move"><a class="viewcode-back" href="../../ref.html#easyAI.TwoPlayersGame.play_move">[docs]</a>    <span class="k">def</span> <span class="nf">play_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for playing one move with the current player. After making the move,</span>
+<span class="sd">        the current player will change to the next player.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        move:</span>
+<span class="sd">          The move to be played. ``move`` should match an entry in the ``.possibles_moves()`` list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">switch_player</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">return</span> <span class="n">result</span></div></div>
 </pre></div>
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/logo.jpeg" alt="Logo"/>
+            </a></p><h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
@@ -199,7 +234,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy; Copyright 2014, Zulko.
+      &copy; Copyright 2014-2017, Zulko.
     </div>
   </body>
 </html>
