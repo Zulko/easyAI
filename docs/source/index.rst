@@ -55,10 +55,11 @@ Some ideas of improvements are: AI algos for incomplete information games, bette
 .. _`game design`:
 .. _`AI design/optimization`:
 .. _Zulko : https://github.com/Zulko
+.. _JohnAD : https://github.com/JohnAD
 .. _Github :  https://github.com/Zulko/easyAI
 
 Maintainers
 -----------
 
 - Zulko_ (owner)
-- `@JohnAD`_
+- JohnAD_

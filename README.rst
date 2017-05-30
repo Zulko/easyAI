@@ -93,10 +93,11 @@ For troubleshooting and bug reports, the best for now is to ask on Github_.
 .. _here: http://zulko.github.io/easyAI
 .. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
 .. _Zulko : https://github.com/Zulko
+.. _JohnAD : https://github.com/JohnAD
 .. _Github :  https://github.com/Zulko/easyAI
 
 Maintainers
 -----------
 
 - Zulko_ (owner)
-- `@JohnAD`_
+- JohnAD_
