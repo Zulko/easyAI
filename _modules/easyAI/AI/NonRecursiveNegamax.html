@@ -131,10 +131,25 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">game</span><span class="p">,</span> <span class="s2">&quot;ttrestore&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;Method &quot;ttrestore()&quot; missing from game.&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">target_depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">game</span><span class="o">.</span><span class="n">is_over</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">is_over</span><span class="p">():</span>
         <span class="n">score</span> <span class="o">=</span> <span class="n">scoring</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
         <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">score</span>
+
+    <span class="k">if</span> <span class="n">target_depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">current_game</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">ttentry</span><span class="p">()</span>
+        <span class="n">move_list</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">possible_moves</span><span class="p">()</span>
+        <span class="n">best_move</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">INF</span>
+        <span class="k">for</span> <span class="n">move</span> <span class="ow">in</span> <span class="n">move_list</span><span class="p">:</span>
+            <span class="n">game</span><span class="o">.</span><span class="n">make_move</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">scoring</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                <span class="n">best_move</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="n">game</span><span class="o">.</span><span class="n">ttrestore</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">ai_move</span> <span class="o">=</span> <span class="n">best_move</span>
+        <span class="k">return</span> <span class="n">best_score</span>
 
     <span class="n">states</span> <span class="o">=</span> <span class="n">StateList</span><span class="p">(</span><span class="n">target_depth</span><span class="p">)</span>
 
