@@ -63,4 +63,4 @@ class TT:
         """ Loads a transposition table previously saved with
              ``TT.tofile`` """
         with open(filename, 'r') as h:
-            self.__dict__.update(pickle.load(self, h))
+            self.__dict__.update(pickle.load(h).__dict__)

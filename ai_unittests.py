@@ -137,15 +137,22 @@ class Test_TT(unittest.TestCase):
     def test_solving_save_and_restore(self):
         # 1. solve game/save TT
         tt = easyAI.TT()
-        winner, depth, best_first_move = easyAI.id_solve(examples.Nim, range(13, 16), tt=tt, win_score=80)
+        winner, depth, best_first_move = easyAI.id_solve(
+            examples.Nim,
+            range(13, 16),
+            tt=tt,
+            win_score=80,
+            verbose=False
+        )
         tt.tofile("tt-temp.data")
         # 2. restore TT from file
         restored_tt = easyAI.TT().fromfile("tt-temp.data")
         # 3. get first AI move using the TT
-        game = examples.Nim([easyAI.Human_player(), easyAI.AI_Player(restored_tt)])
+        game = examples.Nim([easyAI.Human_Player(), easyAI.AI_Player(restored_tt)])
         game.play_move(best_first_move)  # let the human play
         move = game.get_move()  # get the AI's move based on tt
         self.assertEqual(move, 0)
+        self.assertEqual(best_first_move, 0)
 
 
 if __name__ == "__main__":
