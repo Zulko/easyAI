@@ -23,14 +23,15 @@ class TT:
     Transposition tables can only be used on games which have a method
     game.ttentry() -> string or tuple
 
-    To save the table as a "pickle", use the `tofile` and `fromfile`
+    To save the table as a `pickle` file, use the **tofile** and **fromfile**
     methods. A pickle file is binary and usually faster. A pickle file
-    can also be appended to with new cache data. See the python's pickle
+    can also be appended to with new cached data. See python's pickle
     documentation for secuirty issues.
 
-    To save the table as a universal JSON file, use the `to_json_file`
-    and `from_json_file` methods. For these methods, you must explicity
-    pass 'use_tuples=True' if game.ttentry() returns tuples.
+    To save the table as a universal JSON file, use the **to_json_file**
+    and **from_json_file** methods. For these methods, you must explicity
+    pass **use_tuples=True** if game.ttentry() returns tuples rather than
+    strings.
 
     Usage:
 
