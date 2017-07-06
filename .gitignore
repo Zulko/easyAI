@@ -38,7 +38,7 @@ nosetests.xml
 # Temp files
 
 *~
-tt-temp.data
+*.temp
 
 # Pipy codes
 
