@@ -7,7 +7,7 @@ from setuptools import setup, find_packages, Extension
 
 setup( name = 'easyAI',
        author = 'Zulko 2013 and contributors',
-       version = '1.0.0.1',
+       version = '1.0.0.2',
        description = 'Easy-to-use game AI algorithms (Negamax etc. )',
        long_description=open('README.rst').read(),
        license='LICENSE.txt',

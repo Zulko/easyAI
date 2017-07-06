@@ -41,7 +41,7 @@ def id_solve(game, ai_depths, win_score, scoring=None,
     Returns
     --------
     
-    (result, depth, move, tt):
+    (result, depth, move):
       As below
     
     result: 
@@ -54,8 +54,8 @@ def id_solve(game, ai_depths, win_score, scoring=None,
     
     move:
       Best move to play for the first player.
-    
-    tt:
+
+    Also returns with ``tt`` set.
       Will be None if ``use_tt`` was set to false, else will be a
       transposition table containing all the relevant situations to play
       a perfect game and can be used with ``AI_player(tt)``

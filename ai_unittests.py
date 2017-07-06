@@ -22,7 +22,7 @@ class Test_Negamax(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -40,7 +40,7 @@ class Test_Negamax(unittest.TestCase):
         move_list_P2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_P1.append(move)
             else:
                 move_list_P2.append(move)
@@ -61,7 +61,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -79,7 +79,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
         move_list_P2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_P1.append(move)
             else:
                 move_list_P2.append(move)
@@ -100,7 +100,7 @@ class Test_SSS(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -109,6 +109,7 @@ class Test_SSS(unittest.TestCase):
         K2_correct = ['G6', 'F8', 'E6', 'D8', 'C6', 'B8', 'A6', 'B4', 'C2', 'D4', 'E2', 'F4', 'G2', 'H4', 'F5', 'G7', 'E8', 'C7', 'D5', 'E3', 'D1', 'C3', 'A4', 'B2', 'D3', 'C1', 'A2']
         self.assertEqual(move_list_K1, K1_correct)
         self.assertEqual(move_list_K2, K2_correct)
+
 
 class Test_DUAL(unittest.TestCase):
 
@@ -120,7 +121,7 @@ class Test_DUAL(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer==1:
+            if game.nplayer == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -129,6 +130,51 @@ class Test_DUAL(unittest.TestCase):
         K2_correct = ['G6', 'F8', 'E6', 'D8', 'C6', 'B8', 'A6', 'B4', 'C2', 'D4', 'E2', 'F4', 'G2', 'H4', 'F5', 'G7', 'E8', 'C7', 'D5', 'E3', 'D1', 'C3', 'A4', 'B2', 'D3', 'C1', 'A2']
         self.assertEqual(move_list_K1, K1_correct)
         self.assertEqual(move_list_K2, K2_correct)
+
+
+class Test_TT(unittest.TestCase):
+
+    def test_pickle_save_and_restore(self):
+        # 1. solve game/save TT
+        tt = easyAI.TT()
+        winner, depth, best_player_move = easyAI.id_solve(
+            examples.Nim,
+            range(13, 16),
+            tt=tt,
+            win_score=80,
+            verbose=False
+        )
+        tt.tofile("tt-data.pickle.temp")
+        # 2. restore TT from file
+        restored_tt = easyAI.TT()
+        restored_tt.fromfile("tt-data.pickle.temp")
+        # 3. get first AI move using the TT
+        game = examples.Nim([easyAI.Human_Player(), easyAI.AI_Player(restored_tt)])
+        game.play_move(best_player_move)  # let the human play
+        ai_move = game.get_move()  # get the AI's move based on tt
+        self.assertEqual(ai_move, "2,5")
+        self.assertEqual(best_player_move, "1,5")
+
+    def test_json_save_and_restore(self):
+        # 1. solve game/save TT
+        tt = easyAI.TT()
+        winner, depth, best_player_move = easyAI.id_solve(
+            examples.Nim,
+            range(13, 16),
+            tt=tt,
+            win_score=80,
+            verbose=False
+        )
+        tt.to_json_file("tt-data.json.temp", use_tuples=True)
+        # 2. restore TT from file
+        restored_tt = easyAI.TT()
+        restored_tt.from_json_file("tt-data.json.temp", use_tuples=True)
+        # 3. get first AI move using the TT
+        game = examples.Nim([easyAI.Human_Player(), easyAI.AI_Player(restored_tt)])
+        game.play_move(best_player_move)  # let the human play
+        ai_move = game.get_move()  # get the AI's move based on tt
+        self.assertEqual(ai_move, "2,5")
+        self.assertEqual(best_player_move, "1,5")
 
 
 if __name__ == "__main__":
