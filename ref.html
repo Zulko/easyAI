@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reference Manual &#8212; easyAI 1.0.0.1 documentation</title>
+    <title>Reference Manual &#8212; easyAI 1.0.0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0.1',
+        VERSION:     '1.0.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="ai_descriptions.html" title="AI Class Descriptions"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">easyAI 1.0.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">easyAI 1.0.0.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -399,27 +399,48 @@ This will not always work if a <code class="docutils literal"><span class="pre">
 <dl class="class">
 <dt id="easyAI.AI.TT">
 <em class="property">class </em><code class="descclassname">easyAI.AI.</code><code class="descname">TT</code><span class="sig-paren">(</span><em>own_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT" title="Permalink to this definition">¶</a></dt>
-<dd><p>A tranposition table made out of a Python dictionnary.
-It can only be used on games which have a method
-game.ttentry() -&gt; string, or tuple</p>
+<dd><p>A tranposition table made out of a Python dictionnary.</p>
+<p>It creates a &#8220;cache&#8221; of already resolved moves that can, under
+some circumstances, let the algorithm run faster.</p>
+<p>This table can be stored to file, allowing games to be stopped
+and restarted at a later time. Or, if the game is fully solved,
+the cache can return the correct moves nearly instantly because
+the AI alogorithm no longer has to compute correct moves.</p>
+<p>Transposition tables can only be used on games which have a method
+game.ttentry() -&gt; string or tuple</p>
+<p>To save the table as a <cite>pickle</cite> file, use the <strong>tofile</strong> and <strong>fromfile</strong>
+methods. A pickle file is binary and usually faster. A pickle file
+can also be appended to with new cached data. See python&#8217;s pickle
+documentation for secuirty issues.</p>
+<p>To save the table as a universal JSON file, use the <strong>to_json_file</strong>
+and <strong>from_json_file</strong> methods. For these methods, you must explicity
+pass <strong>use_tuples=True</strong> if game.ttentry() returns tuples rather than
+strings.</p>
 <p>Usage:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">TT</span><span class="p">(</span><span class="n">DictTT</span><span class="p">(</span><span class="mi">1024</span><span class="p">))</span> <span class="ow">or</span> <span class="n">table</span> <span class="o">=</span> <span class="n">TT</span><span class="p">()</span> <span class="k">for</span> <span class="n">default</span> <span class="n">dictionary</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span> <span class="c1"># boosted Negamax !</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">TT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span><span class="p">(</span><span class="n">some_game</span><span class="p">)</span> <span class="c1"># computes a move, fills the table</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;saved_tt.data&#39;</span><span class="p">)</span> <span class="c1"># maybe save for later ?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="s1">&#39;saved_tt.data&#39;</span><span class="p">)</span> <span class="c1"># maybe save for later ?</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># later...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">TT</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;saved_tt.data&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span> <span class="c1"># boosted Negamax !</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># later (or in a different program)...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">TT</span><span class="p">()</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;saved_tt.data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ai</span> <span class="o">=</span> <span class="n">Negamax</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">scoring</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">table</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Transposition tables can also be used as an AI (<code class="docutils literal"><span class="pre">AI_player(tt)</span></code>)
 but they must be exhaustive in this case: if they are asked for
 a position that isn&#8217;t stored in the table, it will lead to an error.</p>
-<dl class="staticmethod">
+<dl class="method">
+<dt id="easyAI.AI.TT.from_json_file">
+<code class="descname">from_json_file</code><span class="sig-paren">(</span><em>filename</em>, <em>use_tuples=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT.from_json_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT.from_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a transposition table previously saved with
+<code class="docutils literal"><span class="pre">TT.to_json_file</span></code></p>
+</dd></dl>
+
+<dl class="method">
 <dt id="easyAI.AI.TT.fromfile">
-<em class="property">static </em><code class="descname">fromfile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT.fromfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT.fromfile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fromfile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT.fromfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT.fromfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a transposition table previously saved with
 <code class="docutils literal"><span class="pre">TT.tofile</span></code></p>
 </dd></dl>
@@ -435,6 +456,13 @@ entry has not been previously stored in the table.</p>
 <dt id="easyAI.AI.TT.store">
 <code class="descname">store</code><span class="sig-paren">(</span><em>**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT.store" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stores an entry into the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="easyAI.AI.TT.to_json_file">
+<code class="descname">to_json_file</code><span class="sig-paren">(</span><em>filename</em>, <em>use_tuples=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/easyAI/AI/TT.html#TT.to_json_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#easyAI.AI.TT.to_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the transposition table to a serial JSON file. Warning: the file
+can be big (~100Mo).</p>
 </dd></dl>
 
 <dl class="method">
@@ -489,7 +517,7 @@ after each depth tried.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(result, depth, move, tt):</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(result, depth, move):</p>
 <blockquote>
 <div><p>As below</p>
 </div></blockquote>
@@ -507,7 +535,7 @@ deep enough)</p>
 <blockquote>
 <div><p>Best move to play for the first player.</p>
 </div></blockquote>
-<p>tt:</p>
+<p>Also returns with <code class="docutils literal"><span class="pre">tt</span></code> set.</p>
 <blockquote class="last">
 <div><p>Will be None if <code class="docutils literal"><span class="pre">use_tt</span></code> was set to false, else will be a
 transposition table containing all the relevant situations to play
