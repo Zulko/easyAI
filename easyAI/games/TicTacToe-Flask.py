@@ -4,9 +4,9 @@ from flask import Flask, render_template_string, request, make_response
 
 class TicTacToe(TwoPlayersGame):
     """ The board positions are numbered as follows:
-            7 8 9
-            4 5 6
             1 2 3
+            4 5 6
+            7 8 9
     """
 
     def __init__(self, players):
@@ -77,7 +77,7 @@ TEXT = '''
     <h2>{{msg}}</h2>
     <form action="" method="POST">
       <table>
-        {% for j in range(2, -1, -1) %}
+        {% for j in range(0, 3) %}
         <tr>
           {% for i in range(0, 3) %}
           <td>
