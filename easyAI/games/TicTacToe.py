@@ -3,9 +3,9 @@ from easyAI.Player import Human_Player
 
 class TicTacToe( TwoPlayersGame ):
     """ The board positions are numbered as follows:
-            7 8 9
-            4 5 6
             1 2 3
+            4 5 6
+            7 8 9
     """    
 
     def __init__(self, players):
