@@ -47,6 +47,9 @@ class TwoTeamsGame:
     def current_opponent_team(self):
         return self.player_selector.opponent_team()
 
+    def current_team(self):
+        return self.player_selector.current_team()
+
     def switch_player(self):
         self.player_selector.next_player()
 
