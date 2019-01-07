@@ -87,31 +87,23 @@ class OrderedPlayerSelector:
         self.move_no = 0
         self.counters = [0, 0]
 
-    def filter_team(self, team):
-        return team
 
     def current_player(self):
 
-        team_id = self._current_team_id()
-        team = self.current_team()
+        team_id = self.move_no % 2
+        team = self.teams[self.move_no % 2]
 
         character_id = self.counters[team_id] % len(team)
 
-        return team[character_id]
-
-    def _current_team_id(self):
-        return self.move_no % 2
-
-    def _next_team_id(self):
-        return (self.move_no + 1) % 2
+        return self.teams[team_id][character_id]
 
     def next_player(self):
-        team_id = self._current_team_id()
+        team_id = self.move_no % 2
         self.counters[team_id] += 1
         self.move_no += 1
 
     def current_team(self):
-        return self.filter_team(self.teams[self._current_team_id()])
+        return self.teams[(self.move_no) % 2]
 
     def opponent_team(self):
-        return self.filter_team(self.teams[self._next_team_id()])
+        return self.teams[(self.move_no + 1) % 2]
