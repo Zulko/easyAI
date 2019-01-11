@@ -3,6 +3,9 @@ from copy import deepcopy
 
 class TwoTeamsGame:
 
+    def __init__(self, team1, team2):
+        self.player_selector = OrderedPlayerSelector(team1, team2)
+
     def play(self, nmoves=1000, verbose=True):
 
         history = []
@@ -40,6 +43,9 @@ class TwoTeamsGame:
     @property
     def player(self):
         return self.current_player()
+    @property
+    def nplayer(self):
+        return self.current_player().name
 
     def current_player(self):
         return self.player_selector.current_player()
@@ -55,6 +61,15 @@ class TwoTeamsGame:
 
     def copy(self):
         return deepcopy(self)
+
+    def make_move(self, move):
+        pass
+
+    def show(self):
+        pass
+
+    def is_over(self):
+        return False
 
     def get_move(self):
         """
@@ -81,6 +96,17 @@ class TwoTeamsGame:
         return result
 
 class OrderedPlayerSelector:
+    """
+    Selects next player, the behaviour is:
+
+    team1 - player1
+    team2 - player 1
+
+    team 1 - player 2
+    team 2 - player 2
+
+    etc
+    """
 
     def __init__(self, team1, team2):
         self.teams = [team1, team2]
