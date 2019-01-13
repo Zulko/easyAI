@@ -9,6 +9,14 @@ class TwoTeamsGame:
         :param team2:
         """
         self.player_selector = player_selector(team1, team2)
+        self.setup_game()
+
+    def setup_game(self):
+        """
+        put here your own initialization and so on
+        :return:
+        """
+        raise NotImplementedError('Abstract method')
 
     def make_move(self, move):
         raise NotImplementedError('Abstract method')
