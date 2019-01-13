@@ -4,7 +4,26 @@ from copy import deepcopy
 class TwoTeamsGame:
 
     def __init__(self, team1, team2):
+        """
+        :param team1: array of easyAI-supported objects. See Player module
+        :param team2:
+        """
         self.player_selector = OrderedPlayerSelector(team1, team2)
+        #self.move_output = ''
+        self.setup_game()
+
+    def make_move(self, move):
+        raise NotImplementedError('Abstract method')
+
+    def show(self):
+        raise NotImplementedError('Abstract method')
+
+    def is_over(self):
+        raise NotImplementedError('Abstract method')
+
+    def setup_game(self):
+        raise NotImplementedError('Abstract method')
+
 
     def play(self, nmoves=1000, verbose=True):
 
@@ -31,10 +50,6 @@ class TwoTeamsGame:
 
         return history
 
-    #@property
-    #def nopponent(self):
-     #   return 2 if (self.nplayer == 1) else 1
-
 
     @property
     def opponent_team(self):
@@ -43,6 +58,7 @@ class TwoTeamsGame:
     @property
     def player(self):
         return self.current_player()
+
     @property
     def nplayer(self):
         return self.current_player().name
@@ -61,15 +77,6 @@ class TwoTeamsGame:
 
     def copy(self):
         return deepcopy(self)
-
-    def make_move(self, move):
-        pass
-
-    def show(self):
-        pass
-
-    def is_over(self):
-        return False
 
     def get_move(self):
         """
@@ -106,6 +113,8 @@ class OrderedPlayerSelector:
     team 2 - player 2
 
     etc
+
+    according to rules defined in filter_team
     """
 
     def __init__(self, team1, team2):
@@ -113,23 +122,35 @@ class OrderedPlayerSelector:
         self.move_no = 0
         self.counters = [0, 0]
 
+    def filter_team(self, team):
+        return team
 
     def current_player(self):
 
-        team_id = self.move_no % 2
-        team = self.teams[self.move_no % 2]
+        team_id = self._current_team_id()
+        team = self.current_team()
 
         character_id = self.counters[team_id] % len(team)
 
-        return self.teams[team_id][character_id]
+        return team[character_id]
+
+    def _current_team_id(self):
+        return self.move_no % 2
+
+    def _next_team_id(self):
+        return (self.move_no + 1) % 2
 
     def next_player(self):
-        team_id = self.move_no % 2
+        """
+        Moves pointer to next player
+        :return:
+        """
+        team_id = self._current_team_id()
         self.counters[team_id] += 1
         self.move_no += 1
 
     def current_team(self):
-        return self.teams[(self.move_no) % 2]
+        return self.filter_team(self.teams[self._current_team_id()])
 
     def opponent_team(self):
-        return self.teams[(self.move_no + 1) % 2]
+        return self.filter_team(self.teams[self._next_team_id()])
