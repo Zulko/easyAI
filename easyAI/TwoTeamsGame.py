@@ -6,7 +6,8 @@ class TwoTeamsGame:
     def __init__(self, team1, team2, player_selector):
         """
         :param team1: array of easyAI-supported objects. See Player module
-        :param team2:
+        :param team2: array of easyAI-supported objects.
+        :param player_selector constructor for objects of type AbstractOrderedPlayerSelector (see below)
         """
         self.player_selector = player_selector(team1, team2)
         self.setup_game()
@@ -126,6 +127,11 @@ class AbstractOrderedPlayerSelector:
         self.counters = [0, 0]
 
     def filter_team(self, team):
+        """
+        Filters an array of players. Used for return active players. For example in a RPG game may be the still alive ones
+        :param team:
+        :return:
+        """
         raise NotImplementedError('Abstract method')
 
     def current_player(self):
