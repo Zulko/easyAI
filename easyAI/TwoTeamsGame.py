@@ -3,14 +3,12 @@ from copy import deepcopy
 
 class TwoTeamsGame:
 
-    def __init__(self, team1, team2):
+    def __init__(self, team1, team2, player_selector):
         """
         :param team1: array of easyAI-supported objects. See Player module
         :param team2:
         """
-        self.player_selector = OrderedPlayerSelector(team1, team2)
-        #self.move_output = ''
-        self.setup_game()
+        self.player_selector = player_selector(team1, team2)
 
     def make_move(self, move):
         raise NotImplementedError('Abstract method')
@@ -19,9 +17,6 @@ class TwoTeamsGame:
         raise NotImplementedError('Abstract method')
 
     def is_over(self):
-        raise NotImplementedError('Abstract method')
-
-    def setup_game(self):
         raise NotImplementedError('Abstract method')
 
 
@@ -102,9 +97,9 @@ class TwoTeamsGame:
         self.switch_player()
         return result
 
-class OrderedPlayerSelector:
+class AbstractOrderedPlayerSelector:
     """
-    Selects next player, the behaviour is:
+    Base class for player selectors. Selects next player in order, the behaviour is:
 
     team1 - player1
     team2 - player 1
@@ -123,7 +118,7 @@ class OrderedPlayerSelector:
         self.counters = [0, 0]
 
     def filter_team(self, team):
-        return team
+        raise NotImplementedError('Abstract method')
 
     def current_player(self):
 
