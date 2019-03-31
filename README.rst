@@ -40,7 +40,7 @@ Let us define the rules of a game and start a match against the AI: ::
         def make_move(self,move): self.pile -= int(move) # remove bones.
         def win(self): return self.pile<=0 # opponent took the last bone ?
         def is_over(self): return self.win() # Game stops when someone wins.
-        def show(self): print "%d bones left in the pile"%self.pile
+        def show(self): print ("%d bones left in the pile" % self.pile)
         def scoring(self): return 100 if game.win() else 0 # For the AI
     
     # Start a match (and store the history of moves when it ends)
