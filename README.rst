@@ -23,7 +23,9 @@ Additionnally you will need to install Numpy to be able to run some of the examp
 A quick example
 ----------------
 
-Let us define the rules of a game and start a match against the AI: ::
+Let us define the rules of a game and start a match against the AI:
+
+.. code:: python
     
     from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
     
@@ -65,21 +67,26 @@ Result: ::
 Solving the game
 *****************
 
-Let us now solve the game: ::
+Let us now solve the game:
+
+.. code:: python
 
     from easyAI import id_solve
     r,d,m = id_solve(GameOfBones, ai_depths=range(2,20), win_score=100)
 
 We obtain ``r=1``, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), ``d=10``, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and ``m='3'``, which indicates that the first player's first move should be ``'3'``.
 
-These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each: ::
+These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:
+
+.. code:: python
     
     tt = TT()
     GameOfBones.ttentry = lambda game : game.pile # key for the table
     r,d,m = id_solve(GameOfBones, range(2,20), win_score=100, tt=tt)
 
 After these lines are run the variable ``tt`` contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With ``tt`` you can play perfectly without *thinking*: ::
-    
+
+.. code:: python
     game = GameOfBones( [  AI_Player( tt ), Human_Player() ] )
     game.play() # you will always lose this game :)
     
