@@ -13,11 +13,11 @@ If you have ``pip`` installed, type this in a terminal ::
     
     sudo pip install easyAI
     
-Otherwise, dowload the source code (for instance on Github_), unzip everything into one folder and in this folder, in a terminal, type ::
+Otherwise, download the source code (for instance on Github_), unzip everything into one folder and in this folder, in a terminal, type ::
     
     sudo python setup.py install
 
-Additionnally you will need to install Numpy to be able to run some of the examples.
+Additionally you will need to install Numpy to be able to run some of the examples.
 
 
 A quick example
@@ -76,7 +76,7 @@ Let us now solve the game:
 
 We obtain ``r=1``, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), ``d=10``, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and ``m='3'``, which indicates that the first player's first move should be ``'3'``.
 
-These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each:
+These computations can be speed up using a transposition table which will store the situations encountered and the best moves for each:
 
 .. code:: python
     
