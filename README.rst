@@ -13,17 +13,19 @@ If you have ``pip`` installed, type this in a terminal ::
     
     sudo pip install easyAI
     
-Otherwise, dowload the source code (for instance on Github_), unzip everything into one folder and in this folder, in a terminal, type ::
+Otherwise, download the source code (for instance on Github_), unzip everything into one folder and in this folder, in a terminal, type ::
     
     sudo python setup.py install
 
-Additionnally you will need to install Numpy to be able to run some of the examples.
+Additionally you will need to install Numpy to be able to run some of the examples.
 
 
 A quick example
 ----------------
 
-Let us define the rules of a game and start a match against the AI: ::
+Let us define the rules of a game and start a match against the AI:
+
+.. code:: python
     
     from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
     
@@ -40,7 +42,7 @@ Let us define the rules of a game and start a match against the AI: ::
         def make_move(self,move): self.pile -= int(move) # remove bones.
         def win(self): return self.pile<=0 # opponent took the last bone ?
         def is_over(self): return self.win() # Game stops when someone wins.
-        def show(self): print "%d bones left in the pile"%self.pile
+        def show(self): print ("%d bones left in the pile" % self.pile)
         def scoring(self): return 100 if game.win() else 0 # For the AI
     
     # Start a match (and store the history of moves when it ends)
@@ -65,21 +67,26 @@ Result: ::
 Solving the game
 *****************
 
-Let us now solve the game: ::
+Let us now solve the game:
+
+.. code:: python
 
     from easyAI import id_solve
     r,d,m = id_solve(GameOfBones, ai_depths=range(2,20), win_score=100)
 
 We obtain ``r=1``, meaning that if both players play perfectly, the first player to play can always win (-1 would have meant always lose), ``d=10``, which means that the wins will be in ten moves (i.e. 5 moves per player) or less, and ``m='3'``, which indicates that the first player's first move should be ``'3'``.
 
-These computations can be sped up using a transposition table which will store the situations encountered and the best moves for each: ::
+These computations can be speed up using a transposition table which will store the situations encountered and the best moves for each:
+
+.. code:: python
     
     tt = TT()
     GameOfBones.ttentry = lambda game : game.pile # key for the table
     r,d,m = id_solve(GameOfBones, range(2,20), win_score=100, tt=tt)
 
 After these lines are run the variable ``tt`` contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With ``tt`` you can play perfectly without *thinking*: ::
-    
+
+.. code:: python
     game = GameOfBones( [  AI_Player( tt ), Human_Player() ] )
     game.play() # you will always lose this game :)
     
