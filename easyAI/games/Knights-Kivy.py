@@ -6,9 +6,12 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 # directions in which a knight can move
-DIRECTIONS = list(map(np.array, [
-    [1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]
-]))
+DIRECTIONS = list(
+    map(
+        np.array,
+        [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]],
+    )
+)
 
 BOARD_SIZE = (5, 5)
 
@@ -20,16 +23,12 @@ SQUARE_COLORS = [
     (0.8, 0.8, 0.8, 1),  # empty
     (0.5, 0.5, 1.0, 1),  # player 1
     (1.0, 1.0, 0.8, 1),  # player 2
-    (0.8, 0.0, 0.0, 1)   # occupied
+    (0.8, 0.0, 0.0, 1),  # occupied
 ]
-SQUARE_TEXT = [
-    " ",
-    "K1",
-    "K2",
-    "X"
-]
+SQUARE_TEXT = [" ", "K1", "K2", "X"]
 
 AI = Negamax(11)
+
 
 class Knights(TwoPlayersGame):
     """
@@ -51,11 +50,13 @@ class Knights(TwoPlayersGame):
     def possible_moves(self):
         endings = [self.player.pos + d for d in DIRECTIONS]
         return [
-            pos2string(e) for e in endings
-            if (e[0] >= 0) and (e[1] >= 0) and
-            (e[0] < self.board_size[0]) and
-            (e[1] < self.board_size[1]) and  # inside the board
-            (self.board[e[0], e[1]] == 0)    # and not blocked
+            pos2string(e)
+            for e in endings
+            if (e[0] >= 0)
+            and (e[1] >= 0)
+            and (e[0] < self.board_size[0])
+            and (e[1] < self.board_size[1])
+            and (self.board[e[0], e[1]] == 0)  # inside the board  # and not blocked
         ]
 
     def make_move(self, pos):
@@ -66,14 +67,24 @@ class Knights(TwoPlayersGame):
         self.board[pi, pj] = self.nplayer  # place player on board
 
     def show(self):
-        print('\n' + '\n'.join(
-            ['  1 2 3 4 5 6 7 8'] + [
-                'ABCDEFGH'[k] + ' ' + ' '.join(
-                    [['.', '1', '2', 'X'][self.board[k, i]]
-                        for i in range(self.board_size[0])]
-                ) for k in range(self.board_size[1])
-            ] + ['']
-        ))
+        print(
+            "\n"
+            + "\n".join(
+                ["  1 2 3 4 5 6 7 8"]
+                + [
+                    "ABCDEFGH"[k]
+                    + " "
+                    + " ".join(
+                        [
+                            [".", "1", "2", "X"][self.board[k, i]]
+                            for i in range(self.board_size[0])
+                        ]
+                    )
+                    for k in range(self.board_size[1])
+                ]
+                + [""]
+            )
+        )
 
     def lose(self):
         return self.possible_moves() == []
@@ -86,7 +97,6 @@ class Knights(TwoPlayersGame):
 
 
 class KnightsKivyApp(App):
-
     def build(self):
         layout = BoxLayout(padding=10, orientation="vertical")
 
@@ -103,9 +113,7 @@ class KnightsKivyApp(App):
                 h_layout.add_widget(new_button)
             layout.add_widget(h_layout)
 
-        self.reset_button = Button(
-            text="[start over]", on_press=self.reset_board
-        )
+        self.reset_button = Button(text="[start over]", on_press=self.reset_board)
         layout.add_widget(self.reset_button)
 
         self.refresh_board()
@@ -130,8 +138,9 @@ class KnightsKivyApp(App):
         for i in range(BOARD_SIZE[1]):
             for j in range(BOARD_SIZE[0]):
                 self.squares[i][j].text = SQUARE_TEXT[self.game.board[i, j]]
-                self.squares[i][j].background_color = \
-                    SQUARE_COLORS[self.game.board[i, j]]
+                self.squares[i][j].background_color = SQUARE_COLORS[
+                    self.game.board[i, j]
+                ]
         if self.game.is_over():
             self.msg_button.text = "Game over. {} wins.".format(
                 SQUARE_TEXT[self.game.nopponent]

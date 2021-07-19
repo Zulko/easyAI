@@ -3,8 +3,12 @@ from easyAI import TwoPlayersGame
 
 
 # directions in which a knight can move
-DIRECTIONS = list(map(np.array, [[1, 2], [-1, 2], [1, -2], [-1, -2],
-                                 [2, 1], [2, -1], [-2, 1], [-2, -1]]))
+DIRECTIONS = list(
+    map(
+        np.array,
+        [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]],
+    )
+)
 
 
 # functions to convert "D8" into (3,7) and back...
@@ -24,11 +28,11 @@ class Cram(TwoPlayersGame):
     Players place a domino on the grid (provide x1,y1,x2,y2)
     """
 
-    def __init__(self, players, board_size = (6, 6)):
+    def __init__(self, players, board_size=(6, 6)):
         self.players = players
         self.board_size = board_size
-        self.board = np.zeros(board_size, dtype = int)
-        self.nplayer = 1 # player 1 starts.
+        self.board = np.zeros(board_size, dtype=int)
+        self.nplayer = 1  # player 1 starts.
 
     def possible_moves(self):
         moves = []
@@ -52,10 +56,21 @@ class Cram(TwoPlayersGame):
         self.board[move[2], move[3]] = 0
 
     def show(self):
-        print('\n' + '\n'.join(['  1 2 3 4 5 6 7 8'] + ['ABCDEFGH'[k] +
-                                                        ' ' + ' '.join(['.*'[self.board[k, i]]
-                                                        for i in range(self.board_size[0])])
-                                                        for k in range(self.board_size[1])] + ['']))
+        print(
+            "\n"
+            + "\n".join(
+                ["  1 2 3 4 5 6 7 8"]
+                + [
+                    "ABCDEFGH"[k]
+                    + " "
+                    + " ".join(
+                        [".*"[self.board[k, i]] for i in range(self.board_size[0])]
+                    )
+                    for k in range(self.board_size[1])
+                ]
+                + [""]
+            )
+        )
 
     def lose(self):
         return self.possible_moves() == []
