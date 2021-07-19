@@ -133,7 +133,7 @@ if __name__ == "__main__":
     # which enables 2 AIs with different scorings to play a match.
     scoring = lambda game: game.player.score - game.opponent.score
     ai = Negamax(6, scoring)
-    game = Awele([AI_Player(ai), AI_Player(ai)])
+    game = AweleTactical([AI_Player(ai), AI_Player(ai)])
 
     game.play()
 

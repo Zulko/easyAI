@@ -1,5 +1,4 @@
-"""
-The standard AI algorithm of easyAI is Negamax with alpha-beta pruning.
+"""The standard AI algorithm of easyAI is Negamax with alpha-beta pruning.
 This version does not use recursion. It also does not support transposition
 tables, but it does REQUIRE the `tt_entry` method in the game.
 
@@ -9,6 +8,8 @@ problem.
 It also requires a reverse function: 'ttrestore' that takes the value from
 'ttentry' and restores the game state.
 """
+
+import copy
 
 LOWERBOUND, EXACT, UPPERBOUND = -1, 0, 1
 

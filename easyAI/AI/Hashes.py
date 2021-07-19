@@ -80,7 +80,7 @@ class ELFHashTranspositionTable(HashTranspositionTable):
 
     def join(self, one, two):
         one = (one << 4) + two
-        self.g = one & 0xF0000000L
+        self.g = one & int("0xF0000000L", 16)
 
         if self.g != 0:
             one ^= self.g >> 24
