@@ -22,6 +22,9 @@ def solve_with_iterative_deepening(
     Parameters
     -----------
 
+    game
+      An instance of a TwoPlayerGame
+
     ai_depths:
       List of AI depths to try (e.g. [5,6,7,8,9,10])
 
@@ -62,9 +65,8 @@ def solve_with_iterative_deepening(
       a perfect game and can be used with ``AI_player(tt)``
 
     """
-
-    if not hasattr(game, "players"):  # the user provided a Game class
-        game = game(players=[AI_Player(None), AI_Player(None)], **game_params)
+    if game.players is None:
+        game.players = [AI_Player(None), AI_Player(None)]
 
     for depth in ai_depths:
         ai = Negamax(depth, scoring, tt=tt)

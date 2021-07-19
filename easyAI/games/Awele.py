@@ -4,10 +4,10 @@ except ImportError:
     print("Sorry, this example requires Numpy installed !")
     raise
 
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
-class Awele(TwoPlayersGame):
+class Awele(TwoPlayerGame):
     """
     Rules are as defined as in http://en.wikipedia.org/wiki/Oware
     with the additional rule that the game ends when then are 6 seeds
@@ -104,6 +104,6 @@ if __name__ == "__main__":
     if game.player.score > game.opponent.score:
         print("Player %d wins." % game.current_player)
     elif game.player.score < game.opponent.score:
-        print("Player %d wins." % game.nopponent)
+        print("Player %d wins." % game.opponent_index)
     else:
         print("Looks like we have a draw.")

@@ -6,7 +6,7 @@ The best way to get started is to have a look at :ref:`a-quick-example`. What fo
 Defining a game
 ---------------
 
-To define a new game, make a subclass of the class ``easyAI.TwoPlayersGame``, and define these methods:
+To define a new game, make a subclass of the class ``easyAI.TwoPlayerGame``, and define these methods:
     
     - ``__init__(self, players, ...)`` : initialization of the game
     - ``possible_moves(self)`` : returns of all moves allowed
@@ -27,12 +27,12 @@ The ``__init__`` method *must* do the following actions:
   self.players
 - Tell which player plays first with ``self.current_player = 1 # or 2``
     
-When defining ``possible_moves``, ``scoring``, etc. you must keep in mind that you are in the scope of the *current player*. More precisely, a subclass of TwoPlayersGame has the following attributes that indicate whose turn it is. These attributes can be used but should not be overwritten:
+When defining ``possible_moves``, ``scoring``, etc. you must keep in mind that you are in the scope of the *current player*. More precisely, a subclass of TwoPlayerGame has the following attributes that indicate whose turn it is. These attributes can be used but should not be overwritten:
     
     - ``self.player`` : the current Player (e.g. a ``Human_Player()``).
     - ``self.opponent`` :  the current Player's opponent (Player). 
     - ``self.current_player``: the number (1 or 2) of the current player.
-    - ``self.nopponent``: the number (1 or 2) of the opponent.
+    - ``self.opponent_index``: the number (1 or 2) of the opponent.
     - ``self.nmove``: How many moves have been played so far ?
 
 To start a game you will write something like this ::

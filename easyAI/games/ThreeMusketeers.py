@@ -1,10 +1,10 @@
 import numpy as np
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 MOVES = np.zeros((30, 4), dtype=int)
 
 
-class ThreeMusketeers(TwoPlayersGame):
+class ThreeMusketeers(TwoPlayerGame):
     """
     rules: http://en.wikipedia.org/wiki/Three_Musketeers_%28game%29
     """

@@ -1,7 +1,7 @@
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
-class Nim(TwoPlayersGame):
+class Nim(TwoPlayerGame):
     """
     The game starts with 4 piles of 5 pieces. In turn the players
     remove as much pieces as they want, but from one pile only. The

@@ -7,9 +7,9 @@ Defining a game
 
 Defining a new game with easyAI looks like this: ::
     
-    from easyAI import TwoPlayersGame
+    from easyAI import TwoPlayerGame
     
-    class MyNewGame( TwoPlayersGame ):
+    class MyNewGame( TwoPlayerGame ):
     
         def __init__(self, players) :
             self.players = players 

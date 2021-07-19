@@ -4,7 +4,7 @@ Reference Manual
 Games
 -----
 
-.. autoclass:: easyAI.TwoPlayersGame
+.. autoclass:: easyAI.TwoPlayerGame
    :members:
    :show-inheritance:
 

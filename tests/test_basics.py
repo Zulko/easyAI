@@ -9,14 +9,14 @@
 import unittest
 
 import easyAI
-import easyAI.games as examples
+import easyAI.games as games
 
 
 class Test_Negamax(unittest.TestCase):
     def test_play_knights_against_self(self):
         ai_algo_K1 = easyAI.Negamax(8)
         ai_algo_K2 = easyAI.Negamax(10)
-        game = examples.Knights(
+        game = games.Knights(
             [easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)]
         )
         move_list_K1 = []
@@ -92,7 +92,7 @@ class Test_Negamax(unittest.TestCase):
     # def test_play_awele_against_self(self):
     #     ai_algo_P1 = easyAI.Negamax(3)
     #     ai_algo_P2 = easyAI.Negamax(4)
-    #     game = examples.AweleTactical(
+    #     game = games.AweleTactical(
     #         [easyAI.AI_Player(ai_algo_P1), easyAI.AI_Player(ai_algo_P2)]
     #     )
     #     move_list_P1 = []
@@ -148,7 +148,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
     def test_play_knights_against_self(self):
         ai_algo_K1 = easyAI.NonRecursiveNegamax(8)
         ai_algo_K2 = easyAI.NonRecursiveNegamax(10)
-        game = examples.Knights(
+        game = games.Knights(
             [easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)]
         )
         move_list_K1 = []
@@ -224,7 +224,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
     # def test_play_awele_against_self(self):
     #     ai_algo_P1 = easyAI.NonRecursiveNegamax(3)
     #     ai_algo_P2 = easyAI.NonRecursiveNegamax(4)
-    #     game = examples.AweleTactical(
+    #     game = games.AweleTactical(
     #         [easyAI.AI_Player(ai_algo_P1), easyAI.AI_Player(ai_algo_P2)]
     #     )
     #     move_list_P1 = []
@@ -280,7 +280,7 @@ class Test_SSS(unittest.TestCase):
     def test_play_knights_against_self(self):
         ai_algo_K1 = easyAI.SSS(8)
         ai_algo_K2 = easyAI.SSS(10)
-        game = examples.Knights(
+        game = games.Knights(
             [easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)]
         )
         move_list_K1 = []
@@ -358,7 +358,7 @@ class Test_DUAL(unittest.TestCase):
     def test_play_knights_against_self(self):
         ai_algo_K1 = easyAI.DUAL(8)
         ai_algo_K2 = easyAI.DUAL(10)
-        game = examples.Knights(
+        game = games.Knights(
             [easyAI.AI_Player(ai_algo_K1), easyAI.AI_Player(ai_algo_K2)]
         )
         move_list_K1 = []
@@ -437,7 +437,7 @@ class Test_TranspositionTable(unittest.TestCase):
         # 1. solve game/save TranspositionTable
         tt = easyAI.TranspositionTable()
         winner, depth, best_player_move = easyAI.solve_with_iterative_deepening(
-            examples.Nim, range(13, 16), tt=tt, win_score=80, verbose=False
+            games.Nim(), range(13, 16), tt=tt, win_score=80, verbose=False
         )
         tt.to_file("tt-data.pickle.temp")
         # 2. restore TranspositionTable from file
@@ -445,7 +445,7 @@ class Test_TranspositionTable(unittest.TestCase):
         restored_tt.from_file("tt-data.pickle.temp")
         # 3. get first AI move using the TranspositionTable
         players = [easyAI.Human_Player(), easyAI.AI_Player(restored_tt)]
-        game = examples.Nim(players)
+        game = games.Nim(players)
         game.play_move(best_player_move)  # let the human play
         ai_move = game.get_move()  # get the AI's move based on tt
         self.assertEqual(ai_move, "2,5")
@@ -455,7 +455,7 @@ class Test_TranspositionTable(unittest.TestCase):
         # 1. solve game/save TranspositionTable
         tt = easyAI.TranspositionTable()
         winner, depth, best_player_move = easyAI.solve_with_iterative_deepening(
-            examples.Nim, range(13, 16), tt=tt, win_score=80, verbose=False
+            games.Nim(), range(13, 16), tt=tt, win_score=80, verbose=False
         )
         tt.to_json_file("tt-data.json.temp", use_tuples=True)
         # 2. restore TranspositionTable from file
@@ -463,7 +463,7 @@ class Test_TranspositionTable(unittest.TestCase):
         restored_tt.from_json_file("tt-data.json.temp", use_tuples=True)
         # 3. get first AI move using the TranspositionTable
         players = [easyAI.Human_Player(), easyAI.AI_Player(restored_tt)]
-        game = examples.Nim(players)
+        game = games.Nim(players)
         game.play_move(best_player_move)  # let the human play
         ai_move = game.get_move()  # get the AI's move based on tt
         self.assertEqual(ai_move, "2,5")

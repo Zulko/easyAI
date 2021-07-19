@@ -1,8 +1,8 @@
-from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
+from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
 from flask import Flask, render_template_string, request, make_response
 
 
-class TicTacToe(TwoPlayersGame):
+class TicTacToe(TwoPlayerGame):
     """The board positions are numbered as follows:
     1 2 3
     4 5 6
@@ -37,7 +37,7 @@ class TicTacToe(TwoPlayersGame):
     def lose(self, who=None):
         """ Has the opponent "three in line ?" """
         if who is None:
-            who = self.nopponent
+            who = self.opponent_index
         wins = [
             all([(self.board[c - 1] == who) for c in line]) for line in self.WIN_LINES
         ]

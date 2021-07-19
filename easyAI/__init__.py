@@ -1,5 +1,5 @@
 __all__ = [
-    "TwoPlayersGame",
+    "TwoPlayerGame",
     "Human_Player",
     "AI_Player",
     "Negamax",
@@ -8,7 +8,7 @@ __all__ = [
     "solve_with_depth_first_search",
 ]
 
-from .TwoPlayersGame import TwoPlayersGame
+from .TwoPlayerGame import TwoPlayerGame
 from .Player import Human_Player, AI_Player
 from .AI import (
     Negamax,

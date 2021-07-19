@@ -1,4 +1,4 @@
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 # Convert D7 to (3,6) and back...
 to_string = lambda move: " ".join(
@@ -7,7 +7,7 @@ to_string = lambda move: " ".join(
 to_tuple = lambda s: ("ABCDEFGHIJ".index(s[0]), int(s[1:]) - 1)
 
 
-class Hexapawn(TwoPlayersGame):
+class Hexapawn(TwoPlayerGame):
     """
     A nice game whose rules are explained here:
     http://fr.wikipedia.org/wiki/Hexapawn
@@ -78,4 +78,4 @@ if __name__ == "__main__":
     ai = Negamax(10, scoring)
     game = Hexapawn([AI_Player(ai), AI_Player(ai)])
     game.play()
-    print("player %d wins after %d turns " % (game.nopponent, game.nmove))
+    print("player %d wins after %d turns " % (game.opponent_index, game.nmove))

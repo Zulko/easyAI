@@ -1,9 +1,9 @@
 """ This is the example featured in section 'A quick example' of the docs """
 
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
-class GameOfBones(TwoPlayersGame):
+class GameOfBones(TwoPlayerGame):
     """In turn, the players remove one, two or three bones from a
     pile of bones. The player who removes the last bone loses."""
 

@@ -4,10 +4,10 @@ except ImportError:
     print("Sorry, this example requires Numpy installed !")
     raise
 
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
-class ConnectFour(TwoPlayersGame):
+class ConnectFour(TwoPlayerGame):
     """
     The game of Connect Four, as described here:
     http://en.wikipedia.org/wiki/Connect_Four
@@ -42,7 +42,7 @@ class ConnectFour(TwoPlayersGame):
         )
 
     def lose(self):
-        return find_four(self.board, self.nopponent)
+        return find_four(self.board, self.opponent_index)
 
     def is_over(self):
         return (self.board.min() > 0) or self.lose()
@@ -88,6 +88,6 @@ if __name__ == "__main__":
     game = ConnectFour([AI_Player(ai_algo_neg), AI_Player(ai_algo_sss)])
     game.play()
     if game.lose():
-        print("Player %d wins." % (game.nopponent))
+        print("Player %d wins." % (game.opponent_index))
     else:
         print("Looks like we have a draw.")

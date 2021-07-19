@@ -2,11 +2,11 @@ from abc import ABC, abstractclassmethod
 from copy import deepcopy
 
 
-class TwoPlayersGame(ABC):
+class TwoPlayerGame(ABC):
     """
     Base class for... wait for it... two-players games !
 
-    To define a new game, make a subclass of TwoPlayersGame, and define
+    To define a new game, make a subclass of TwoPlayerGame, and define
     the following methods:
 
     - ``__init__(self, players, ...)`` : initialization of the game
@@ -30,14 +30,14 @@ class TwoPlayersGame(ABC):
 
     When defining ``possible_moves``, you must keep in mind that you
     are in the scope of the *current player*. More precisely, a
-    subclass of TwoPlayersGame has the following attributes that
+    subclass of TwoPlayerGame has the following attributes that
     indicate whose turn it is. These methods can be used but should not
     be overwritten:
 
     - ``self.player`` : the current player (e.g. ``Human_Player``)
     - ``self.opponent`` : the current Player's opponent (Player).
     - ``self.current_player``: the number (1 or 2) of the current player.
-    - ``self.nopponent``: the number (1 or 2) of the opponent.
+    - ``self.opponent_index``: the number (1 or 2) of the opponent.
     - ``self.nmove``: How many moves have been played so far ?
 
     For more, see the examples in the dedicated folder.
@@ -47,9 +47,9 @@ class TwoPlayersGame(ABC):
 
     ::
 
-        from easyAI import TwoPlayersGame, Human_Player
+        from easyAI import TwoPlayerGame, Human_Player
 
-        class Sticks( TwoPlayersGame ):
+        class Sticks( TwoPlayerGame ):
             ''' In turn, the players remove one, two or three sticks from
                 a pile. The player who removes the last stick loses '''
 
@@ -125,7 +125,7 @@ class TwoPlayersGame(ABC):
         return history
 
     @property
-    def nopponent(self):
+    def opponent_index(self):
         return 2 if (self.current_player == 1) else 1
 
     @property
@@ -134,10 +134,10 @@ class TwoPlayersGame(ABC):
 
     @property
     def opponent(self):
-        return self.players[self.nopponent - 1]
+        return self.players[self.opponent_index - 1]
 
     def switch_player(self):
-        self.current_player = self.nopponent
+        self.current_player = self.opponent_index
 
     def copy(self):
         return deepcopy(self)

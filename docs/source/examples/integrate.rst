@@ -4,7 +4,7 @@ Integrating easyAI with other frameworks
 ========================================
 
 The primary means of executing easyAI is with the ``play`` method
-of TwoPlayersGame. That method handles getting human input and executing
+of TwoPlayerGame. That method handles getting human input and executing
 AI functions from start to finish.
 
 But, when using easyAI with other frameworks, one must often break down the

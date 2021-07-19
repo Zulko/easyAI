@@ -4,7 +4,7 @@ except ImportError:
     print("Sorry, this example requires Numpy installed !")
     raise
 
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 PLAYER1 = 1
 PLAYER2 = 2
@@ -13,7 +13,7 @@ HOLES = {PLAYER1: [0, 1, 2, 3, 4, 5], PLAYER2: [6, 7, 8, 9, 10, 11]}
 POS_FACTOR = [4, 5, 6, 7, 8, 9, 4, 5, 6, 7, 8, 9]
 
 
-class AweleTactical(TwoPlayersGame):
+class AweleTactical(TwoPlayerGame):
     """
     Rules are as defined as in http://en.wikipedia.org/wiki/Oware
     with the additional rule that the game ends when then are 6 seeds
@@ -107,7 +107,7 @@ class AweleTactical(TwoPlayersGame):
                 tactical_score -= 11 + POS_FACTOR[hole]
             elif qty == 2:
                 tactical_score -= 13 + POS_FACTOR[hole]
-        for hole in HOLES[self.nopponent]:
+        for hole in HOLES[self.opponent_index]:
             qty = self.board[hole]
             if qty == 0:
                 tactical_score += 7 + POS_FACTOR[hole]
@@ -140,6 +140,6 @@ if __name__ == "__main__":
     if game.player.score > game.opponent.score:
         print("Player %d wins." % game.current_player)
     elif game.player.score < game.opponent.score:
-        print("Player %d wins." % game.nopponent)
+        print("Player %d wins." % game.opponent_index)
     else:
         print("Looks like we have a draw.")

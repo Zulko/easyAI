@@ -1,8 +1,8 @@
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 from easyAI.Player import Human_Player
 
 
-class TicTacToe(TwoPlayersGame):
+class TicTacToe(TwoPlayerGame):
     """The board positions are numbered as follows:
     1 2 3
     4 5 6
@@ -27,7 +27,7 @@ class TicTacToe(TwoPlayersGame):
         """ Has the opponent "three in line ?" """
         return any(
             [
-                all([(self.board[c - 1] == self.nopponent) for c in line])
+                all([(self.board[c - 1] == self.opponent_index) for c in line])
                 for line in [
                     [1, 2, 3],
                     [4, 5, 6],

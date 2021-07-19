@@ -1,5 +1,5 @@
 import numpy as np
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
 # directions in which a knight can move
@@ -15,7 +15,7 @@ pos2string = lambda ab: "ABCDEFGH"[ab[0]] + str(ab[1] + 1)
 string2pos = lambda s: np.array(["ABCDEFGH".index(s[0]), int(s[1]) - 1])
 
 
-class Knights(TwoPlayersGame):
+class Knights(TwoPlayerGame):
     """
     Each player has a chess knight (that moves in "L") on a chessboard.
     Each turn the player moves the knight to any tile that hasn't been

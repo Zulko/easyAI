@@ -5,9 +5,9 @@ A quick example
 
 Let us define the rules of a game and start a match against the AI: ::
     
-    from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
+    from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
     
-    class GameOfBones( TwoPlayersGame ):
+    class GameOfBones( TwoPlayerGame ):
         """ In turn, the players remove one, two or three bones from a
         pile of bones. The player who removes the last bone loses. """
             

@@ -4,13 +4,13 @@ way, the AI will be slow.
 """
 
 import numpy as np
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 to_string = lambda a: "ABCDEFGH"[a[0]] + str(a[1] + 1)
 to_array = lambda s: np.array(["ABCDEFGH".index(s[0]), int(s[1]) - 1])
 
 
-class Reversi(TwoPlayersGame):
+class Reversi(TwoPlayerGame):
     """
     See the rules on http://en.wikipedia.org/wiki/Reversi
     Here for simplicity we suppose that the game ends when a
@@ -83,11 +83,11 @@ class Reversi(TwoPlayersGame):
 
         if np.sum(self.board == 0) > 32:  # less than half the board is full
             player = self.board == self.current_player
-            opponent = self.board == self.nopponent
+            opponent = self.board == self.opponent_index
             return ((player - opponent) * BOARD_SCORE).sum()
         else:
             npieces_player = np.sum(self.board == self.current_player)
-            npieces_opponent = np.sum(self.board == self.nopponent)
+            npieces_opponent = np.sum(self.board == self.opponent_index)
             return npieces_player - npieces_opponent
 
 
@@ -144,6 +144,6 @@ if __name__ == "__main__":
     if game.scoring() > 0:
         print("player %d wins." % game.current_player)
     elif game.scoring() < 0:
-        print("player %d wins." % game.nopponent)
+        print("player %d wins." % game.opponent_index)
     else:
         print("Draw.")

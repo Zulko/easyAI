@@ -1,5 +1,5 @@
 import numpy as np
-from easyAI import TwoPlayersGame, Human_Player, AI_Player, Negamax
+from easyAI import TwoPlayerGame, Human_Player, AI_Player, Negamax
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -30,7 +30,7 @@ SQUARE_TEXT = [" ", "K1", "K2", "X"]
 AI = Negamax(11)
 
 
-class Knights(TwoPlayersGame):
+class Knights(TwoPlayerGame):
     """
     Each player has a chess knight (that moves in "L") on a chessboard.
     Each turn the player moves the knight to any tile that hasn't been
@@ -143,7 +143,7 @@ class KnightsKivyApp(App):
                 ]
         if self.game.is_over():
             self.msg_button.text = "Game over. {} wins.".format(
-                SQUARE_TEXT[self.game.nopponent]
+                SQUARE_TEXT[self.game.opponent_index]
             )
 
     def reset_board(self, btn):

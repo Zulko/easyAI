@@ -73,7 +73,7 @@ It would be better if ``is_over`` could directly tell to ``scoring`` something l
     
     def lose(self):
         """ You lose if your opponent has four 'connected' pieces """
-        self.haslost = find_four(self.board,self.nopponent) # store result
+        self.haslost = find_four(self.board,self.opponent_index) # store result
         return self.haslost
     
     def scoring(game):

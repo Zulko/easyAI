@@ -1,12 +1,12 @@
 #contributed by mrfesol (Tomasz Wesolowski)
 
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 from easyAI.Player import Human_Player
 from copy import deepcopy
 from easyAI.AI.DictTranspositionTable import DictTranspositionTable
 from easyAI.AI.Hashes import JSWHashTranspositionTable
 
-class Chopsticks( TwoPlayersGame ):
+class Chopsticks( TwoPlayerGame ):
     """ 
         Simple game you can play with your fingers.
         See the rules on http://en.wikipedia.org/wiki/Chopsticks_(hand_game)
@@ -50,7 +50,7 @@ class Chopsticks( TwoPlayersGame ):
         for i in range(self.numhands):
             for j in range(self.numhands):
                 hand_player = self.hands[self.current_player-1][i]
-                hand_opp = self.hands[self.nopponent-1][j]
+                hand_opp = self.hands[self.opponent_index-1][j]
                 if hand_player != 0 and hand_opp != 0:
                     moves.append(('tap', i, j, self.hands[self.current_player-1][i]))
         return moves
@@ -61,7 +61,7 @@ class Chopsticks( TwoPlayersGame ):
             self.hands[self.current_player-1][one] -= value
             self.hands[self.current_player-1][two] += value
         else:
-            self.hands[self.nopponent-1][two] += value
+            self.hands[self.opponent_index-1][two] += value
             
         for player in range(self.numplayers):
             for hand in range(self.numhands):
@@ -72,7 +72,7 @@ class Chopsticks( TwoPlayersGame ):
         return max(self.hands[self.current_player-1]) == 0
     
     def win(self):
-        return max(self.hands[self.nopponent-1]) == 0
+        return max(self.hands[self.opponent_index-1]) == 0
         
     def is_over(self):
         return self.lose() or self.win()
@@ -99,7 +99,7 @@ class Chopsticks( TwoPlayersGame ):
         for player in range(self.numplayers):
             for hand in range(len(self.hands[player])):
                 alive[player] += (self.hands[player][hand] > 0)
-        return alive[self.current_player-1] - alive[self.nopponent-1]
+        return alive[self.current_player-1] - alive[self.opponent_index-1]
     
     def ttentry(self):
         """

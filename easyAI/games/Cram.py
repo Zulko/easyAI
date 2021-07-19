@@ -1,5 +1,5 @@
 import numpy as np
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 
 # directions in which a knight can move
@@ -23,7 +23,7 @@ def string2mov(s):
     return poss[0] + poss[1]
 
 
-class Cram(TwoPlayersGame):
+class Cram(TwoPlayerGame):
     """
     Players place a domino on the grid (provide x1,y1,x2,y2)
     """
