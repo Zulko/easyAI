@@ -140,7 +140,8 @@ def solve_with_depth_first_search(game, win_score, maxdepth=50, tt=None, depth=0
     if game.is_over():
         score = game.scoring()
         value = 1 if (score >= win_score) else (-1 if -score >= win_score else 0)
-        tt.store(game=game, value=value, move=None)
+        if tt is not None:
+            tt.store(game=game, value=value, move=None)
         return value
 
     possible_moves = game.possible_moves()
@@ -167,14 +168,15 @@ def solve_with_depth_first_search(game, win_score, maxdepth=50, tt=None, depth=0
             game.unmake_move(move)
 
         if move_value == 1:
-            tt.store(game=state, value=1, move=move)
+            if tt is not None:
+                tt.store(game=state, value=1, move=move)
             return move_value
 
         if move_value == 0 and best_value == -1:
             # Is forcing a draw possible ?
             best_value = 0
             best_move = move
-
-    tt.store(game=state, value=best_value, move=best_move)
+    if tt is not None:
+        tt.store(game=state, value=best_value, move=best_move)
 
     return best_value
