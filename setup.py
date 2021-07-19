@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="easyAI",
-    version="2.0.1",
+    version="2.0.2",
     description="Easy-to-use game AI algorithms (Negamax etc. )",
     long_description=open("README.rst").read(),
     license="LICENSE.txt",

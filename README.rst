@@ -95,11 +95,7 @@ After these lines are run the variable ``tt`` contains a transposition table sto
 Contribute !
 ------------
 
-EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. It could do with some improvements, so if your are a Python/.. _here: http://zulko.github.io/easyAI
-.. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
-.. _Zulko : https://github.com/Zulko
-.. _JohnAD : https://github.com/JohnAD
-.. _Github :  https://github.com/Zulko/easyAIAI guru maybe you can contribute through Github_ . Some ideas: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
+EasyAI is an open source software originally written by Zulko_ and released under the MIT licence. Contributions welcome! Some ideas: AI algos for incomplete information games, better game solving strategies, (efficient) use of databases to store moves,  AI algorithms using parallelisation.
 
 For troubleshooting and bug reports, the best for now is to ask on Github_.
 
