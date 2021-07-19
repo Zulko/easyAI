@@ -79,7 +79,7 @@ We obtain ``r=1``, meaning that if both players play perfectly, the first player
 These computations can be speed up using a transposition table which will store the situations encountered and the best moves for each:
 
 .. code:: python
-    
+
     tt = TranspositionTable()
     GameOfBones.ttentry = lambda game : game.pile # key for the table
     r,d,m = solve_with_iterative_deepening(GameOfBones, range(2,20), win_score=100, tt=tt)
@@ -87,6 +87,7 @@ These computations can be speed up using a transposition table which will store 
 After these lines are run the variable ``tt`` contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With ``tt`` you can play perfectly without *thinking*: ::
 
 .. code:: python
+
     game = GameOfBones( [  AI_Player( tt ), Human_Player() ] )
     game.play() # you will always lose this game :)
     
@@ -97,14 +98,15 @@ EasyAI is an open source software originally written by Zulko_ and released unde
 
 For troubleshooting and bug reports, the best for now is to ask on Github_.
 
-.. _here: http://zulko.github.io/easyAI
-.. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
-.. _Zulko : https://github.com/Zulko
-.. _JohnAD : https://github.com/JohnAD
-.. _Github :  https://github.com/Zulko/easyAI
-
 Maintainers
 -----------
 
 - Zulko_ (owner)
 - JohnAD_
+
+
+.. _here: http://zulko.github.io/easyAI
+.. _Wikipedia: http://en.wikipedia.org/wiki/Negamax
+.. _Zulko : https://github.com/Zulko
+.. _JohnAD : https://github.com/JohnAD
+.. _Github :  https://github.com/Zulko/easyAI
