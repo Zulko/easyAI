@@ -40,7 +40,7 @@ cdef int *POS_DIR = [ 0,  0,  0,  1,  1,  0,  0,  1,  2,  0,
         2,  6,  1, -1,  0,  3,  1, -1,  0,  4,  1, -1,  0,  5,
         1, -1,  0,  6,  1, -1]
 
-cpdef int find_four(np.ndarray[int, ndim=2] board, int nplayer):
+cpdef int find_four(np.ndarray[int, ndim=2] board, int current_player):
     
     cdef int i, streak, pos_i, pos_j , dir_i, dir_j
     
@@ -54,7 +54,7 @@ cpdef int find_four(np.ndarray[int, ndim=2] board, int nplayer):
         streak = 0
         
         while (0 <= pos_i <= 5) and (0 <= pos_j <= 6):
-            if board[pos_i][pos_j] == nplayer:
+            if board[pos_i][pos_j] == current_player:
                 streak += 1
                 if streak == 4:
                     return 1

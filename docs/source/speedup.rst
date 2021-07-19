@@ -73,7 +73,7 @@ It would be better if ``is_over`` could directly tell to ``scoring`` something l
     
     def lose(self):
         """ You lose if your opponent has four 'connected' pieces """
-        self.haslost = find_four(self.board,self.nopponent) # store result
+        self.haslost = find_four(self.board,self.opponent_index) # store result
         return self.haslost
     
     def scoring(game):
@@ -96,8 +96,8 @@ Transposition tables store the values of already-computed moves and positions so
 
 Then you simply tell the AI that you want to use transposition tables: ::
     
-    from easyAI import TT
-    ai = Negamax(7, scoring, tt = TT())
+    from easyAI import TranspositionTable
+    ai = Negamax(7, scoring, tt = TranspositionTable())
 
 The AI now runs in **0.4 seconds !** 
 
@@ -108,9 +108,9 @@ Solve the game first
 
 Not all games are solvable. But if it is possible to fully solve a game, you could solve it first, then store the results for use in your program. Using the GameOfBones example ::
     
-    tt = TT()
+    tt = TranspositionTable()
     GameOfBones.ttentry = lambda game : game.pile  # key for the table
-    r,d,m = id_solve(GameOfBones, range(2,20), win_score=100, tt=tt)
+    r,d,m = solve_with_iterative_deepening(GameOfBones, range(2,20), win_score=100, tt=tt)
 
 After these lines are run the variable ``tt`` contains a transposition table storing the possible situations (here, the possible sizes of the pile) and the optimal moves to perform. With ``tt`` you can play perfectly without *thinking*: ::
     

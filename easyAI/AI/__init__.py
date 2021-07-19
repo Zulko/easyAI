@@ -1,8 +1,8 @@
 from .Negamax import Negamax
 from .NonRecursiveNegamax import NonRecursiveNegamax
-from .TT import TT
-from .solving import id_solve, df_solve
+from .TranspositionTable import TranspositionTable
+from .solving import solve_with_iterative_deepening, solve_with_depth_first_search
 from .MTdriver import mtd
 from .SSS import SSS
 from .DUAL import DUAL
-from .HashTT import HashTT
+from .HashTranspositionTable import HashTranspositionTable

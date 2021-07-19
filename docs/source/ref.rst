@@ -4,7 +4,7 @@ Reference Manual
 Games
 -----
 
-.. autoclass:: easyAI.TwoPlayersGame
+.. autoclass:: easyAI.TwoPlayerGame
    :members:
    :show-inheritance:
 
@@ -41,13 +41,13 @@ AI algorithms
 Transposition tables
 --------------------
 
-.. autoclass:: easyAI.AI.TT
+.. autoclass:: easyAI.AI.TranspositionTable
    :members:
    :show-inheritance:
    
 Solving Games
 -------------
 
-.. autofunction:: easyAI.AI.solving.id_solve
+.. autofunction:: easyAI.AI.solving.solve_with_iterative_deepening
 
-.. autofunction:: easyAI.AI.solving.df_solve
+.. autofunction:: easyAI.AI.solving.solve_with_depth_first_search

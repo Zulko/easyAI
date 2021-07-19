@@ -1,18 +1,19 @@
-from easyAI import TwoPlayersGame
+from easyAI import TwoPlayerGame
 
 # Convert D7 to (3,6) and back...
-to_string = lambda move: " ".join(["ABCDEFGHIJ"[move[i][0]] + str(move[i][1] + 1)
-                                   for i in (0, 1)])
+to_string = lambda move: " ".join(
+    ["ABCDEFGHIJ"[move[i][0]] + str(move[i][1] + 1) for i in (0, 1)]
+)
 to_tuple = lambda s: ("ABCDEFGHIJ".index(s[0]), int(s[1:]) - 1)
 
 
-class Hexapawn(TwoPlayersGame):
+class Hexapawn(TwoPlayerGame):
     """
     A nice game whose rules are explained here:
     http://fr.wikipedia.org/wiki/Hexapawn
     """
 
-    def __init__(self, players, size = (4, 4)):
+    def __init__(self, players, size=(4, 4)):
         self.size = M, N = size
         p = [[(i, j) for j in range(N)] for i in [0, M - 1]]
 
@@ -22,7 +23,7 @@ class Hexapawn(TwoPlayersGame):
             players[i].pawns = pawns
 
         self.players = players
-        self.nplayer = 1
+        self.current_player = 1
 
     def possible_moves(self):
         moves = []
@@ -39,7 +40,7 @@ class Hexapawn(TwoPlayersGame):
         return list(map(to_string, [(i, j) for i, j in moves]))
 
     def make_move(self, move):
-        move = list(map(to_tuple, move.split(' ')))
+        move = list(map(to_tuple, move.split(" ")))
         ind = self.player.pawns.index(move[0])
         self.player.pawns[ind] = move[1]
 
@@ -47,19 +48,27 @@ class Hexapawn(TwoPlayersGame):
             self.opponent.pawns.remove(move[1])
 
     def lose(self):
-        return ( any([i == self.opponent.goal_line
-                      for i, j in self.opponent.pawns])
-                 or (self.possible_moves() == []) )
+        return any([i == self.opponent.goal_line for i, j in self.opponent.pawns]) or (
+            self.possible_moves() == []
+        )
 
     def is_over(self):
         return self.lose()
 
     def show(self):
-        f = lambda x: '1' if x in self.players[0].pawns else (
-            '2' if x in self.players[1].pawns else '.')
-        print("\n".join([" ".join([f((i, j))
-                                   for j in range(self.size[1])])
-                         for i in range(self.size[0])]))
+        f = (
+            lambda x: "1"
+            if x in self.players[0].pawns
+            else ("2" if x in self.players[1].pawns else ".")
+        )
+        print(
+            "\n".join(
+                [
+                    " ".join([f((i, j)) for j in range(self.size[1])])
+                    for i in range(self.size[0])
+                ]
+            )
+        )
 
 
 if __name__ == "__main__":
@@ -69,4 +78,4 @@ if __name__ == "__main__":
     ai = Negamax(10, scoring)
     game = Hexapawn([AI_Player(ai), AI_Player(ai)])
     game.play()
-    print("player %d wins after %d turns " % (game.nopponent, game.nmove))
+    print("player %d wins after %d turns " % (game.opponent_index, game.nmove))
