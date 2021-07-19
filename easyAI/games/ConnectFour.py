@@ -17,17 +17,17 @@ class ConnectFour(TwoPlayersGame):
         self.players = players
         self.board = (
             board
-            if (board != None)
+            if (board is not None)
             else (np.array([[0 for i in range(7)] for j in range(6)]))
         )
-        self.nplayer = 1  # player 1 starts.
+        self.current_player = 1  # player 1 starts.
 
     def possible_moves(self):
         return [i for i in range(7) if (self.board[:, i].min() == 0)]
 
     def make_move(self, column):
         line = np.argmin(self.board[:, column] != 0)
-        self.board[line, column] = self.nplayer
+        self.board[line, column] = self.current_player
 
     def show(self):
         print(
@@ -51,7 +51,7 @@ class ConnectFour(TwoPlayersGame):
         return -100 if self.lose() else 0
 
 
-def find_four(board, nplayer):
+def find_four(board, current_player):
     """
     Returns True iff the player has connected  4 (or more)
     This is much faster if written in C or Cython
@@ -59,7 +59,7 @@ def find_four(board, nplayer):
     for pos, direction in POS_DIR:
         streak = 0
         while (0 <= pos[0] <= 5) and (0 <= pos[1] <= 6):
-            if board[pos[0], pos[1]] == nplayer:
+            if board[pos[0], pos[1]] == current_player:
                 streak += 1
                 if streak == 4:
                     return True

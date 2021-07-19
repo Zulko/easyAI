@@ -23,7 +23,7 @@ class Test_Negamax(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer == 1:
+            if game.current_player == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -99,7 +99,7 @@ class Test_Negamax(unittest.TestCase):
     #     move_list_P2 = []
     #     while not game.is_over():
     #         move = game.get_move()
-    #         if game.nplayer == 1:
+    #         if game.current_player == 1:
     #             move_list_P1.append(move)
     #         else:
     #             move_list_P2.append(move)
@@ -155,7 +155,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer == 1:
+            if game.current_player == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -231,7 +231,7 @@ class Test_NonRecursiveNegamax(unittest.TestCase):
     #     move_list_P2 = []
     #     while not game.is_over():
     #         move = game.get_move()
-    #         if game.nplayer == 1:
+    #         if game.current_player == 1:
     #             move_list_P1.append(move)
     #         else:
     #             move_list_P2.append(move)
@@ -287,7 +287,7 @@ class Test_SSS(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer == 1:
+            if game.current_player == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -365,7 +365,7 @@ class Test_DUAL(unittest.TestCase):
         move_list_K2 = []
         while not game.is_over():
             move = game.get_move()
-            if game.nplayer == 1:
+            if game.current_player == 1:
                 move_list_K1.append(move)
             else:
                 move_list_K2.append(move)
@@ -432,18 +432,18 @@ class Test_DUAL(unittest.TestCase):
         self.assertEqual(move_list_K2, K2_correct)
 
 
-class Test_TT(unittest.TestCase):
+class Test_TranspositionTable(unittest.TestCase):
     def test_pickle_save_and_restore(self):
-        # 1. solve game/save TT
-        tt = easyAI.TT()
-        winner, depth, best_player_move = easyAI.id_solve(
+        # 1. solve game/save TranspositionTable
+        tt = easyAI.TranspositionTable()
+        winner, depth, best_player_move = easyAI.solve_with_iterative_deepening(
             examples.Nim, range(13, 16), tt=tt, win_score=80, verbose=False
         )
-        tt.tofile("tt-data.pickle.temp")
-        # 2. restore TT from file
-        restored_tt = easyAI.TT()
-        restored_tt.fromfile("tt-data.pickle.temp")
-        # 3. get first AI move using the TT
+        tt.to_file("tt-data.pickle.temp")
+        # 2. restore TranspositionTable from file
+        restored_tt = easyAI.TranspositionTable()
+        restored_tt.from_file("tt-data.pickle.temp")
+        # 3. get first AI move using the TranspositionTable
         players = [easyAI.Human_Player(), easyAI.AI_Player(restored_tt)]
         game = examples.Nim(players)
         game.play_move(best_player_move)  # let the human play
@@ -452,16 +452,16 @@ class Test_TT(unittest.TestCase):
         self.assertEqual(best_player_move, "1,5")
 
     def test_json_save_and_restore(self):
-        # 1. solve game/save TT
-        tt = easyAI.TT()
-        winner, depth, best_player_move = easyAI.id_solve(
+        # 1. solve game/save TranspositionTable
+        tt = easyAI.TranspositionTable()
+        winner, depth, best_player_move = easyAI.solve_with_iterative_deepening(
             examples.Nim, range(13, 16), tt=tt, win_score=80, verbose=False
         )
         tt.to_json_file("tt-data.json.temp", use_tuples=True)
-        # 2. restore TT from file
-        restored_tt = easyAI.TT()
+        # 2. restore TranspositionTable from file
+        restored_tt = easyAI.TranspositionTable()
         restored_tt.from_json_file("tt-data.json.temp", use_tuples=True)
-        # 3. get first AI move using the TT
+        # 3. get first AI move using the TranspositionTable
         players = [easyAI.Human_Player(), easyAI.AI_Player(restored_tt)]
         game = examples.Nim(players)
         game.play_move(best_player_move)  # let the human play

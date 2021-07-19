@@ -13,7 +13,7 @@ Defining a new game with easyAI looks like this: ::
     
         def __init__(self, players) :
             self.players = players 
-            self.nplayer= 1 # initialization. Player #1 starts.
+            self.current_player= 1 # initialization. Player #1 starts.
             
         def possible_moves(self) : 
             return # all moves allowed to the current player

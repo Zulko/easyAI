@@ -28,7 +28,7 @@ class Reversi(TwoPlayersGame):
         self.board = np.zeros((8, 8), dtype=int)
         self.board[3, [3, 4]] = [1, 2]
         self.board[4, [3, 4]] = [2, 1]
-        self.nplayer = 1
+        self.current_player = 1
 
     def possible_moves(self):
         """ Only moves that lead to flipped pieces are allowed """
@@ -37,17 +37,17 @@ class Reversi(TwoPlayersGame):
             for i in range(8)
             for j in range(8)
             if (self.board[i, j] == 0)
-            and (pieces_flipped(self.board, (i, j), self.nplayer) != [])
+            and (pieces_flipped(self.board, (i, j), self.current_player) != [])
         ]
 
     def make_move(self, pos):
         """Put the piece at position ``pos`` and flip the pieces that
         much be flipped"""
         pos = to_array(pos)
-        flipped = pieces_flipped(self.board, pos, self.nplayer)
+        flipped = pieces_flipped(self.board, pos, self.current_player)
         for i, j in flipped:
-            self.board[i, j] = self.nplayer
-        self.board[pos[0], pos[1]] = self.nplayer
+            self.board[i, j] = self.current_player
+        self.board[pos[0], pos[1]] = self.current_player
 
     def show(self):
         """ Prints the board in a fancy (?) way """
@@ -82,11 +82,11 @@ class Reversi(TwoPlayersGame):
         """
 
         if np.sum(self.board == 0) > 32:  # less than half the board is full
-            player = self.board == self.nplayer
+            player = self.board == self.current_player
             opponent = self.board == self.nopponent
             return ((player - opponent) * BOARD_SCORE).sum()
         else:
-            npieces_player = np.sum(self.board == self.nplayer)
+            npieces_player = np.sum(self.board == self.current_player)
             npieces_opponent = np.sum(self.board == self.nopponent)
             return npieces_player - npieces_opponent
 
@@ -110,7 +110,7 @@ DIRECTIONS = [
 ]
 
 
-def pieces_flipped(board, pos, nplayer):
+def pieces_flipped(board, pos, current_player):
     """
     Returns a list of the positions of the pieces to be flipped if
     player `nplayer` places a piece on the `board` at position `pos`.
@@ -123,9 +123,9 @@ def pieces_flipped(board, pos, nplayer):
         ppos = pos + d
         streak = []
         while (0 <= ppos[0] <= 7) and (0 <= ppos[1] <= 7):
-            if board[ppos[0], ppos[1]] == 3 - nplayer:
+            if board[ppos[0], ppos[1]] == 3 - current_player:
                 streak.append(+ppos)
-            elif board[ppos[0], ppos[1]] == nplayer:
+            elif board[ppos[0], ppos[1]] == current_player:
                 flipped += streak
                 break
             else:
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     game = Reversi([AI_Player(Negamax(4)), AI_Player(Negamax(4))])
     game.play()
     if game.scoring() > 0:
-        print("player %d wins." % game.nplayer)
+        print("player %d wins." % game.current_player)
     elif game.scoring() < 0:
         print("player %d wins." % game.nopponent)
     else:

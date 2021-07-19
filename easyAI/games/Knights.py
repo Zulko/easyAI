@@ -30,7 +30,7 @@ class Knights(TwoPlayersGame):
         self.board[board_size[0] - 1, board_size[1] - 1] = 2
         players[0].pos = np.array([0, 0])
         players[1].pos = np.array([board_size[0] - 1, board_size[1] - 1])
-        self.nplayer = 1  # player 1 starts.
+        self.current_player = 1  # player 1 starts.
 
     def possible_moves(self):
         endings = [self.player.pos + d for d in DIRECTIONS]
@@ -49,7 +49,7 @@ class Knights(TwoPlayersGame):
         self.board[pi, pj] = 3  # 3 means blocked
         self.player.pos = string2pos(pos)
         pi, pj = self.player.pos
-        self.board[pi, pj] = self.nplayer  # place player on board
+        self.board[pi, pj] = self.current_player  # place player on board
 
     def ttentry(self):
         e = [tuple(row) for row in self.board]
@@ -100,4 +100,4 @@ if __name__ == "__main__":
     ai_algo = Negamax(11)
     game = Knights([AI_Player(ai_algo), AI_Player(ai_algo)], (5, 5))
     game.play()
-    print("player %d loses" % (game.nplayer))
+    print("player %d loses" % (game.current_player))

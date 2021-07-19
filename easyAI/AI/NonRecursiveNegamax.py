@@ -12,7 +12,7 @@ It also requires a reverse function: 'ttrestore' that takes the value from
 
 LOWERBOUND, EXACT, UPPERBOUND = -1, 0, 1
 
-INF = float('infinity')
+INF = float("infinity")
 
 # integer keys for 'state':
 IMAGE = 0
@@ -29,7 +29,6 @@ UP = 2
 
 
 class StateObject(object):
-
     def __init__(self):
         self.image = None
         self.move_list = []
@@ -45,7 +44,7 @@ class StateObject(object):
         self.move_list = self.move_list[0:index]
 
     def out_of_moves(self):
-        ''' we are at or past the end of the move list '''
+        """ we are at or past the end of the move list """
         return self.current_move >= len(self.move_list) - 1
 
     def goto_next_move(self):
@@ -57,7 +56,6 @@ class StateObject(object):
 
 
 class StateList(object):
-
     def __init__(self, target_depth):
         self.state_list = [StateObject() for _ in range(target_depth + 2)]
 
@@ -121,9 +119,9 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
                 states[depth].best_move = 0
                 states[depth].best_score = -INF
                 states[depth].current_move = 0
-                states[depth].player = game.nplayer
-                states[depth].alpha = -states[parent].beta   # inherit alpha from -beta
-                states[depth].beta = -states[parent].alpha   # inherit beta from -alpha
+                states[depth].player = game.current_player
+                states[depth].alpha = -states[parent].beta  # inherit alpha from -beta
+                states[depth].beta = -states[parent].alpha  # inherit beta from -alpha
                 index = states[depth].current_move
                 game.make_move(states[depth].move_list[index])
                 game.switch_player()
@@ -149,13 +147,13 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
                 if states[parent].alpha < bs:
                     states[parent].alpha = bs
                 if depth <= 0:
-                    break   # we are done.
+                    break  # we are done.
                 direction = UP
                 depth = parent
                 continue
             # else go down the next branch
             game.ttrestore(states[depth].image)
-            game.nplayer = states[depth].player
+            game.current_player = states[depth].player
             next_move = states[depth].goto_next_move()
             game.make_move(next_move)
             game.switch_player()
@@ -218,15 +216,9 @@ class NonRecursiveNegamax:
         """
         Returns the AI's best move given the current state of the game.
         """
-        scoring = self.scoring if self.scoring else (
-            lambda g: g.scoring()
-        )
+        scoring = self.scoring if self.scoring else (lambda g: g.scoring())
         temp = game.copy()
         self.alpha = negamax_nr(
-            temp,
-            self.depth,
-            scoring,
-            -self.win_score,
-            +self.win_score
+            temp, self.depth, scoring, -self.win_score, +self.win_score
         )
         return temp.ai_move

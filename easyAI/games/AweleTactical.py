@@ -31,7 +31,7 @@ class AweleTactical(TwoPlayersGame):
         # holes are indexed by a,b,c,d...
         self.board = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
 
-        self.nplayer = 1  # player 1 starts.
+        self.current_player = 1  # player 1 starts.
 
     def make_move(self, move):
         if move == "None":
@@ -63,7 +63,7 @@ class AweleTactical(TwoPlayersGame):
         non-empty hole can be played.
         """
 
-        if self.nplayer == 1:
+        if self.current_player == 1:
             if max(self.board[:6]) == 0:
                 return ["None"]
             moves = [i for i in range(6) if (self.board[i] >= 6 - i)]
@@ -99,7 +99,7 @@ class AweleTactical(TwoPlayersGame):
     def scoring(self):
         strategic_score = (self.player.score - self.opponent.score) * 100
         tactical_score = 0
-        for hole in HOLES[self.nplayer]:
+        for hole in HOLES[self.current_player]:
             qty = self.board[hole]
             if qty == 0:
                 tactical_score -= 7 + POS_FACTOR[hole]
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     game.play()
 
     if game.player.score > game.opponent.score:
-        print("Player %d wins." % game.nplayer)
+        print("Player %d wins." % game.current_player)
     elif game.player.score < game.opponent.score:
         print("Player %d wins." % game.nopponent)
     else:

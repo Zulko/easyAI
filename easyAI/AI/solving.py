@@ -1,9 +1,8 @@
 from easyAI.AI import Negamax
-from easyAI.AI import TT
 from easyAI.Player import AI_Player
 
 
-def id_solve(
+def solve_with_iterative_deepening(
     game, ai_depths, win_score, scoring=None, tt=None, verbose=True, **game_params
 ):
     """
@@ -82,7 +81,7 @@ def id_solve(
     return result, depth, game.ai_move
 
 
-def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
+def solve_with_depth_first_search(game, win_score, maxdepth=50, tt=None, depth=0):
     """
     Solves a game using a depth-first search: the game is explored until
     endgames are reached.
@@ -94,7 +93,7 @@ def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
     Situations are evaluated until the initial condition receives a label
     (victory or defeat). Draws are also possible.
 
-    This algorithm can be faster but less informative than ``id_solve``,
+    This algorithm can be faster but less informative than ``solve_with_iterative_deepening``,
     as it does not provide 'optimal' strategies (like shortest path to
     the victory). It returns simply 1, 0, or -1 to indicate certain
     victory, draw, or defeat of the first player.
@@ -130,7 +129,7 @@ def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
 
     # Is there a transposition table and is this game in it ?
     lookup = None if (tt is None) else tt.lookup(game)
-    if lookup != None:
+    if lookup is not None:
         return lookup["value"]
 
     if depth == maxdepth:
@@ -157,7 +156,9 @@ def df_solve(game, win_score, maxdepth=50, tt=None, depth=0):
         game.make_move(move)
         game.switch_player()
 
-        move_value = -df_solve(game, win_score, maxdepth, tt, depth + 1)
+        move_value = -solve_with_depth_first_search(
+            game, win_score, maxdepth, tt, depth + 1
+        )
 
         if unmake_move:
             game.switch_player()

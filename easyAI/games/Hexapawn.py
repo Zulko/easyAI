@@ -23,7 +23,7 @@ class Hexapawn(TwoPlayersGame):
             players[i].pawns = pawns
 
         self.players = players
-        self.nplayer = 1
+        self.current_player = 1
 
     def possible_moves(self):
         moves = []

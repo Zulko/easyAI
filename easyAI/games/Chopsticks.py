@@ -3,8 +3,8 @@
 from easyAI import TwoPlayersGame
 from easyAI.Player import Human_Player
 from copy import deepcopy
-from easyAI.AI.DictTT import DictTT
-from easyAI.AI.Hashes import JSWHashTT
+from easyAI.AI.DictTranspositionTable import DictTranspositionTable
+from easyAI.AI.Hashes import JSWHashTranspositionTable
 
 class Chopsticks( TwoPlayersGame ):
     """ 
@@ -28,7 +28,7 @@ class Chopsticks( TwoPlayersGame ):
         self.players = players
         self.numplayers = len(self.players)
         self.numhands = numhands
-        self.nplayer = 1 # player 1 starts.
+        self.current_player = 1 # player 1 starts.
         
         hand = [1 for hand in range(self.numhands)]
         self.hands = [hand[:] for player in range(self.numplayers)]       
@@ -39,8 +39,8 @@ class Chopsticks( TwoPlayersGame ):
         for h1 in range(self.numhands):
             for h2 in range(self.numhands):
                 if h1 == h2: continue
-                hand1 = self.hands[self.nplayer-1][h1]
-                hand2 = self.hands[self.nplayer-1][h2]
+                hand1 = self.hands[self.current_player-1][h1]
+                hand2 = self.hands[self.current_player-1][h2]
                 for i in range(1, 1+min(hand1, 5-hand2)):
                     move = ('split', h1, h2, i)
                     if hand1 != hand2 + i and self.back_to_startstate(move) == False:
@@ -49,17 +49,17 @@ class Chopsticks( TwoPlayersGame ):
         #taps
         for i in range(self.numhands):
             for j in range(self.numhands):
-                hand_player = self.hands[self.nplayer-1][i]
+                hand_player = self.hands[self.current_player-1][i]
                 hand_opp = self.hands[self.nopponent-1][j]
                 if hand_player != 0 and hand_opp != 0:
-                    moves.append(('tap', i, j, self.hands[self.nplayer-1][i]))
+                    moves.append(('tap', i, j, self.hands[self.current_player-1][i]))
         return moves
     
     def make_move(self, move):
         type, one, two, value = move
         if type == 'split':
-            self.hands[self.nplayer-1][one] -= value
-            self.hands[self.nplayer-1][two] += value
+            self.hands[self.current_player-1][one] -= value
+            self.hands[self.current_player-1][two] += value
         else:
             self.hands[self.nopponent-1][two] += value
             
@@ -69,7 +69,7 @@ class Chopsticks( TwoPlayersGame ):
                     self.hands[player][hand] = 0
 
     def lose(self):
-        return max(self.hands[self.nplayer-1]) == 0
+        return max(self.hands[self.current_player-1]) == 0
     
     def win(self):
         return max(self.hands[self.nopponent-1]) == 0
@@ -99,14 +99,14 @@ class Chopsticks( TwoPlayersGame ):
         for player in range(self.numplayers):
             for hand in range(len(self.hands[player])):
                 alive[player] += (self.hands[player][hand] > 0)
-        return alive[self.nplayer-1] - alive[self.nopponent-1]
+        return alive[self.current_player-1] - alive[self.nopponent-1]
     
     def ttentry(self):
         """
             Returns game entry
         """
         entry = [self.hands[i][j] for i in range(self.numplayers) for j in range(self.numhands)]
-        entry = entry + [self.nplayer]
+        entry = entry + [self.current_player]
         return tuple(entry)  
     
     def back_to_startstate(self, move):
@@ -121,11 +121,11 @@ class Chopsticks( TwoPlayersGame ):
     
 if __name__ == "__main__":
     from easyAI import Negamax, AI_Player, SSS, DUAL
-    from easyAI.AI.TT import TT
+    from easyAI.AI.TranspositionTable import TranspositionTable
     ai_algo_neg = Negamax(4)
     ai_algo_sss = SSS(4)
-    dict_tt = DictTT(32, JSWHashTT())
-    ai_algo_dual = DUAL(4, tt=TT(dict_tt))
+    dict_tt = DictTranspositionTable(32, JSWHashTranspositionTable())
+    ai_algo_dual = DUAL(4, tt=TranspositionTable(dict_tt))
     Chopsticks( [AI_Player(ai_algo_neg),AI_Player(ai_algo_dual)]).play()  #first player never wins
     
     print '-'*10

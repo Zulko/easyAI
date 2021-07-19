@@ -26,7 +26,7 @@ class TwoPlayersGame(ABC):
 
     - Store ``players`` (which must be a list of two Players) into
       self.players
-    - Tell which player plays first with ``self.nplayer = 1 # or 2``
+    - Tell which player plays first with ``self.current_player = 1 # or 2``
 
     When defining ``possible_moves``, you must keep in mind that you
     are in the scope of the *current player*. More precisely, a
@@ -36,7 +36,7 @@ class TwoPlayersGame(ABC):
 
     - ``self.player`` : the current player (e.g. ``Human_Player``)
     - ``self.opponent`` : the current Player's opponent (Player).
-    - ``self.nplayer``: the number (1 or 2) of the current player.
+    - ``self.current_player``: the number (1 or 2) of the current player.
     - ``self.nopponent``: the number (1 or 2) of the opponent.
     - ``self.nmove``: How many moves have been played so far ?
 
@@ -56,7 +56,7 @@ class TwoPlayersGame(ABC):
             def __init__(self, players):
                 self.players = players
                 self.pile = 20 # start with 20 sticks
-                self.nplayer = 1 # player 1 starts
+                self.current_player = 1 # player 1 starts
             def possible_moves(self): return ['1','2','3']
             def make_move(self,move): self.pile -= int(move)
             def is_over(self): return self.pile <= 0
@@ -114,7 +114,7 @@ class TwoPlayersGame(ABC):
             if verbose:
                 print(
                     "\nMove #%d: player %d plays %s :"
-                    % (self.nmove, self.nplayer, str(move))
+                    % (self.nmove, self.current_player, str(move))
                 )
                 self.show()
 
@@ -126,18 +126,18 @@ class TwoPlayersGame(ABC):
 
     @property
     def nopponent(self):
-        return 2 if (self.nplayer == 1) else 1
+        return 2 if (self.current_player == 1) else 1
 
     @property
     def player(self):
-        return self.players[self.nplayer - 1]
+        return self.players[self.current_player - 1]
 
     @property
     def opponent(self):
         return self.players[self.nopponent - 1]
 
     def switch_player(self):
-        self.nplayer = self.nopponent
+        self.current_player = self.nopponent
 
     def copy(self):
         return deepcopy(self)

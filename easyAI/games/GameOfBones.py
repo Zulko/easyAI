@@ -10,7 +10,7 @@ class GameOfBones(TwoPlayersGame):
     def __init__(self, players):
         self.players = players
         self.pile = 20  # start with 20 bones in the pile
-        self.nplayer = 1  # player 1 starts
+        self.current_player = 1  # player 1 starts
 
     def possible_moves(self):
         return ["1", "2", "3"]
@@ -41,12 +41,14 @@ if __name__ == "__main__":
 
     # Let's solve the game
 
-    from easyAI import id_solve, Human_Player, AI_Player
-    from easyAI.AI import TT
+    from easyAI import solve_with_iterative_deepening, Human_Player, AI_Player
+    from easyAI.AI import TranspositionTable
 
-    tt = TT()
+    tt = TranspositionTable()
     GameOfBones.ttentry = lambda self: self.pile
-    r, d, m = id_solve(GameOfBones, range(2, 20), win_score=100, tt=tt)
+    r, d, m = solve_with_iterative_deepening(
+        GameOfBones, range(2, 20), win_score=100, tt=tt
+    )
     print(r, d, m)  # see the docs.
 
     # Unbeatable AI !
