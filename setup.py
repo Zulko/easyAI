@@ -10,4 +10,5 @@ setup(
     license="LICENSE.txt",
     keywords="board games AI artificial intelligence negamax",
     packages=find_packages(exclude="docs"),
+    install_requires=["numpy"],
 )
