@@ -54,8 +54,8 @@ class TT:
         self.d = own_dict if own_dict is not None else dict()
 
     def lookup(self, game):
-        """ Requests the entry in the table. Returns None if the
-            entry has not been previously stored in the table. """
+        """Requests the entry in the table. Returns None if the
+        entry has not been previously stored in the table."""
         return self.d.get(game.ttentry(), None)
 
     def __call__(self, game):
@@ -68,7 +68,7 @@ class TT:
         >>> # negamax boosted with a transposition table !
         >>> Negamax(10, tt= my_dictTT)
         """
-        return self.d[game.ttentry()]['move']
+        return self.d[game.ttentry()]["move"]
 
     def store(self, **data):
         """ Stores an entry into the table """
@@ -76,20 +76,20 @@ class TT:
         self.d[entry] = data
 
     def tofile(self, filename):
-        """ Saves the transposition table to a file. Warning: the file
-            can be big (~100Mo). """
-        with open(filename, 'w+') as f:
+        """Saves the transposition table to a file. Warning: the file
+        can be big (~100Mo)."""
+        with open(filename, "wb") as f:
             pickle.dump(self, f)
 
     def fromfile(self, filename):
-        """ Loads a transposition table previously saved with
-             ``TT.tofile`` """
-        with open(filename, 'r') as h:
+        """Loads a transposition table previously saved with
+        ``TT.tofile``"""
+        with open(filename, "rb") as h:
             self.__dict__.update(pickle.load(h).__dict__)
 
     def to_json_file(self, filename, use_tuples=False):
-        """ Saves the transposition table to a serial JSON file. Warning: the file
-            can be big (~100Mo). """
+        """Saves the transposition table to a serial JSON file. Warning: the file
+        can be big (~100Mo)."""
         if use_tuples:
             with open(filename, "w") as f:
                 k = self.d.keys()
@@ -97,19 +97,18 @@ class TT:
                 k1 = [str(i) for i in k]
                 json.dump(dict(zip(*[k1, v])), f, ensure_ascii=False)
         else:
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 json.dump(self.d, f, ensure_ascii=False)
 
     def from_json_file(self, filename, use_tuples=False):
-        """ Loads a transposition table previously saved with
-             ``TT.to_json_file`` """
-        with open(filename, 'r') as f:
-            data = f.read().decode("utf-8")
+        """Loads a transposition table previously saved with
+        ``TT.to_json_file``"""
+        with open(filename, "r") as f:
+            data = json.load(f)
             if use_tuples:
-                data = json.loads(data)
                 k = data.keys()
                 v = data.values()
                 k1 = [make_tuple(i) for i in k]
                 self.d = dict(zip(*[k1, v]))
             else:
-                self.d = json.loads(data)
+                self.d = data
