@@ -1,7 +1,8 @@
 # contributed by mrfesol (Tomasz Wesolowski)
 """
 Different types of hashes.
-Try each to choose the one that cause the least collisions (you can check it by printing DictTranspositionTable.num_collisions)
+Try each to choose the one that cause the least collisions (you can check it
+by printing DictTranspositionTable.num_collisions)
 Also, you can easily create one of your own!
 
 You can read more about these hash function on:

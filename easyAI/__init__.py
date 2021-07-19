@@ -6,6 +6,12 @@ __all__ = [
     "TranspositionTable",
     "solve_with_iterative_deepening",
     "solve_with_depth_first_search",
+    "NonRecursiveNegamax",
+    "mtd",
+    "SSS",
+    "DUAL",
+    "HashTranspositionTable",
+    "DictTranspositionTable",
 ]
 
 from .TwoPlayerGame import TwoPlayerGame

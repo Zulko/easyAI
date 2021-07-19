@@ -114,7 +114,7 @@ def negamax_nr(game, target_depth, scoring, alpha=-INF, beta=+INF):
     while True:
         parent = depth - 1
         if direction == DOWN:
-            if (depth < target_depth) and not game.is_over():  # down, down, we go...
+            if (depth < target_depth) and not game.is_over():  # down we go...
                 states[depth].image = game.ttentry()
                 states[depth].move_list = game.possible_moves()
                 states[depth].best_move = 0

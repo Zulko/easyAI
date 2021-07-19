@@ -81,7 +81,7 @@ POS_DIR = np.array(
 if __name__ == "__main__":
     # LET'S PLAY !
 
-    from easyAI import Human_Player, AI_Player, Negamax, SSS, DUAL
+    from easyAI import AI_Player, Negamax, SSS
 
     ai_algo_neg = Negamax(5)
     ai_algo_sss = SSS(5)
