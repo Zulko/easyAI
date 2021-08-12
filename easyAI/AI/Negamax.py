@@ -43,11 +43,12 @@ def negamax(game, depth, origDepth, scoring, alpha=+inf, beta=-inf, tt=None):
                 return value
 
     if (depth == 0) or game.is_over():
-        score = scoring(game)
-        if score == 0:
-            return score
-        else:
-            return score - 0.01 * depth * abs(score) / score
+        # NOTE: the "depth" variable represents the depth left to recurse into,
+        # so the smaller it is, the deeper we are in the negamax recursion.
+        # Here we add 0.001 as a bonus to signify that victories in less turns
+        # have more value than victories in many turns (and conversely, defeats
+        # after many turns are preferred over defeats in less turns)
+        return scoring(game) * (1 + 0.001 * depth)
 
     if lookup is not None:
         # Put the supposedly best move first in the list

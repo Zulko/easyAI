@@ -448,8 +448,8 @@ class Test_TranspositionTable(unittest.TestCase):
         game = games.Nim(players)
         game.play_move(best_player_move)  # let the human play
         ai_move = game.get_move()  # get the AI's move based on tt
-        self.assertEqual(ai_move, "2,5")
-        self.assertEqual(best_player_move, "1,5")
+        self.assertEqual(ai_move, "2,1")
+        self.assertEqual(best_player_move, "1,1")
 
     def test_json_save_and_restore(self):
         # 1. solve game/save TranspositionTable
@@ -466,8 +466,8 @@ class Test_TranspositionTable(unittest.TestCase):
         game = games.Nim(players)
         game.play_move(best_player_move)  # let the human play
         ai_move = game.get_move()  # get the AI's move based on tt
-        self.assertEqual(ai_move, "2,5")
-        self.assertEqual(best_player_move, "1,5")
+        self.assertEqual(ai_move, "2,1")
+        self.assertEqual(best_player_move, "1,1")
 
 
 if __name__ == "__main__":
