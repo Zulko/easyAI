@@ -2,7 +2,8 @@
 
 from setuptools import setup, find_packages
 
-exec(open("easyAI/version.py").read())  # loads __version__
+with open(os.path.join("easyAI", "version.py"), "r", "utf-8") as f:
+    __version__ = f.read().split(" ")[2].strip("\n").strip('"')
 
 setup(
     name="easyAI",
