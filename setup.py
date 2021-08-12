@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import os
 from setuptools import setup, find_packages
 
-with open(os.path.join("easyAI", "version.py"), "r", "utf-8") as f:
+with open(os.path.join("easyAI", "version.py"), "r") as f:
     __version__ = f.read().split(" ")[2].strip("\n").strip('"')
 
 setup(

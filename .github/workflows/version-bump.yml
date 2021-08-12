@@ -24,7 +24,7 @@ jobs:
           # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
           # I had some problems, they could be my fault, but yet, I felt using a
           # dedicated token would be better and suffice
-          token: ${{ secrets.AC_GITHUB_TOKEN }}
+          token: ${{ secrets.github_token }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "zulko"
           git config user.email 'zulko@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.AC_GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git remote set-url origin https://x-access-token:${{ secrets.github_token }}@github.com/$GITHUB_REPOSITORY
           git checkout "${GITHUB_REF:11}"
       - name: Setup env variables
         run: |
