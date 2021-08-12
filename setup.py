@@ -2,9 +2,11 @@
 
 from setuptools import setup, find_packages
 
+exec(open("easyAI/version.py").read())  # loads __version__
+
 setup(
     name="easyAI",
-    version="2.0.2",
+    version=__version__,
     description="Easy-to-use game AI algorithms (Negamax etc. )",
     long_description=open("README.rst").read(),
     license="LICENSE.txt",

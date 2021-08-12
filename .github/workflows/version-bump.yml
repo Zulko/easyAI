@@ -1,0 +1,76 @@
+# taken from:
+# https://github.com/joaomcteixeira/python-project-skeleton/blob/master/.github/workflows/version-bump-and-package.yml
+# Where it was in turn taken from:
+# https://github.com/haddocking/pdb-tools/blob/f019d163d8f8cc5a0cba288e02f5a63a969719f6/.github/workflows/bump-version-on-push.yml
+
+name: Package Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, '[SKIP]')"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # I setup a new token for my GitHub user and added that token
+          # to the secrets in the repository
+          # When I tried
+          # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+          # I had some problems, they could be my fault, but yet, I felt using a
+          # dedicated token would be better and suffice
+          token: ${{ secrets.AC_GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Setup Git
+        run: |
+          git config user.name "zulko"
+          git config user.email 'zulko@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.AC_GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout "${GITHUB_REF:11}"
+      - name: Setup env variables
+        run: |
+          echo "SKIPBUMP=FALSE" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install bump2version setuptools wheel twine
+      # If a commit starts with [MAJOR] a new major verion upgrade will be
+      # triggered. Use with caution as Major upgrades denote backwards
+      # incompatibility. Yet I like it to be integrated in the CI
+      - name: Bump Major Version
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          bump2version minor
+          echo "SKIPBUMP=TRUE" >> $GITHUB_ENV
+        if: "startsWith(github.event.head_commit.message, '[MAJOR]')"
+
+      - name: Bump Minor Version
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          bump2version minor
+          echo "SKIPBUMP=TRUE" >> $GITHUB_ENV
+        if: "startsWith(github.event.head_commit.message, '[FEATURE]')"
+
+      # Default action
+      - name: Bump Patch Version
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          bump2version patch
+        if: env.SKIPBUMP == 'FALSE'
+
+      - name: Commit version change to master
+        run: |
+          git push --follow-tags
