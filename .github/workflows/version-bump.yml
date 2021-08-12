@@ -3,7 +3,7 @@
 # Where it was in turn taken from:
 # https://github.com/haddocking/pdb-tools/blob/f019d163d8f8cc5a0cba288e02f5a63a969719f6/.github/workflows/bump-version-on-push.yml
 
-name: Package Build
+name: Version Bump
 
 on:
   push:
