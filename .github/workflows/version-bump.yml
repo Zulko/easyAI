@@ -74,3 +74,7 @@ jobs:
       - name: Commit version change to master
         run: |
           git push --follow-tags
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
