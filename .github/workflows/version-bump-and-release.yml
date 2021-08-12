@@ -3,7 +3,7 @@
 # Where it was in turn taken from:
 # https://github.com/haddocking/pdb-tools/blob/f019d163d8f8cc5a0cba288e02f5a63a969719f6/.github/workflows/bump-version-on-push.yml
 
-name: Version Bump
+name: Version Bump & Release
 
 on:
   push:
@@ -74,6 +74,11 @@ jobs:
       - name: Commit version change to master
         run: |
           git push --follow-tags
+
+      - name: Build the distribution
+        run: |
+          python setup.py sdist bdist_wheel
+
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
