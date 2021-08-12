@@ -88,4 +88,4 @@ if __name__ == "__main__":
     ai_algo = Negamax(6)
     game = Cram([AI_Player(ai_algo), AI_Player(ai_algo)], (5, 5))
     game.play()
-    print("player {%d} loses".format(game.current_player))
+    print("player %d loses" % game.current_player)

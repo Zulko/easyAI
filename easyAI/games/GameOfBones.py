@@ -7,7 +7,7 @@ class GameOfBones(TwoPlayerGame):
     """In turn, the players remove one, two or three bones from a
     pile of bones. The player who removes the last bone loses."""
 
-    def __init__(self, players):
+    def __init__(self, players=None):
         self.players = players
         self.pile = 20  # start with 20 bones in the pile
         self.current_player = 1  # player 1 starts
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     tt = TranspositionTable()
     GameOfBones.ttentry = lambda self: self.pile
     r, d, m = solve_with_iterative_deepening(
-        GameOfBones, range(2, 20), win_score=100, tt=tt
+        GameOfBones(), range(2, 20), win_score=100, tt=tt
     )
     print(r, d, m)  # see the docs.
 

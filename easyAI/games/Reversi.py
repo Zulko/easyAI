@@ -82,8 +82,8 @@ class Reversi(TwoPlayerGame):
         """
 
         if np.sum(self.board == 0) > 32:  # less than half the board is full
-            player = self.board == self.current_player
-            opponent = self.board == self.opponent_index
+            player = (self.board == self.current_player).astype(int)
+            opponent = (self.board == self.opponent_index).astype(int)
             return ((player - opponent) * BOARD_SCORE).sum()
         else:
             npieces_player = np.sum(self.board == self.current_player)

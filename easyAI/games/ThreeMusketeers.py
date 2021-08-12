@@ -120,3 +120,4 @@ if __name__ == "__main__":
     players = [AI_Player(ai) for i in [0, 1]]
     game = ThreeMusketeers(players)
     game.play()
+    print("player %d wins after %d turns " % (game.opponent_index, game.nmove))
