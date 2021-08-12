@@ -73,8 +73,8 @@ if __name__ == "__main__":
     from easyAI.AI import TranspositionTable
 
     # we first solve the game
-    # w, d, m, tt = solve_with_iterative_deepening(Nim(), range(5, 20), win_score=80)
-    # w, d, len(tt.d)
+    w, d, m, tt = solve_with_iterative_deepening(Nim(), range(5, 20), win_score=80)
+    w, d, len(tt.d)
     # the previous line prints -1, 16 which shows that if the
     # computer plays second with an AI depth of 16 (or 15) it will
     # always win in 16 (total) moves or less.
