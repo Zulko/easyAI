@@ -1,5 +1,5 @@
 from easyAI import AI_Player, Negamax
-from easyAI.games import ConnectFour
+from easyAI.games import ConnectFour, Nim
 import numpy as np
 
 
@@ -30,3 +30,9 @@ def test_negamax_saves_the_next_turn_even_in_a_desperate_situation():
         ]
     )
     assert ai_algo(game) == 1
+
+
+def test_nim_strategy_is_good():
+    ai_algo = Negamax(6)
+    game = Nim(piles=(4, 4))
+    assert ai_algo(game) == "1,1"
