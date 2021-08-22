@@ -108,6 +108,18 @@ EasyAI is an open source software originally written by Zulko_ and released unde
 
 For troubleshooting and bug reports, the best for now is to ask on Github_.
 
+How releases work
+*****************
+
+Every time a MR gets merged into master, an automatic release happens:
+
+- If the last commit's message starts with `[FEATURE]`, a feature release happens (`1.3.3 -> 1.4.0`)
+- If the last commit's message starts with `[MAJOR]`, a major release happens (`1.3.3 -> 2.0.0`)
+- If the last commit's message starts with `[SKIP]`, no release happens.
+- Otherwise, a patch release happens (`1.3.3 -> 1.3.4`)
+
+
+
 Maintainers
 -----------
 
