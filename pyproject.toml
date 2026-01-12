@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "easyAI"
+dynamic = ["version"]
+description = "Easy-to-use game AI algorithms (Negamax etc. )"
+readme = "README.rst"
+license = {file = "LICENCE.txt"}
+keywords = ["board games", "AI", "artificial intelligence", "negamax"]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+]
+authors = [
+    {name = "Zulko"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Games/Entertainment :: Board Games",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[tool.setuptools]
+packages = ["easyAI"]
+
+[tool.setuptools.dynamic]
+version = {attr = "easyAI.version.__version__"}

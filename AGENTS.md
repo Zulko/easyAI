@@ -1,0 +1,1 @@
+Use uv for running python in this project.

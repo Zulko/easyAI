@@ -16,7 +16,7 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, '[SKIP]')"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # I setup a new token for my GitHub user and added that token
           # to the secrets in the repository
@@ -26,10 +26,15 @@ jobs:
           # dedicated token would be better and suffice
           token: ${{ secrets.github_token }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
         with:
-          python-version: "3.x"
+          version: "latest"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Setup Git
         run: |
@@ -42,8 +47,7 @@ jobs:
           echo "SKIPBUMP=FALSE" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install bump2version setuptools wheel twine
+          uv pip install bump2version build twine
       # If a commit starts with [MAJOR] a new major verion upgrade will be
       # triggered. Use with caution as Major upgrades denote backwards
       # incompatibility. Yet I like it to be integrated in the CI
@@ -77,7 +81,7 @@ jobs:
 
       - name: Build the distribution
         run: |
-          python setup.py sdist bdist_wheel
+          uv build
 
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
