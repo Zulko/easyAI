@@ -11,22 +11,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install UV
-        uses: astral-sh/setup-uv@v4
-        with:
-          version: "latest"
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install uv and set Python version
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          uv sync --dev
+          enable-cache: true
+      - name: Install project dependencies
+        run: uv sync --dev
       - name: Lint with flake8
         run: |
           uv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           uv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
-        run: |
-          uv run pytest
+        run: uv run pytest
