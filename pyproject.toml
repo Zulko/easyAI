@@ -36,7 +36,6 @@ version = {attr = "easyAI.version.__version__"}
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "flake8",
 ]
 
 [tool.pytest.ini_options]
