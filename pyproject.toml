@@ -32,3 +32,15 @@ packages = ["easyAI"]
 
 [tool.setuptools.dynamic]
 version = {attr = "easyAI.version.__version__"}
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "flake8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
